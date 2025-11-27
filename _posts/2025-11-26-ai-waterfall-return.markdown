@@ -2,7 +2,9 @@
 layout: post
 title: "Back to the Future: How AI Agents are Reviving Waterfall (but better)"
 date: 2025-11-26 00:00:00 -0300
-categories: ai agents waterfall agile software-development
+categories: [Engineering]
+tags: [agents, waterfall, agile, methodology]
+description: "Analyze how AI agents are reviving Waterfall-like planning phases ('Micro-Waterfall') within Agile workflows to maximize efficiency and reduce costly iterations."
 ---
 
 When ChatGPT was first released, it felt like magic. We used it for quick fixes, explaining regex, or generating boilerplate code. It was a "Chat" experience—reactive and helpful, but limited. It scared the world with possibilities, yet it struggled to execute complex, multi-step tasks or manage large projects autonomously.

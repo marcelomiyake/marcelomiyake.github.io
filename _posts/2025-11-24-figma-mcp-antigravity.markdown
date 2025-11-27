@@ -2,10 +2,13 @@
 layout: post
 title: "Figma MCP Setup Guide for Google Antigravity"
 date: 2025-11-24 00:00:00 -0300
-categories: ai agents mcp antigravity figma
+categories: [Tutorials]
+tags: [agents, mcp, antigravity, figma, setup]
+description: "A step-by-step guide to setting up the Figma MCP server on Google Antigravity, including critical fixes for local server configuration and stdio mode."
 ---
 
-> [!NOTE] > **Future Compatibility**: This guide addresses current limitations with the Figma MCP server and Google Antigravity. Future updates to either the Figma MCP package or the IDE may resolve these issues, rendering this workaround unnecessary. Please check for native support or updated documentation before proceeding.
+> **Future Compatibility**: This guide addresses current limitations with the Figma MCP server and Google Antigravity. Future updates to either the Figma MCP package or the IDE may resolve these issues, rendering this workaround unnecessary. Please check for native support or updated documentation before proceeding.
+{: .prompt-info }
 
 This guide details how to set up the Figma MCP server on Google Antigravity, incorporating all the fixes we discovered (local server, stdio mode, and silencing stdout pollution).
 
@@ -27,8 +30,8 @@ This guide details how to set up the Figma MCP server on Google Antigravity, inc
 
 Open your terminal in the Antigravity directory (or wherever you want the package to live) and install `figma-mcp-server`.
 
-> [!IMPORTANT]
 > Do **NOT** install `figma-developer-mcp`. It does not support the required `stdio` mode correctly for this setup. Use `figma-mcp-server`.
+{: .prompt-danger }
 
 ```bash
 npm install figma-mcp-server
@@ -54,11 +57,11 @@ The `figma-mcp-server` package prints a debug message to standard output on star
 
 Open or create your `mcp_config.json` file and add the following configuration.
 
-> [!NOTE]
 > You must use **absolute paths** for the `command`, `args`, and `PATH` to avoid "EOF" errors. Replace the paths below with the actual paths on your new computer.
 >
 > To find your node path, run: `which node`
 > To find your full PATH, run: `echo $PATH`
+{: .prompt-info }
 
 ```json
 {

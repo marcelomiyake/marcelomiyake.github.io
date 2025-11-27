@@ -2,7 +2,9 @@
 layout: post
 title: "The README.md: The Context Anchor for AI and Humans in Microservices"
 date: 2025-11-20 00:00:00 -0300
-categories: ai agents microservices
+categories: [Engineering]
+tags: [agents, microservices, documentation, best-practices]
+description: "Explore how the humble README.md is evolving into a critical 'Context Anchor' for AI agents in microservices architectures, bridging the gap between human understanding and AI execution."
 ---
 
 ## The Problem: Context Isolation in Microservices

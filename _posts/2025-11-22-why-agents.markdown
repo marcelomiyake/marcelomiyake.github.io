@@ -2,7 +2,9 @@
 layout: post
 title: "Why Every Project Needs AGENTS.md"
 date: 2025-11-22 00:00:00 -0300
-categories: ai agents amzonq
+categories: [Engineering]
+tags: [agents, amazon-q, documentation, best-practices]
+description: "Discover why README.md isn't enough for AI agents and how AGENTS.md provides the explicit, executable context needed for autonomous workflows."
 ---
 
 ## The Problem: README.md Isn't Enough for AI Agents
@@ -56,7 +58,7 @@ But AI agents (like Amazon Q) run in non-interactive shells where environment va
 
 ### The Solution in AGENTS.md
 
-```markdown
+````markdown
 ## Shell Environment
 
 **IMPORTANT:** When executing bash commands that require environment variables, use interactive shell mode:
@@ -64,7 +66,7 @@ But AI agents (like Amazon Q) run in non-interactive shells where environment va
 bash -i -c "mvn clean install"
 bash -i -c "kubectl get pods"
 bash -i -c "npm run build"
-```
+````
 
 **Why:** The `source ~/.bashrc` approach fails in non-interactive shells.
 
@@ -74,16 +76,16 @@ This instruction is **irrelevant for humans** but **critical for AI agents**.
 
 ### 1. Tool Execution Patterns
 
-```markdown
+````markdown
 ## Build Commands
 
 bash -i -c "mvn clean install"
 bash -i -c "npm run build"
-```
+````
 
 ### 2. Environment-Specific Context
 
-```markdown
+````markdown
 ## Kubernetes Contexts
 
 - dev: https://dev.example.com
@@ -92,22 +94,22 @@ bash -i -c "npm run build"
 
 Check current context:
 bash -i -c "kubectl config current-context"
-```
+````
 
 ### 3. Critical Conventions
 
-```markdown
+````markdown
 ## Database Migrations
 
 **CRITICAL:** All migration files MUST follow:
 YYYYMMDDHHMM\_\_TICKET-XXXX_description.sql
 
 **MUST be current timestamp when creating**
-```
+````
 
 ### 4. Integration Points
 
-```markdown
+````markdown
 ## Message Queue Topics
 
 **Publisher:**
@@ -119,26 +121,26 @@ YYYYMMDDHHMM\_\_TICKET-XXXX_description.sql
 
 - other-service.event.occurred
 - external-service.data.changed
-```
+````
 
 ### 5. Automation Workflows
 
-```markdown
+````markdown
 ## Code Quality
 
 After coding, ALWAYS run:
 bash -i -c "npm run lint"
 bash -i -c "npm test"
-```
+````
 
 ### 6. Security Requirements
 
-```markdown
+````markdown
 ## API Authentication
 
 **CRITICAL:** All new API endpoints MUST include authentication.
 Add @PreAuthorize annotation or configure in security rules.
-```
+````
 
 ## Benefits of AGENTS.md
 
@@ -205,18 +207,18 @@ project-root/
 
 ### 1. Be Explicit
 
-❌ "Build the project"
-✅ `bash -i -c "mvn clean install"`
+- ❌ "Build the project"
+- ✅ `bash -i -c "mvn clean install"`
 
 ### 2. Include Context
 
-```markdown
+````markdown
 ## Database
 
 **Connection:** postgres:5432
 **Database:** myapp_db
 **Schema:** public
-```
+````
 
 ### 3. Highlight Critical Patterns
 
@@ -232,12 +234,12 @@ Treat AGENTS.md as living documentation alongside code changes.
 
 ### 6. Link Related Resources
 
-```markdown
+````markdown
 ## API Documentation
 
 - dev: https://dev.example.com/api/docs
 - staging: https://staging.example.com/api/docs
-```
+````
 
 ## When to Use AGENTS.md vs README.md
 
