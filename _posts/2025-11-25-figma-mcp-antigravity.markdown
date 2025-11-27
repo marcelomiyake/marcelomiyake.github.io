@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Figma MCP Setup Guide for Google Antigravity"
-date: 2025-11-24 00:00:00 -0300
+date: 2025-11-25 00:00:00 -0300
 categories: [Tutorials]
 tags: [agents, mcp, antigravity, figma, setup]
 description: "A step-by-step guide to setting up the Figma MCP server on Google Antigravity, including critical fixes for local server configuration and stdio mode."

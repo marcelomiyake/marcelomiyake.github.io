@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Back to the Future: How AI Agents are Reviving Waterfall (but better)"
-date: 2025-11-26 00:00:00 -0300
+date: 2025-11-27 00:00:00 -0300
 categories: [Engineering]
 tags: [agents, waterfall, agile, methodology]
 description: "Analyze how AI agents are reviving Waterfall-like planning phases ('Micro-Waterfall') within Agile workflows to maximize efficiency and reduce costly iterations."

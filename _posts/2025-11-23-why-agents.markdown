@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why Every Project Needs AGENTS.md"
-date: 2025-11-22 00:00:00 -0300
+date: 2025-11-23 00:00:00 -0300
 categories: [Engineering]
 tags: [agents, amazon-q, documentation, best-practices]
 description: "Discover why README.md isn't enough for AI agents and how AGENTS.md provides the explicit, executable context needed for autonomous workflows."
