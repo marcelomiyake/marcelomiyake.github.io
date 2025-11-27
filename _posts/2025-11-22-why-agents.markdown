@@ -5,8 +5,6 @@ date: 2025-11-22 00:00:00 -0300
 categories: ai agents amzonq
 ---
 
-# Why Every Project Needs AGENTS.md
-
 ## The Problem: README.md Isn't Enough for AI Agents
 
 While `README.md` serves as excellent documentation for human developers, AI agents often require different context and instructions. Human developers intuitively understand their environment, but AI agents need explicit guidance about:

@@ -5,8 +5,6 @@ date: 2025-11-20 00:00:00 -0300
 categories: ai agents microservices
 ---
 
-# The README.md: The Context Anchor for AI and Humans in Microservices
-
 ## The Problem: Context Isolation in Microservices
 
 In a monolithic architecture, "context" is often implicit or easily discoverable—everything is in one place. However, in a microservices architecture, knowledge is fragmented. When a developer (or an AI agent) opens a specific microservice project in their IDE, they are effectively in a silo.

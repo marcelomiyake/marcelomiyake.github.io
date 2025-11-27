@@ -5,8 +5,6 @@ date: 2025-11-24 00:00:00 -0300
 categories: ai agents mcp antigravity figma
 ---
 
-# Figma MCP Setup Guide for Google Antigravity
-
 > [!NOTE] > **Future Compatibility**: This guide addresses current limitations with the Figma MCP server and Google Antigravity. Future updates to either the Figma MCP package or the IDE may resolve these issues, rendering this workaround unnecessary. Please check for native support or updated documentation before proceeding.
 
 This guide details how to set up the Figma MCP server on Google Antigravity, incorporating all the fixes we discovered (local server, stdio mode, and silencing stdout pollution).
