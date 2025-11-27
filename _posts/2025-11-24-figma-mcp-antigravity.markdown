@@ -23,7 +23,7 @@ This guide details how to set up the Figma MCP server on Google Antigravity, inc
 1.  Log in to Figma in your browser.
 2.  Go to **Settings** -> **Security**.
 3.  Under **Personal Access Tokens**, click **Generate new token**.
-4.  Name it (e.g., "Antigravity MCP") and ensure it has **File content** read permissions.
+4.  Name it (e.g., "Antigravity MCP") and ensure it has Files > **file_content:read**  permission.
 5.  **Copy the token immediately**. You will need it later.
 
 ## Step 2: Install the MCP Server Package
@@ -34,7 +34,7 @@ Open your terminal in the Antigravity directory (or wherever you want the packag
 {: .prompt-danger }
 
 ```bash
-npm install figma-mcp-server
+npm install figma-mcp-server -g
 ```
 
 ## Step 3: Patch the Server (Critical)
@@ -58,22 +58,18 @@ The `figma-mcp-server` package prints a debug message to standard output on star
 Open or create your `mcp_config.json` file and add the following configuration.
 
 > You must use **absolute paths** for the `command`, `args`, and `PATH` to avoid "EOF" errors. Replace the paths below with the actual paths on your new computer.
->
-> To find your node path, run: `which node`
-> To find your full PATH, run: `echo $PATH`
 {: .prompt-info }
 
 ```json
 {
   "mcpServers": {
     "figma": {
-      "command": "/ABSOLUTE/PATH/TO/YOUR/node",
+      "command": "node",
       "args": [
         "/ABSOLUTE/PATH/TO/YOUR/node_modules/figma-mcp-server/mcpServer.js"
       ],
       "env": {
-        "FIGMA_API_KEY": "YOUR_FIGMA_TOKEN_FROM_STEP_1",
-        "PATH": "/YOUR/FULL/SYSTEM/PATH"
+        "FIGMA_API_KEY": "YOUR_FIGMA_TOKEN_FROM_STEP_1"
       }
     }
   }
@@ -82,19 +78,18 @@ Open or create your `mcp_config.json` file and add the following configuration.
 
 ### Example Configuration
 
-If your username is `jdoe` and you use `nvm`, it might look like this:
+If your username is `jdoe`, it might look like this:
 
 ```json
 {
   "mcpServers": {
     "figma": {
-      "command": "/home/jdoe/.nvm/versions/node/v24.11.1/bin/node",
+      "command": "node",
       "args": [
         "/home/jdoe/antigravity/node_modules/figma-mcp-server/mcpServer.js"
       ],
       "env": {
-        "FIGMA_API_KEY": "figd_xxxxxxxxxxxxxxxxxxxxxxxx",
-        "PATH": "/home/jdoe/.nvm/versions/node/v24.11.1/bin:/usr/local/bin:/usr/bin:/bin"
+        "FIGMA_API_KEY": "figd_xxxxxxxxxxxxxxxxxxxxxxxx"
       }
     }
   }
