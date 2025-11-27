@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Why Every Project Needs AGENTS.md"
-date: 2025-11-23 08:00:00 -0300
+date: 2025-11-22 00:00:00 -0300
 categories: ai agents amzonq
 ---
 

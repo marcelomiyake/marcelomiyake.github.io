@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The README.md: The Context Anchor for AI and Humans in Microservices"
-date: 2025-11-20 08:00:00 -0300
+date: 2025-11-20 00:00:00 -0300
 categories: ai agents microservices
 ---
 
