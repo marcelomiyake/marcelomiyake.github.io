@@ -10,7 +10,9 @@ description: "A step-by-step guide to setting up the Figma MCP server on Google 
 > **Future Compatibility**: This guide addresses current limitations with the Figma MCP server and Google Antigravity. Future updates to either the Figma MCP package or the IDE may resolve these issues, rendering this workaround unnecessary. Please check for native support or updated documentation before proceeding.
 {: .prompt-info }
 
-This guide details how to set up the Figma MCP server on Google Antigravity, incorporating all the fixes we discovered (local server, stdio mode, and silencing stdout pollution).
+This guide details how to set up the Figma MCP server on Google Antigravity. This is a key enabler for the **"Vibe Coding"** workflow I described in [From Copy-Paste Hell to Vibe Coding]({% post_url 2025-11-20-mcp-feedback-automation %}), allowing your agent to "see" your designs and verify its own work.
+
+Here are the critical fixes we discovered (local server, stdio mode, and silencing stdout pollution).
 
 ## Prerequisites
 

@@ -3,15 +3,11 @@ layout: post
 title: "Back to the Future: How AI Agents are Reviving Waterfall (but better)"
 date: 2025-11-27 00:00:00 -0300
 categories: [Engineering]
-tags: [agents, waterfall, agile, methodology]
+tags: [agents, waterfall, agile, methodology, best-practices]
 description: "Analyze how AI agents are reviving Waterfall-like planning phases ('Micro-Waterfall') within Agile workflows to maximize efficiency and reduce costly iterations."
 ---
 
-When ChatGPT was first released, it felt like magic. We used it for quick fixes, explaining regex, or generating boilerplate code. It was a "Chat" experience—reactive and helpful, but limited. It scared the world with possibilities, yet it struggled to execute complex, multi-step tasks or manage large projects autonomously.
-
-Then came the Agents.
-
-With the rise of the Model Context Protocol (MCP) and autonomous agentic workflows, AI has graduated from a chat window to a capable junior developer that lives in our IDEs. It can execute actions, create files, and build entire features. But this new power has revealed a hidden truth: **AI is forcing us back to the drawing board—literally.**
+We have rapidly moved past the era of simple chatbots. With the rise of the [Model Context Protocol (MCP)]({% post_url 2025-11-20-mcp-feedback-automation %}) and autonomous workflows, AI has graduated to a capable junior developer that lives in our IDEs. But this new power has revealed a hidden truth: **AI is forcing us back to the drawing board—literally.**
 
 Think about how we delegate to a human junior developer. We often skip details, assuming they'll figure it out or come back with questions later. It's a slow, forgiving feedback loop. The junior works for a few hours, hits a gap, and asks for clarification.
 
@@ -23,7 +19,7 @@ AI collapses this loop. Because it executes at lightning speed, it hits those ga
 
 ## The "Context" is King
 
-We are finding that to get the best out of these agents, we have to treat them differently than human peers. We are spending more time writing `README.md`, `AGENTS.md`, and detailed technical specifications than ever before. Why?
+We are finding that to get the best out of these agents, we have to treat them differently than human peers. We are spending more time writing [`README.md`]({% post_url 2025-11-22-why-readme %}), [`AGENTS.md`]({% post_url 2025-11-23-why-agents %}), and detailed technical specifications than ever before. Why?
 
 Because of the **Context Window**.
 

@@ -3,7 +3,7 @@ layout: post
 title: "From Copy-Paste Hell to Vibe Coding: Automating Feedback with MCP"
 date: 2025-11-20 00:00:00 -0300
 categories: [Engineering]
-tags: [mcp, agents, coding]
+tags: [mcp, agents, coding, best-practices]
 description: "Explore how the MCP transforms the traditional 'human router' workflow into an automated feedback loop, enabling 'Vibe Coding' where the AI iterates on the feedback loop until the code is correct."
 ---
 

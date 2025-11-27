@@ -9,34 +9,17 @@ description: "Discover why README.md isn't enough for AI agents and how AGENTS.m
 
 ## The Problem: README.md Isn't Enough for AI Agents
 
-While `README.md` serves as excellent documentation for human developers, AI agents often require different context and instructions. Human developers intuitively understand their environment, but AI agents need explicit guidance about:
+As discussed in my previous post, [The README.md: The Context Anchor]({% post_url 2025-11-22-why-readme %}), the `README.md` is critical for grounding both humans and AI in the "hard facts" of a project's architecture. It solves the problem of **Context Isolation** by providing a map of the service's place in the ecosystem.
+
+However, while `README.md` serves as excellent documentation for *understanding* the system, it often falls short when it comes to *operating* it—especially for AI agents.
+
+Human developers intuitively understand their environment, but AI agents need explicit guidance about:
 
 - Shell environment quirks
 - Tool-specific execution patterns
 - Project-specific conventions
 - Deployment procedures
 - Integration points
-
-## The Solution: AGENTS.md
-
-The `AGENTS.md` file (or `.amazonq/rules/AGENTS.md` for Amazon Q) provides **agent-specific context** that complements human-readable documentation.
-
-### Industry Recognition
-
-This pattern is gaining traction in the software development community:
-
-- **Thoughtworks Technology Radar** featured [AGENTS.md](https://www.thoughtworks.com/en-br/radar/techniques/agents-md) as an emerging technique for AI-assisted development
-- **agents.md** initiative ([https://agents.md/](https://agents.md/)) promotes standardization of agent context files across tools and platforms
-
-## Key Differences: README.md vs AGENTS.md
-
-| Aspect       | README.md                     | AGENTS.md                                    |
-| ------------ | ----------------------------- | -------------------------------------------- |
-| **Audience** | Humans (and AI)               | AI Agents exclusively                        |
-| **Content**  | Architecture, features, setup | Execution patterns, tool quirks, automation  |
-| **Commands** | Standard shell commands       | Agent-specific wrappers (e.g., `bash -i -c`) |
-| **Focus**    | Understanding the system      | Operating the system                         |
-| **Examples** | Conceptual examples           | Executable commands                          |
 
 ## Real-World Example: Shell Environment
 
