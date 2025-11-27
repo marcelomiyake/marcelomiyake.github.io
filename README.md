@@ -2,7 +2,7 @@
 
 Welcome to my corner! Here I share my thoughts, experiences, and insights on software development.
 
-[Visit the Blog](https://marcelomiyake.github.io)
+[Visit the Blog](https://marcelomiyake.com.br)
 
 ## About Me
 
