@@ -1,0 +1,10 @@
+<link rel="stylesheet" href="{{ '/assets/css/accessibility.css' | relative_url }}">
+{% if page.url == '/404.html' %}
+<meta name="robots" content="noindex, follow">
+{% else %}
+<meta name="robots" content="index, follow, max-image-preview:large">
+{% endif %}
+{% unless page.image %}
+<meta property="og:image:alt" content="Marcelo Miyake">
+<meta name="twitter:image:alt" content="Marcelo Miyake">
+{% endunless %}

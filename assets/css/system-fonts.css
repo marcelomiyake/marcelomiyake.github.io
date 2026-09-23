@@ -1,0 +1,4 @@
+/* Use the same native font stack for the theme's legacy font declarations. */
+kbd, .pagination, #archives .day, .tag span {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}

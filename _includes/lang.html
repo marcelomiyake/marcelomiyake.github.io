@@ -1,0 +1,13 @@
+{% comment %}
+  Resolve the interface language for this page. The shared home page is
+  localized at render time, so use Polyglot's active language there.
+{% endcomment %}
+{% if site.active_lang == 'pt-BR' and page.layout == 'home' %}
+  {% assign lang = 'pt-BR' %}
+{% elsif site.data.locales[page.lang] %}
+  {% assign lang = page.lang %}
+{% elsif site.data.locales[site.lang] %}
+  {% assign lang = site.lang %}
+{% else %}
+  {% assign lang = 'en' %}
+{% endif %}

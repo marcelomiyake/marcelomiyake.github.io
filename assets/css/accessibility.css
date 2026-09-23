@@ -1,0 +1,6 @@
+/* Keep code line numbers legible in both of Chirpy's color schemes. */
+html:not([data-bs-theme='dark']) .highlight .lineno { color: #62676c; }
+html[data-bs-theme='dark'] .highlight .lineno { color: #a5abb2; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-bs-theme='light']) .highlight .lineno { color: #a5abb2; }
+}
