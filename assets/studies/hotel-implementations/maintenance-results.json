@@ -1,0 +1,1042 @@
+{
+  "study": "Five AI hotel implementations, Part II: consolidated Codex and Gemini analysis",
+  "review_date": "2026-10-01",
+  "review_status": "English and Portuguese Part II drafts consolidated with the supplied Gemini reports; claims reconciled against pinned repository evidence",
+  "evidence": {
+    "observed": "Local Git diffs, source review, fresh frontend suites/builds and isolated PostgreSQL SQL probes",
+    "reported": "README implementation durations, cumulative token counters, backend tests, scanner results, Lighthouse and LOC",
+    "inferred": "Maintenance implications and unexecuted browser/payment failure paths"
+  },
+  "scope_limitations": [
+    "One reported feature session per codebase",
+    "No audited generation logs, prompt iteration counts, repair counts or human review time",
+    "Different feature semantics and quality-audit scopes",
+    "Backend suites, fresh SonarCloud scans, Lighthouse, Kind deployments and full HTTP payment workflows were not rerun",
+    "SQL probes exercise repository statements and schema objects rather than full application execution"
+  ],
+  "git_count_definitions": {
+    "baseline": "Part I pinned source revision",
+    "final_snapshot": "Local HEAD at review start, after feature and documentation commits",
+    "excluding_readme": "Every tracked changed path except root README.md; includes source, tests, SQL, configuration and binary assets",
+    "insertions_deletions": "Physical text lines from git diff --numstat; blank/comment lines included; binary files counted as files, without text line counts",
+    "backend": "Paths beginning services/",
+    "frontend": "Paths beginning web/ or frontend/"
+  },
+  "rate_assumption": {
+    "status": "Rates recorded in the project READMEs; arithmetic checked, current pricing not asserted",
+    "uncached_input_per_million_usd": "0.10",
+    "cached_input_per_million_usd": "0.01",
+    "output_per_million_usd": "0.50",
+    "formula": "((input-cached_input)*0.10+cached_input*0.01+output*0.50)/1000000",
+    "accounting": "Cached input is a subset of input; reasoning is a subset of output; API-equivalent estimate, not a subscription invoice"
+  },
+  "implementations": [
+    {
+      "name": "Rust greenfield",
+      "repository": "hotel-rust",
+      "baseline": "961071eaa773c6f0e37c438da8336d2ac2f466eb",
+      "feature_commit": "c747869746c8b321ce23d9180d80599c7447242b",
+      "snapshot": "2bc09b8800faa4d7b8b3de4207279e24ad42e858",
+      "feature_diff": {
+        "all_tracked": {
+          "files": 7,
+          "created": 1,
+          "modified": 6,
+          "deleted": 0,
+          "insertions": 476,
+          "deletions": 27,
+          "net_lines": 449,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 7,
+          "created": 1,
+          "modified": 6,
+          "deleted": 0,
+          "insertions": 476,
+          "deletions": 27,
+          "net_lines": 449,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 5,
+          "created": 0,
+          "modified": 5,
+          "deleted": 0,
+          "insertions": 87,
+          "deletions": 22,
+          "net_lines": 65,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 2,
+          "created": 1,
+          "modified": 1,
+          "deleted": 0,
+          "insertions": 389,
+          "deletions": 5,
+          "net_lines": 384,
+          "binary_files": 0
+        }
+      },
+      "final_diff": {
+        "all_tracked": {
+          "files": 14,
+          "created": 5,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 742,
+          "deletions": 177,
+          "net_lines": 565,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 13,
+          "created": 5,
+          "modified": 8,
+          "deleted": 0,
+          "insertions": 667,
+          "deletions": 171,
+          "net_lines": 496,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 11,
+          "created": 4,
+          "modified": 7,
+          "deleted": 0,
+          "insertions": 278,
+          "deletions": 166,
+          "net_lines": 112,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 2,
+          "created": 1,
+          "modified": 1,
+          "deleted": 0,
+          "insertions": 389,
+          "deletions": 5,
+          "net_lines": 384,
+          "binary_files": 0
+        }
+      },
+      "readme_report": {
+        "duration": "1h 13m 39s",
+        "duration_seconds": 4419,
+        "duration_basis": "README Worked for; not independently timed",
+        "input": 20495593,
+        "cached_input": 20061184,
+        "output": 142242,
+        "reasoning": 100798,
+        "counter_cutoff": "2026-10-01 18:20 UTC, before final README editing and Git operations",
+        "reported_changes": {
+          "files": 14,
+          "created": 5,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 740,
+          "deletions": 177,
+          "scope": "Analytics, performance work and README; feature alone 7 files, 476 insertions, 27 deletions"
+        },
+        "reported_backend_tests": 34,
+        "fresh_frontend_tests": 19,
+        "reported_frontend_line_coverage_percent": 96.42,
+        "lighthouse_report": "100 in five categories, desktop and mobile, Compose; includes performance pass",
+        "uncached_input": 434409,
+        "total_input_plus_output": 20637835,
+        "recalculated_estimate_usd": "0.31517374",
+        "cached_input_share_percent": 97.88,
+        "quality_and_loc": {
+          "backend_line_coverage": "All six packages reported passing cargo llvm-cov --fail-under-lines 80; reservation service SonarCloud coverage 96.5%",
+          "sonar_open_issues": 0,
+          "sonar_scope": "Seven separately analyzed projects; all seven quality gates reported passing",
+          "loc": {
+            "nonblank_source_configuration": 7306,
+            "files": 61
+          }
+        }
+      },
+      "readme_source": "https://github.com/marcelomiyake/hotel-rust/blob/2bc09b8800faa4d7b8b3de4207279e24ad42e858/README.md",
+      "fresh_frontend_checks": [
+        {
+          "command": "npm test",
+          "directory": "web",
+          "exit_code": 0
+        },
+        {
+          "command": "npm run build",
+          "directory": "web",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "name": "Java architecture",
+      "repository": "hotel-ddd-cleanarch-cqrs",
+      "baseline": "47b0c3b79a96ba94c433e54639bfe9cdc5be1541",
+      "feature_commit": "102392dd97e75b0896bd24aa78923c0158a292d5",
+      "snapshot": "222ee5be2e5c09fac34ecb987b24cf3ec37e995b",
+      "feature_diff": {
+        "all_tracked": {
+          "files": 26,
+          "created": 15,
+          "modified": 11,
+          "deleted": 0,
+          "insertions": 590,
+          "deletions": 31,
+          "net_lines": 559,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 25,
+          "created": 15,
+          "modified": 10,
+          "deleted": 0,
+          "insertions": 533,
+          "deletions": 24,
+          "net_lines": 509,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 10,
+          "created": 4,
+          "modified": 6,
+          "deleted": 0,
+          "insertions": 248,
+          "deletions": 24,
+          "net_lines": 224,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 13,
+          "created": 11,
+          "modified": 2,
+          "deleted": 0,
+          "insertions": 283,
+          "deletions": 0,
+          "net_lines": 283,
+          "binary_files": 0
+        }
+      },
+      "final_diff": {
+        "all_tracked": {
+          "files": 26,
+          "created": 15,
+          "modified": 11,
+          "deleted": 0,
+          "insertions": 593,
+          "deletions": 31,
+          "net_lines": 562,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 25,
+          "created": 15,
+          "modified": 10,
+          "deleted": 0,
+          "insertions": 533,
+          "deletions": 24,
+          "net_lines": 509,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 10,
+          "created": 4,
+          "modified": 6,
+          "deleted": 0,
+          "insertions": 248,
+          "deletions": 24,
+          "net_lines": 224,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 13,
+          "created": 11,
+          "modified": 2,
+          "deleted": 0,
+          "insertions": 283,
+          "deletions": 0,
+          "net_lines": 283,
+          "binary_files": 0
+        }
+      },
+      "readme_report": {
+        "duration": "56m 5s",
+        "duration_seconds": 3365,
+        "duration_basis": "README Implementation time; not independently timed",
+        "input": 19341292,
+        "cached_input": 19002624,
+        "output": 94710,
+        "reasoning": 65429,
+        "counter_cutoff": "README states final cumulative usage snapshot, not a sum of snapshots",
+        "reported_changes": {
+          "files": 26,
+          "created": 15,
+          "modified": 11,
+          "deleted": 0,
+          "insertions": 590,
+          "deletions": 31,
+          "scope": "Feature commit including README and configuration"
+        },
+        "reported_backend_tests": 19,
+        "fresh_frontend_tests": 33,
+        "reported_frontend_line_coverage_percent": 87.82,
+        "lighthouse_report": "100 in five categories on production frontend; form factor not specified in feature section; SEO META in 1 Click extension not opened",
+        "uncached_input": 338668,
+        "total_input_plus_output": 19436002,
+        "recalculated_estimate_usd": "0.27124804",
+        "cached_input_share_percent": 98.25,
+        "quality_and_loc": {
+          "backend_line_coverage": "Catalog 98.20%; reservation 97.92%, JaCoCo",
+          "sonar_open_issues": 0,
+          "sonar_overall_coverage_percent": 90.4,
+          "loc": {
+            "sonar_ncloc": 4083,
+            "analyzed_files": 88,
+            "reported_ncloc_delta": 221
+          }
+        }
+      },
+      "readme_source": "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/README.md",
+      "fresh_frontend_checks": [
+        {
+          "command": "npm test",
+          "directory": "web",
+          "exit_code": 0
+        },
+        {
+          "command": "npm run build",
+          "directory": "web",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "name": "Java simple",
+      "repository": "hotel-dry-kiss-yagni",
+      "baseline": "2945cbb7fdd929d29ec1671654d6dd09486d15a0",
+      "feature_commit": "bb441569663ed9378fe9d0edfd917a43a65e3e0b",
+      "snapshot": "168f09b79cfb359f975ea4b2156c8a38bb125554",
+      "feature_diff": {
+        "all_tracked": {
+          "files": 23,
+          "created": 11,
+          "modified": 12,
+          "deleted": 0,
+          "insertions": 807,
+          "deletions": 393,
+          "net_lines": 414,
+          "binary_files": 3
+        },
+        "excluding_readme": {
+          "files": 22,
+          "created": 11,
+          "modified": 11,
+          "deleted": 0,
+          "insertions": 777,
+          "deletions": 391,
+          "net_lines": 386,
+          "binary_files": 3
+        },
+        "frontend": {
+          "files": 13,
+          "created": 7,
+          "modified": 6,
+          "deleted": 0,
+          "insertions": 610,
+          "deletions": 386,
+          "net_lines": 224,
+          "binary_files": 3
+        },
+        "backend": {
+          "files": 9,
+          "created": 4,
+          "modified": 5,
+          "deleted": 0,
+          "insertions": 167,
+          "deletions": 5,
+          "net_lines": 162,
+          "binary_files": 0
+        }
+      },
+      "final_diff": {
+        "all_tracked": {
+          "files": 23,
+          "created": 11,
+          "modified": 12,
+          "deleted": 0,
+          "insertions": 808,
+          "deletions": 393,
+          "net_lines": 415,
+          "binary_files": 3
+        },
+        "excluding_readme": {
+          "files": 22,
+          "created": 11,
+          "modified": 11,
+          "deleted": 0,
+          "insertions": 777,
+          "deletions": 391,
+          "net_lines": 386,
+          "binary_files": 3
+        },
+        "frontend": {
+          "files": 13,
+          "created": 7,
+          "modified": 6,
+          "deleted": 0,
+          "insertions": 610,
+          "deletions": 386,
+          "net_lines": 224,
+          "binary_files": 3
+        },
+        "backend": {
+          "files": 9,
+          "created": 4,
+          "modified": 5,
+          "deleted": 0,
+          "insertions": 167,
+          "deletions": 5,
+          "net_lines": 162,
+          "binary_files": 0
+        }
+      },
+      "readme_report": {
+        "duration": "1h 6m 58s",
+        "duration_seconds": 4018,
+        "duration_basis": "README Worked for; not independently timed",
+        "input": 26171295,
+        "cached_input": 25815552,
+        "output": 105900,
+        "reasoning": 70136,
+        "counter_cutoff": "README identifies one cumulative session log; no exact cutoff specified",
+        "reported_changes": {
+          "files": 23,
+          "created": 11,
+          "modified": 12,
+          "deleted": 0,
+          "insertions": 807,
+          "deletions": 393,
+          "binary_bytes_added": 153948,
+          "scope": "Feature commit including README, staff extraction, responsive images and configuration"
+        },
+        "reported_backend_tests": 20,
+        "fresh_frontend_tests": 18,
+        "reported_frontend_line_coverage_percent": 92.02,
+        "lighthouse_report": "100 in four categories on mobile simulated audit",
+        "uncached_input": 355743,
+        "total_input_plus_output": 26277195,
+        "recalculated_estimate_usd": "0.34667982",
+        "cached_input_share_percent": 98.64,
+        "quality_and_loc": {
+          "backend_line_coverage": "85.01% combined JaCoCo",
+          "sonar_open_issues": 0,
+          "sonar_scope": "Final staged-code analysis; quality gate reported passing",
+          "loc": {
+            "production_nonblank": 3134,
+            "production_files": 59,
+            "test_nonblank": 888,
+            "test_files": 12
+          }
+        }
+      },
+      "readme_source": "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/168f09b79cfb359f975ea4b2156c8a38bb125554/README.md",
+      "fresh_frontend_checks": [
+        {
+          "command": "npm test",
+          "directory": "frontend",
+          "exit_code": 0
+        },
+        {
+          "command": "npm run build",
+          "directory": "frontend",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "name": "Java refactored",
+      "repository": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs",
+      "baseline": "429f97f28ffaa47ba208463fd11e555763a07b58",
+      "feature_commit": "14f526207e66b77cc22b38831d49c86bb92f1f91",
+      "snapshot": "14f526207e66b77cc22b38831d49c86bb92f1f91",
+      "feature_diff": {
+        "all_tracked": {
+          "files": 19,
+          "created": 9,
+          "modified": 10,
+          "deleted": 0,
+          "insertions": 492,
+          "deletions": 7,
+          "net_lines": 485,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 18,
+          "created": 9,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 440,
+          "deletions": 4,
+          "net_lines": 436,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 4,
+          "created": 0,
+          "modified": 4,
+          "deleted": 0,
+          "insertions": 50,
+          "deletions": 4,
+          "net_lines": 46,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 14,
+          "created": 9,
+          "modified": 5,
+          "deleted": 0,
+          "insertions": 390,
+          "deletions": 0,
+          "net_lines": 390,
+          "binary_files": 0
+        }
+      },
+      "final_diff": {
+        "all_tracked": {
+          "files": 19,
+          "created": 9,
+          "modified": 10,
+          "deleted": 0,
+          "insertions": 492,
+          "deletions": 7,
+          "net_lines": 485,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 18,
+          "created": 9,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 440,
+          "deletions": 4,
+          "net_lines": 436,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 4,
+          "created": 0,
+          "modified": 4,
+          "deleted": 0,
+          "insertions": 50,
+          "deletions": 4,
+          "net_lines": 46,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 14,
+          "created": 9,
+          "modified": 5,
+          "deleted": 0,
+          "insertions": 390,
+          "deletions": 0,
+          "net_lines": 390,
+          "binary_files": 0
+        }
+      },
+      "readme_report": {
+        "duration": "34m 40s",
+        "duration_seconds": 2080,
+        "duration_basis": "README explicitly calls this active work time provided for the task; not a verified common wall-clock measure",
+        "input": 8056578,
+        "cached_input": 7867648,
+        "output": 58600,
+        "reasoning": 39943,
+        "counter_cutoff": "2026-10-01 16:07:48 UTC, latest cumulative thread usage cited by README",
+        "reported_changes": {
+          "files": 18,
+          "created": 9,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 440,
+          "deletions": 4,
+          "scope": "Implementation and tests; excludes README"
+        },
+        "reported_backend_tests": 28,
+        "fresh_frontend_tests": 15,
+        "reported_frontend_line_coverage_percent": 92.49,
+        "lighthouse_report": "Not re-run for feature revision",
+        "uncached_input": 188930,
+        "total_input_plus_output": 8115178,
+        "recalculated_estimate_usd": "0.12686948",
+        "cached_input_share_percent": 97.65,
+        "quality_and_loc": {
+          "backend_line_coverage": "87.72% aggregate JaCoCo",
+          "sonar_open_issues": 0,
+          "sonar_overall_coverage_percent": 87.3,
+          "sonar_new_code_coverage_percent": 89.4,
+          "loc": {
+            "production_nonblank": 3810,
+            "production_files": 95,
+            "test_nonblank": 1036,
+            "test_files": 17,
+            "production_scope": "Java, TypeScript, TSX and CSS"
+          }
+        }
+      },
+      "readme_source": "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/README.md",
+      "fresh_frontend_checks": [
+        {
+          "command": "npm test",
+          "directory": "frontend",
+          "exit_code": 0
+        },
+        {
+          "command": "npm run build",
+          "directory": "frontend",
+          "exit_code": 0
+        }
+      ]
+    },
+    {
+      "name": "Rust rebuilt",
+      "repository": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust",
+      "baseline": "fba23789a507bf3179a214560ee7f215ad9eaa74",
+      "feature_commit": "64f22eeaf142265a7b1c592a25c084bf81d68c79",
+      "snapshot": "9c1f8e7a37b9851a592fea34557d59e599c2fa0b",
+      "feature_diff": {
+        "all_tracked": {
+          "files": 11,
+          "created": 2,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 592,
+          "deletions": 8,
+          "net_lines": 584,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 10,
+          "created": 2,
+          "modified": 8,
+          "deleted": 0,
+          "insertions": 536,
+          "deletions": 6,
+          "net_lines": 530,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 4,
+          "created": 0,
+          "modified": 4,
+          "deleted": 0,
+          "insertions": 77,
+          "deletions": 5,
+          "net_lines": 72,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 5,
+          "created": 2,
+          "modified": 3,
+          "deleted": 0,
+          "insertions": 458,
+          "deletions": 1,
+          "net_lines": 457,
+          "binary_files": 0
+        }
+      },
+      "final_diff": {
+        "all_tracked": {
+          "files": 11,
+          "created": 2,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 593,
+          "deletions": 8,
+          "net_lines": 585,
+          "binary_files": 0
+        },
+        "excluding_readme": {
+          "files": 10,
+          "created": 2,
+          "modified": 8,
+          "deleted": 0,
+          "insertions": 536,
+          "deletions": 6,
+          "net_lines": 530,
+          "binary_files": 0
+        },
+        "frontend": {
+          "files": 4,
+          "created": 0,
+          "modified": 4,
+          "deleted": 0,
+          "insertions": 77,
+          "deletions": 5,
+          "net_lines": 72,
+          "binary_files": 0
+        },
+        "backend": {
+          "files": 5,
+          "created": 2,
+          "modified": 3,
+          "deleted": 0,
+          "insertions": 458,
+          "deletions": 1,
+          "net_lines": 457,
+          "binary_files": 0
+        }
+      },
+      "readme_report": {
+        "duration": "44m 7s",
+        "duration_seconds": 2647,
+        "duration_basis": "README Task duration; not independently timed",
+        "input": 15295531,
+        "cached_input": 14891264,
+        "output": 82074,
+        "reasoning": 60303,
+        "counter_cutoff": "2026-10-01 16:57:41 UTC, before final statistics README edit, follow-up commit, push and response",
+        "reported_changes": {
+          "files": 11,
+          "created": 2,
+          "modified": 9,
+          "deleted": 0,
+          "insertions": 592,
+          "deletions": 8,
+          "scope": "Feature commit including README and configuration"
+        },
+        "reported_backend_tests": 15,
+        "fresh_frontend_tests": 15,
+        "reported_frontend_line_coverage_percent": 92.38,
+        "lighthouse_report": "100 in four categories, desktop",
+        "uncached_input": 404267,
+        "total_input_plus_output": 15377605,
+        "recalculated_estimate_usd": "0.23037634",
+        "cached_input_share_percent": 97.36,
+        "quality_and_loc": {
+          "backend_line_coverage": "91.39% llvm-cov",
+          "sonar_open_issues": 0,
+          "sonar_overall_coverage_percent": 91.4,
+          "sonar_new_code_coverage_percent": 92.2,
+          "loc": {
+            "feature_nonblank_insertions": 500,
+            "feature_nonblank_deletions": 6,
+            "feature_net_nonblank": 494,
+            "scope": "Source and tests from staged diff; excludes README and configuration"
+          }
+        }
+      },
+      "readme_source": "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/README.md",
+      "fresh_frontend_checks": [
+        {
+          "command": "npm test",
+          "directory": "frontend",
+          "exit_code": 0
+        },
+        {
+          "command": "npm run build",
+          "directory": "frontend",
+          "exit_code": 0
+        }
+      ]
+    }
+  ],
+  "sql_probe_run": {
+    "command": "python3 /tmp/hotel-part2-probes.py",
+    "environment": "New disposable postgres:17-alpine Docker container, no host ports or mounted application data; removed after probes",
+    "outcome": "All 13 expected observation assertions matched across 42 recorded SQL steps",
+    "initial_attempt": "Readiness check briefly observed the temporary initialization server; first psql connection failed. Re-ran with TCP readiness check; not classified as an application failure",
+    "records": [
+      {
+        "repository": "hotel-rust",
+        "scope": "database SQL only",
+        "schema_paths": [
+          "services/reservation-service/migrations/0002_reservation_journey_analytics.sql"
+        ],
+        "source_paths": [
+          "services/reservation-service/src/lib.rs"
+        ],
+        "steps": [
+          {
+            "label": "start",
+            "sql": "INSERT INTO reservation_journeys (journey_id, hotel_id, room_type_id, last_screen, status) VALUES ('53d0b2d8-3e50-495f-8642-e59303727172', 'ab1be6dc-bb5f-404a-8c25-e0c46b3705b0', 'c9ef1055-a6e8-4ef4-b6ba-87c5a679dfa5', 'guest_details', 'in_progress') ON CONFLICT (journey_id) DO NOTHING RETURNING journey_id",
+            "observed": "53d0b2d8-3e50-495f-8642-e59303727172"
+          },
+          {
+            "label": "payment checkpoint",
+            "sql": "UPDATE reservation_journeys SET last_screen = 'payment', last_activity_at = NOW() WHERE journey_id = '53d0b2d8-3e50-495f-8642-e59303727172'",
+            "observed": ""
+          },
+          {
+            "label": "control inactivity",
+            "sql": "UPDATE reservation_journeys SET last_activity_at=now()-interval '31 minutes';",
+            "observed": ""
+          },
+          {
+            "label": "inactive view",
+            "sql": "SELECT last_screen FROM abandoned_reservation_journeys;",
+            "observed": "payment"
+          },
+          {
+            "label": "same-screen activity refresh",
+            "sql": "UPDATE reservation_journeys SET last_screen = 'payment', last_activity_at = NOW() WHERE journey_id = '53d0b2d8-3e50-495f-8642-e59303727172'",
+            "observed": ""
+          },
+          {
+            "label": "active view",
+            "sql": "SELECT count(*) FROM abandoned_reservation_journeys;",
+            "observed": "0"
+          },
+          {
+            "label": "later-arriving guest checkpoint",
+            "sql": "UPDATE reservation_journeys SET last_screen = 'guest_details', last_activity_at = NOW() WHERE journey_id = '53d0b2d8-3e50-495f-8642-e59303727172'",
+            "observed": ""
+          },
+          {
+            "label": "arrival order defines current screen",
+            "sql": "SELECT last_screen FROM reservation_journeys;",
+            "observed": "guest_details"
+          }
+        ]
+      },
+      {
+        "repository": "hotel-ddd-cleanarch-cqrs",
+        "scope": "database SQL only",
+        "schema_paths": [
+          "services/reservation-service/src/main/resources/db/migration/V2__record_reservation_funnel_events.sql"
+        ],
+        "source_paths": [
+          "services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/out/postgres/JdbcReservationFunnelEventStore.java"
+        ],
+        "steps": [
+          {
+            "label": "RESERVATION_STARTED",
+            "sql": "INSERT INTO reservation_funnel_events\n                    (session_id, reservation_attempt_id, event_type, screen, hotel_id, room_type_id, occurred_at)\n                VALUES ('832aee03-5533-4efc-a2be-81b35d5e2f8a', '4703593e-6f7f-423f-a73f-8e6bf7a24372', 'RESERVATION_STARTED', 'checkout', 'probe-hotel', 'probe-room', '2026-10-01T12:00:00Z')",
+            "observed": ""
+          },
+          {
+            "label": "SCREEN_VIEWED",
+            "sql": "INSERT INTO reservation_funnel_events\n                    (session_id, reservation_attempt_id, event_type, screen, hotel_id, room_type_id, occurred_at)\n                VALUES ('832aee03-5533-4efc-a2be-81b35d5e2f8a', '4703593e-6f7f-423f-a73f-8e6bf7a24372', 'SCREEN_VIEWED', 'hotel', 'probe-hotel', 'probe-room', '2026-10-01T12:00:00Z')",
+            "observed": ""
+          },
+          {
+            "label": "control inactivity",
+            "sql": "UPDATE reservation_funnel_events SET occurred_at=now()-interval '31 minutes';",
+            "observed": ""
+          },
+          {
+            "label": "last screen can be outside checkout",
+            "sql": "SELECT last_screen FROM reservation_funnel_abandonments;",
+            "observed": "hotel"
+          },
+          {
+            "label": "client confirmation without a booking table",
+            "sql": "INSERT INTO reservation_funnel_events\n                    (session_id, reservation_attempt_id, event_type, screen, hotel_id, room_type_id, occurred_at)\n                VALUES ('832aee03-5533-4efc-a2be-81b35d5e2f8a', '4703593e-6f7f-423f-a73f-8e6bf7a24372', 'RESERVATION_CONFIRMED', 'confirmation', 'probe-hotel', 'probe-room', '2026-10-01T12:00:00Z')",
+            "observed": ""
+          },
+          {
+            "label": "confirmation removes abandonment",
+            "sql": "SELECT count(*) FROM reservation_funnel_abandonments;",
+            "observed": "0"
+          }
+        ]
+      },
+      {
+        "repository": "hotel-dry-kiss-yagni",
+        "scope": "database SQL only",
+        "schema_paths": [
+          "services/reservation-service/src/main/resources/schema.sql"
+        ],
+        "source_paths": [
+          "services/reservation-service/src/main/java/com/stays/reservation/ReservationJourneyRepository.java"
+        ],
+        "steps": [
+          {
+            "label": "start",
+            "sql": "INSERT INTO reservations.reservation_journeys (id, current_screen, status)\n                VALUES ('fa039d9b-61b2-469b-9333-886f89eddfee', 'DETAILS', 'STARTED')\n                ON CONFLICT (id) DO NOTHING",
+            "observed": ""
+          },
+          {
+            "label": "checkout",
+            "sql": "INSERT INTO reservations.reservation_journeys AS journey (id, current_screen, status)\n                VALUES ('fa039d9b-61b2-469b-9333-886f89eddfee', 'CHECKOUT', 'STARTED')\n                ON CONFLICT (id) DO UPDATE\n                SET current_screen = EXCLUDED.current_screen, last_activity_at = now()\n                WHERE journey.status = 'STARTED'",
+            "observed": ""
+          },
+          {
+            "label": "control inactivity",
+            "sql": "UPDATE reservations.reservation_journeys SET last_activity_at=now()-interval '31 minutes';",
+            "observed": ""
+          },
+          {
+            "label": "no delivered leave event",
+            "sql": "SELECT status FROM reservations.reservation_journeys;",
+            "observed": "STARTED"
+          },
+          {
+            "label": "explicit leave event",
+            "sql": "INSERT INTO reservations.reservation_journeys AS journey\n                    (id, current_screen, status, ended_at)\n                VALUES ('fa039d9b-61b2-469b-9333-886f89eddfee', 'CHECKOUT', 'ABANDONED', now())\n                ON CONFLICT (id) DO UPDATE\n                SET current_screen = EXCLUDED.current_screen, status = 'ABANDONED',\n                    last_activity_at = now(), ended_at = now()\n                WHERE journey.status = 'STARTED'",
+            "observed": ""
+          },
+          {
+            "label": "late detail screen",
+            "sql": "INSERT INTO reservations.reservation_journeys AS journey (id, current_screen, status)\n                VALUES ('fa039d9b-61b2-469b-9333-886f89eddfee', 'DETAILS', 'STARTED')\n                ON CONFLICT (id) DO UPDATE\n                SET current_screen = EXCLUDED.current_screen, last_activity_at = now()\n                WHERE journey.status = 'STARTED'",
+            "observed": ""
+          },
+          {
+            "label": "abandonment is terminal for screen writes",
+            "sql": "SELECT status||':'||current_screen FROM reservations.reservation_journeys;",
+            "observed": "ABANDONED:CHECKOUT"
+          },
+          {
+            "label": "server paid completion",
+            "sql": "INSERT INTO reservations.reservation_journeys\n                    (id, current_screen, status, started_at, last_activity_at, ended_at)\n                VALUES ('fa039d9b-61b2-469b-9333-886f89eddfee', 'CHECKOUT', 'COMPLETED', now(), now(), now())\n                ON CONFLICT (id) DO UPDATE\n                SET current_screen = 'CHECKOUT', status = 'COMPLETED',\n                    last_activity_at = now(), ended_at = now()",
+            "observed": ""
+          },
+          {
+            "label": "paid completion supersedes abandonment",
+            "sql": "SELECT status FROM reservations.reservation_journeys;",
+            "observed": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "repository": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs",
+        "scope": "database SQL only",
+        "schema_paths": [
+          "services/reservation-service/src/main/resources/schema.sql"
+        ],
+        "source_paths": [
+          "services/reservation-service/src/main/java/com/stays/reservation/adapter/out/jdbc/ReservationProgressRepository.java"
+        ],
+        "steps": [
+          {
+            "label": "start",
+            "sql": "INSERT INTO reservations.reservation_funnel_sessions (session_id, status, last_screen, started_at, last_activity_at) VALUES ('6ec6142b-f97c-4d3f-9f41-f4b790bd390c', 'IN_PROGRESS', 'DETAILS', '2026-10-01T12:00:00Z', '2026-10-01T12:00:00Z') ON CONFLICT (session_id) DO NOTHING",
+            "observed": ""
+          },
+          {
+            "label": "control inactivity",
+            "sql": "UPDATE reservations.reservation_funnel_sessions SET last_activity_at=now()-interval '31 minutes';",
+            "observed": ""
+          },
+          {
+            "label": "sweep",
+            "sql": "UPDATE reservations.reservation_funnel_sessions SET status = 'ABANDONED', abandoned_at = '2026-10-01 19:37:41.385088+00' WHERE status = 'IN_PROGRESS' AND last_activity_at < '2026-10-01 19:07:41.440854+00' RETURNING session_id, last_screen",
+            "observed": "6ec6142b-f97c-4d3f-9f41-f4b790bd390c|DETAILS"
+          },
+          {
+            "label": "later checkout screen",
+            "sql": "UPDATE reservations.reservation_funnel_sessions SET last_screen = 'CHECKOUT', last_activity_at = '2026-10-01 19:37:41.385088+00' WHERE session_id = '6ec6142b-f97c-4d3f-9f41-f4b790bd390c' AND status = 'IN_PROGRESS'",
+            "observed": ""
+          },
+          {
+            "label": "later confirmation",
+            "sql": "UPDATE reservations.reservation_funnel_sessions SET status = 'COMPLETED', last_screen = 'CONFIRMATION', last_activity_at = '2026-10-01 19:37:41.385088+00', completed_at = '2026-10-01 19:37:41.385088+00' WHERE session_id = '6ec6142b-f97c-4d3f-9f41-f4b790bd390c' AND status = 'IN_PROGRESS'",
+            "observed": ""
+          },
+          {
+            "label": "state remains abandoned",
+            "sql": "SELECT status||':'||last_screen FROM reservations.reservation_funnel_sessions;",
+            "observed": "ABANDONED:DETAILS"
+          },
+          {
+            "label": "fresh journey",
+            "sql": "INSERT INTO reservations.reservation_funnel_sessions (session_id, status, last_screen, started_at, last_activity_at) VALUES ('26828d7b-b4fe-4892-8f88-9d1e9bdfd5a5', 'IN_PROGRESS', 'DETAILS', '2026-10-01 19:37:41.385088+00', '2026-10-01 19:37:41.385088+00') ON CONFLICT (session_id) DO NOTHING",
+            "observed": ""
+          },
+          {
+            "label": "confirmation needs no payment lookup",
+            "sql": "UPDATE reservations.reservation_funnel_sessions SET status = 'COMPLETED', last_screen = 'CONFIRMATION', last_activity_at = '2026-10-01 19:37:41.385088+00', completed_at = '2026-10-01 19:37:41.385088+00' WHERE session_id = '26828d7b-b4fe-4892-8f88-9d1e9bdfd5a5' AND status = 'IN_PROGRESS'",
+            "observed": ""
+          },
+          {
+            "label": "fresh outcome",
+            "sql": "SELECT status FROM reservations.reservation_funnel_sessions WHERE session_id='26828d7b-b4fe-4892-8f88-9d1e9bdfd5a5';",
+            "observed": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "repository": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust",
+        "scope": "database SQL only",
+        "schema_paths": [
+          "services/backend/schema/04_reservations.sql",
+          "services/backend/schema/05_reservation_analytics.sql"
+        ],
+        "source_paths": [
+          "services/backend/src/journeys.rs"
+        ],
+        "steps": [
+          {
+            "label": "start",
+            "sql": "INSERT INTO reservation_analytics.journeys  (journey_id,started_at,last_activity_at,last_screen,last_sequence)  VALUES ('47e8429a-bf1b-4cd8-9ac7-5e32d262c3c9',now(),now(),'details',1)  ON CONFLICT (journey_id) DO UPDATE SET  last_activity_at=now(),last_screen=EXCLUDED.last_screen,  last_sequence=EXCLUDED.last_sequence  WHERE reservation_analytics.journeys.completed_at IS NULL  AND reservation_analytics.journeys.last_sequence < EXCLUDED.last_sequence  RETURNING journey_id",
+            "observed": "47e8429a-bf1b-4cd8-9ac7-5e32d262c3c9"
+          },
+          {
+            "label": "newer checkpoint first",
+            "sql": "UPDATE reservation_analytics.journeys SET  last_activity_at=now(),last_screen='checkout',last_sequence=3,  completed_at=CASE WHEN 'false' THEN now() ELSE completed_at END  WHERE journey_id='47e8429a-bf1b-4cd8-9ac7-5e32d262c3c9' AND completed_at IS NULL AND last_sequence < 3  RETURNING journey_id",
+            "observed": "47e8429a-bf1b-4cd8-9ac7-5e32d262c3c9"
+          },
+          {
+            "label": "older checkpoint later",
+            "sql": "UPDATE reservation_analytics.journeys SET  last_activity_at=now(),last_screen='details',last_sequence=2,  completed_at=CASE WHEN 'false' THEN now() ELSE completed_at END  WHERE journey_id='47e8429a-bf1b-4cd8-9ac7-5e32d262c3c9' AND completed_at IS NULL AND last_sequence < 2  RETURNING journey_id",
+            "observed": ""
+          },
+          {
+            "label": "control inactivity",
+            "sql": "UPDATE reservation_analytics.journeys SET last_activity_at=now()-interval '31 minutes';",
+            "observed": ""
+          },
+          {
+            "label": "ordered abandonment outcome",
+            "sql": "SELECT status||':'||last_screen FROM reservation_analytics.journey_outcomes;",
+            "observed": "ABANDONED:checkout"
+          },
+          {
+            "label": "paid booking without analytics completion write",
+            "sql": "INSERT INTO reservations.bookings (id,hotel_id,room_type_id,hotel_name,city,district,image_path,image_alt,room_type_name,check_in,check_out,rooms,guests,guest_name,guest_email,total,status,payment_id) VALUES ('47e8429a-bf1b-4cd8-9ac7-5e32d262c3c9','e97962a0-1978-402a-8c38-f0e86f6a3a9b','2a3448d6-2b00-4607-9b55-38213e5c383e','Probe hotel','Probe city','Probe district','/probe.webp','Probe','Probe room',current_date+1,current_date+2,1,1,'Probe guest','probe@example.invalid',100,'CONFIRMED','d3e2abdc-e727-4877-a715-c5098c217689');",
+            "observed": ""
+          },
+          {
+            "label": "payment-backed fallback",
+            "sql": "SELECT status||':'||(completed_at IS NULL)::text FROM reservation_analytics.journey_outcomes JOIN reservation_analytics.journeys USING(journey_id);",
+            "observed": "COMPLETED:true"
+          },
+          {
+            "label": "failed journey start",
+            "sql": "INSERT INTO reservation_analytics.journeys  (journey_id,started_at,last_activity_at,last_screen,last_sequence)  VALUES ('48d60878-9b26-477b-9d44-11ae912fd5e6',now(),now(),'details',1)  ON CONFLICT (journey_id) DO UPDATE SET  last_activity_at=now(),last_screen=EXCLUDED.last_screen,  last_sequence=EXCLUDED.last_sequence  WHERE reservation_analytics.journeys.completed_at IS NULL  AND reservation_analytics.journeys.last_sequence < EXCLUDED.last_sequence  RETURNING journey_id",
+            "observed": "48d60878-9b26-477b-9d44-11ae912fd5e6"
+          },
+          {
+            "label": "failed booking",
+            "sql": "INSERT INTO reservations.bookings (id,hotel_id,room_type_id,hotel_name,city,district,image_path,image_alt,room_type_name,check_in,check_out,rooms,guests,guest_name,guest_email,total,status,payment_id) VALUES ('48d60878-9b26-477b-9d44-11ae912fd5e6','2588c07f-9edd-448a-8ca9-a7cd559458f2','2305927c-c819-41b2-b66e-2c1a741df51f','Probe hotel','Probe city','Probe district','/probe.webp','Probe','Probe room',current_date+1,current_date+2,1,1,'Probe guest','probe@example.invalid',100,'PAYMENT_FAILED',NULL);",
+            "observed": ""
+          },
+          {
+            "label": "failed payment has distinct outcome",
+            "sql": "SELECT status FROM reservation_analytics.journey_outcomes WHERE journey_id='48d60878-9b26-477b-9d44-11ae912fd5e6';",
+            "observed": "PAYMENT_FAILED"
+          }
+        ]
+      }
+    ]
+  },
+  "review_reconciliation": {
+    "record": "maintenance-review-reconciliation.json",
+    "source_reports": [
+      {
+        "filename": "gemini-analysis.md",
+        "sha256": "94d36231b529bed0f805a6a688d48c26121573d94108ca7944ca9dcb2e190ef6",
+        "attribution": "Gemini reports supplied by the project owner"
+      },
+      {
+        "filename": "gemini-analysis-pt-BR.md",
+        "sha256": "98ad0f0f5b073955809709e3db0408eb4b0da2a02c514c83012b2f2e785a886b",
+        "attribution": "Gemini reports supplied by the project owner"
+      }
+    ],
+    "independent_implementation_runs_added": 0,
+    "earlier_observations_preserved": true
+  }
+}

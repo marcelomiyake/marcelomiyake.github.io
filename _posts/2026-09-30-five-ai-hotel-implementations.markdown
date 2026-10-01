@@ -16,7 +16,7 @@ The inspected revisions give three direct answers:
 - **Greenfield Rust has the stronger verified cancellation behavior; rebuilt Rust has the simpler operational topology.** The rewritten backend is smaller and has fewer services, but it contains a reproducible inventory corruption bug and does not retain the Java backend's full architectural structure. The maintenance preference depends on whether we prioritize the current behavior or a simpler platform to repair and evolve.
 - **The Java refactor increases structural complexity while adding useful seams.** It introduces ports, typed statuses, and some domain validation, but largely retains the existing orchestration and a large React component. More layers have not, by themselves, corrected inherited behavior.
 
-This comparative case study is **Part I** of a two-part investigation into AI software maintenance. Here, I analyze the baseline quality of the existing snapshots: whether the business design survived across forks and rewrites, how each architecture holds up under concurrency and failure, and what their static structures reveal. In **Part II**, I will measure the practical cost of implementing a new feature in each project, comparing developer effort, prompt iterations, blast radius, and verification friction across the five architectures.
+This comparative case study is **Part I** of a two-part investigation into AI software maintenance. Here, I analyze the baseline quality of the existing snapshots: whether the business design survived across forks and rewrites, how each architecture holds up under concurrency and failure, and what their static structures reveal. In [**Part II**]({% link _posts/2026-10-01-five-ai-hotel-implementations-part-2.markdown %}), I compare the reported effort of adding reservation abandonment tracking, then inspect the change scope, verification evidence, and analytics correctness across the five architectures.
 
 ## The five implementations and the actual comparison
 
@@ -370,11 +370,11 @@ If forced to choose a Rust repository **today**, I would choose greenfield Rust 
 
 For a small-team successor, I would investigate repairing and modularizing Rust rebuilt. Its consolidated topology is attractive, but it needs protected state transitions, authoritative domain validation, and clear use-case boundaries. This is where I agree with Gemini's operational preference, while declining its unconditional maintainability ranking. A repair-and-change experiment could justify selecting the smaller backend; the current evidence establishes neither its repair cost nor the lowest lifetime maintenance cost.
 
-## Looking forward: Part II on the cost of implementing a new feature
+## Part II and further maintenance experiments
 
 This first part establishes the baseline: how each codebase fares on specification fidelity, concurrency guarantees, and structural complexity. But the ultimate test of software architecture is how it responds to real change.
 
-In **Part II**, I will conduct an empirical experiment measuring the cost of implementing a new feature across all five projects. By taking a concrete functional requirement—such as property-specific overbooking policies or custom seasonal pricing rules—and implementing it across each codebase under an identical executable acceptance contract, we will evaluate how each architectural style impacts developer velocity and maintainability:
+In [**Part II**]({% link _posts/2026-10-01-five-ai-hotel-implementations-part-2.markdown %}), I analyze the first new feature: tracking reservation abandonment across funnel screens. The implementations and their README effort records support an observational comparison, with different analytics semantics and audit scopes. They do not establish an identical executable acceptance contract or report prompt-iteration counts. The following changes remain useful candidates for controlled follow-up experiments:
 
 | Change task | Acceptance evidence |
 | :--- | :--- |
@@ -387,7 +387,7 @@ In **Part II**, I will conduct an empirical experiment measuring the cost of imp
 | Change a checkout or management interaction | Measure presentation changes and test clarity, not only folder count |
 | Build and start the deployment artifact | Real application wiring and health checks work from a fresh build |
 
-The experiment will use the same starting snapshots, task specifications, reviewer expectations, and acceptance checks. For each implementation, Part II will track:
+A controlled follow-up should use the same starting snapshots, task specifications, reviewer expectations, and acceptance checks. For each implementation, future experiments should track:
 
 - **Developer and model effort:** session duration, prompt iterations, and repair attempts required to achieve passing acceptance checks.
 - **Blast radius:** number of files touched, lines added or modified, and ripple effects across schemas, DTOs, and controllers.

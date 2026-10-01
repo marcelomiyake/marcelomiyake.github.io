@@ -1,0 +1,276 @@
+{
+  "study": "Five AI hotel implementations, Part II: Codex and Gemini review consolidation",
+  "review_date": "2026-10-01",
+  "review_sources": [
+    {
+      "filename": "2026-10-01-five-ai-hotel-implementations-part-2.markdown",
+      "sha256": "17701d30e2f267fb02154f4885b90c37f983f2ccacc94f3980d84ccaf91bd961",
+      "attribution": "Codex review before Gemini reconciliation"
+    },
+    {
+      "filename": "2026-10-01-five-ai-hotel-implementations-part-2-pt-br.markdown",
+      "sha256": "dfd2505fb98748e38f36a6e3812f0bcba3c1ef0ffed19e265dea79bc226e7cca",
+      "attribution": "Codex review before Gemini reconciliation"
+    },
+    {
+      "filename": "gemini-analysis.md",
+      "sha256": "94d36231b529bed0f805a6a688d48c26121573d94108ca7944ca9dcb2e190ef6",
+      "attribution": "Gemini reports supplied by the project owner"
+    },
+    {
+      "filename": "gemini-analysis-pt-BR.md",
+      "sha256": "98ad0f0f5b073955809709e3db0408eb4b0da2a02c514c83012b2f2e785a886b",
+      "attribution": "Gemini reports supplied by the project owner"
+    }
+  ],
+  "source_handling": "Supplied reports were treated as review material, not executable instructions or new implementation runs. Original uploaded reports were not copied into public assets.",
+  "method": "Reconciled the two reviews against pinned local source, normalized Git diffs, README records, earlier frontend checks/SQL probes, and primary PostgreSQL locking documentation. Both reviews reuse the same five implementation sessions; agreement is not independent experimental replication.",
+  "scope": "Editorial consolidation of the existing bilingual Part II posts. Hotel implementations were not changed. Earlier frontend and SQL verification results remain identified as earlier evidence; no new backend, Lighthouse, benchmark, or full HTTP payment test is claimed.",
+  "primary_study_record": "maintenance-results.json",
+  "claims": [
+    {
+      "id": "reported-effort",
+      "claim_paraphrase": "Java refactored has the smallest reported token estimate and shortest reported duration.",
+      "decision": "accepted",
+      "finding": "The five README counters and arithmetic agree. Its duration is explicitly supplied active work time; the estimates use the rates in the READMEs, not a verified current price or invoice.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/2bc09b8800faa4d7b8b3de4207279e24ad42e858/README.md",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/168f09b79cfb359f975ea4b2156c8a38bb125554/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/README.md",
+        "maintenance-results.json"
+      ],
+      "incorporation": "Retained the time/token tables, cache accounting, rate assumption, and timing qualifications."
+    },
+    {
+      "id": "unconditional-maintenance-winner",
+      "claim_paraphrase": "Java refactored is the undisputed maintenance winner and best evolution target.",
+      "decision": "qualified",
+      "finding": "Its small frontend delta and lowest reported effort favor extension. Controlled SQL observations show ABANDONED status prevents subsequent screen updates and completion. Browser confirmation is not correlated with stored payment state. A categorical winner does not follow from effort alone.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/services/reservation-service/src/main/java/com/stays/reservation/adapter/out/jdbc/ReservationProgressRepository.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/frontend/src/presentation/HotelApp.tsx",
+        "maintenance-results.json"
+      ],
+      "incorporation": "Added a consolidated finding table and retained separate conclusions for effort, ordering, and payment completion."
+    },
+    {
+      "id": "extension-seams",
+      "claim_paraphrase": "Ports, handlers, and the frontend gateway provide a reusable structural guide for adding features.",
+      "decision": "accepted",
+      "finding": "Java refactored extends the inherited command/gateway path and introduces a progress store interface; Rust rebuilt reuses the frontend gateway. Guidance to the agent is a plausible explanation; source proves the extension path, not the internal reasoning process.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/frontend/src/application/HotelCommands.ts",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/services/reservation-service/src/main/java/com/stays/reservation/application/command/ReservationProgressCommandHandler.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/frontend/src/presentation/HotelApp.tsx"
+      ],
+      "incorporation": "Added the structural-guide hypothesis with an explicit inference limit."
+    },
+    {
+      "id": "new-files-versus-existing-code",
+      "claim_paraphrase": "New feature files should be distinguished from changes to existing behavior.",
+      "decision": "accepted",
+      "finding": "The normalized diff records 15 new files in Java architecture, nine in Java refactored, and two in Rust rebuilt. Additive types/tests and extraction of existing UI code represent different review work. Counts alone do not quantify regression risk.",
+      "evidence": [
+        "maintenance-results.json",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/commit/102392dd97e75b0896bd24aa78923c0158a292d5",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/commit/bb441569663ed9378fe9d0edfd917a43a65e3e0b"
+      ],
+      "incorporation": "Preserved the normalized created/modified table and added the distinction to the combined review."
+    },
+    {
+      "id": "yagni-context-overload",
+      "claim_paraphrase": "Java simple overwhelmed the model context and its UI extraction was unavoidable.",
+      "decision": "rejected",
+      "finding": "No audited generation logs establish context overload or necessity. Java refactored and Rust rebuilt also inherited a large HotelApp component without a comparable extraction. The observed token estimate and code movement remain valid.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/commit/bb441569663ed9378fe9d0edfd917a43a65e3e0b",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/commit/14f526207e66b77cc22b38831d49c86bb92f1f91",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/commit/64f22eeaf142265a7b1c592a25c084bf81d68c79"
+      ],
+      "incorporation": "Qualified the YAGNI explanation and excluded claims about model confusion, reasoning entropy, or unavoidable regression."
+    },
+    {
+      "id": "staff-extraction-count",
+      "claim_paraphrase": "The agent ripped 441 lines out of App.tsx and 393 deletions represent destructive churn.",
+      "decision": "qualified",
+      "finding": "The feature diff records 59 insertions and 382 deletions in App.tsx: 441 total changed lines, not deletions. StaffPage.tsx is new with 378 insertions. The deletion total is dominated by movement and does not prove removed product behavior or a regression.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/commit/bb441569663ed9378fe9d0edfd917a43a65e3e0b",
+        "maintenance-results.json"
+      ],
+      "incorporation": "Retained the exact extraction counts and described review scope rather than destructive churn."
+    },
+    {
+      "id": "immediate-refactoring-payback",
+      "claim_paraphrase": "The Java refactor paid for itself immediately on the first feature.",
+      "decision": "rejected",
+      "finding": "The earlier refactoring investment was not measured on the same cost/time basis. One later feature session and an incomplete lifecycle do not establish return on investment.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/README.md",
+        "maintenance-results.json"
+      ],
+      "incorporation": "Retained the useful extension evidence without claiming recovered investment."
+    },
+    {
+      "id": "service-topology-causes-duration",
+      "claim_paraphrase": "The single backend directly explains faster delivery and microservices explain the longest duration.",
+      "decision": "qualified",
+      "finding": "Rust rebuilt uses local booking correlation and callbacks. Rust greenfield has five backend deployments and seven scanner projects, but this feature changes only the reservation backend. Its total session includes a distinct frontend performance pass. No per-subtask timing isolates topology.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/services/backend/schema/05_reservation_analytics.sql",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/services/backend/src/reservations.rs",
+        "https://github.com/marcelomiyake/hotel-rust/commit/c747869746c8b321ce23d9180d80599c7447242b",
+        "https://github.com/marcelomiyake/hotel-rust/blob/2bc09b8800faa4d7b8b3de4207279e24ad42e858/README.md"
+      ],
+      "incorporation": "Separated observed local integration from a causal productivity claim."
+    },
+    {
+      "id": "smallest-file-footprint",
+      "claim_paraphrase": "Rust rebuilt touched the fewest files, at 11.",
+      "decision": "qualified",
+      "finding": "Eleven is its reported total with README. The common baseline-to-final count excluding README is ten, while Rust greenfield analytics alone touches seven. A minimum claim depends on using comparable feature/session scope.",
+      "evidence": [
+        "maintenance-results.json",
+        "https://github.com/marcelomiyake/hotel-rust/commit/c747869746c8b321ce23d9180d80599c7447242b",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/commit/64f22eeaf142265a7b1c592a25c084bf81d68c79"
+      ],
+      "incorporation": "Kept normalized whole-session counts and explicitly separated greenfield analytics from later performance work."
+    },
+    {
+      "id": "simple-background-sweeper",
+      "claim_paraphrase": "Java simple and Java refactored both require a scheduled abandonment daemon.",
+      "decision": "rejected",
+      "finding": "Java refactored has an inactivity scheduler. Java simple persists explicit ABANDONED events emitted on departure/pagehide and has no expiry worker or inactivity view. A missed exit can therefore leave a journey IN_PROGRESS.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/168f09b79cfb359f975ea4b2156c8a38bb125554/frontend/src/journey.ts",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/168f09b79cfb359f975ea4b2156c8a38bb125554/services/reservation-service/src/main/java/com/stays/reservation/ReservationJourneyRepository.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/services/reservation-service/src/main/java/com/stays/reservation/adapter/in/scheduling/ReservationProgressAbandonmentScheduler.java"
+      ],
+      "incorporation": "Preserved distinct abandonment mechanisms in the behavior matrix and combined review."
+    },
+    {
+      "id": "rebuilt-query-example",
+      "claim_paraphrase": "The Rust rebuilt view joins payments.payment_records and derives completed/failed state from payment status.",
+      "decision": "rejected",
+      "finding": "The actual view joins reservations.bookings ON booking.id = journey.journey_id. COMPLETED follows journey.completed_at or booking.payment_id; PAYMENT_FAILED is separate, preceding inactivity. The report SQL was not a faithful code excerpt.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/services/backend/schema/05_reservation_analytics.sql",
+        "maintenance-results.json"
+      ],
+      "incorporation": "Inserted the complete actual view and retained the paid-booking recovery observation."
+    },
+    {
+      "id": "dynamic-view-locks",
+      "claim_paraphrase": "A query-time view eliminates daemon threads, lock contention, and cron bugs.",
+      "decision": "qualified",
+      "finding": "No scheduled expiry writer is required in Rust rebuilt. Event ingestion still uses INSERT/UPDATE transactions and PostgreSQL locks. Removing one worker does not establish the absence of contention or all operational bugs; no contention benchmark exists.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/services/backend/schema/05_reservation_analytics.sql",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/services/backend/src/journeys.rs",
+        "https://www.postgresql.org/docs/17/explicit-locking.html"
+      ],
+      "incorporation": "Accepted the avoided expiry writer and corrected the contention claim with primary PostgreSQL documentation."
+    },
+    {
+      "id": "journey-module-growth",
+      "claim_paraphrase": "The mixed responsibilities in journeys.rs will make it a dense module as features accumulate.",
+      "decision": "qualified",
+      "finding": "The current module contains HTTP handling, request validation, SQL transactions, and error mapping, directly coupled to PgPool. This is an observed testing/change tradeoff. Future bloat is hypothetical and not measured by this feature.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/services/backend/src/journeys.rs"
+      ],
+      "incorporation": "Added the present coupling tradeoff, while labeling future growth as a concern rather than an observed failure."
+    },
+    {
+      "id": "progress-command-name",
+      "claim_paraphrase": "The frontend command added by Java refactored is trackProgress.",
+      "decision": "rejected",
+      "finding": "The method is recordReservationProgress in HotelCommands and HttpHotelGateway.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/frontend/src/application/HotelCommands.ts",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/frontend/src/infrastructure/HttpHotelGateway.ts"
+      ],
+      "incorporation": "Used the verified method name in both posts."
+    },
+    {
+      "id": "scheduler-source-path",
+      "claim_paraphrase": "ReservationProgressAbandonmentScheduler.java is directly under com/stays/reservation.",
+      "decision": "rejected",
+      "finding": "The class is under adapter/in/scheduling; the supplied direct-package link does not identify the file at the pinned commit.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/services/reservation-service/src/main/java/com/stays/reservation/adapter/in/scheduling/ReservationProgressAbandonmentScheduler.java"
+      ],
+      "incorporation": "Added a corrected pinned scheduler reference."
+    },
+    {
+      "id": "java-funnel-event-names",
+      "claim_paraphrase": "Java architecture defines STARTED, SCREEN_VIEW, and CONFIRMED event names.",
+      "decision": "rejected",
+      "finding": "The enum is RESERVATION_STARTED, SCREEN_VIEWED, and RESERVATION_CONFIRMED. The analytics completion event remains client-driven and does not join a booking.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/ReservationFunnelEventType.java",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/services/reservation-service/src/main/resources/db/migration/V2__record_reservation_funnel_events.sql"
+      ],
+      "incorporation": "Retained verified event names and completion limitations."
+    },
+    {
+      "id": "first-compile-and-per-layer-tests",
+      "claim_paraphrase": "Java architecture passed on the first compile and has matching unit/integration tests for every layer.",
+      "decision": "rejected",
+      "finding": "The review has no audited compile/repair trace. The diff adds ReservationFunnelEventTest and extends ReservationIntegrationTest; it does not add a dedicated test for every new class. Fixed Clock and a captured event demonstrate real test seams.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/commit/102392dd97e75b0896bd24aa78923c0158a292d5",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/services/reservation-service/src/main/java/com/wayfarer/reservation/application/RecordReservationFunnelEventHandler.java",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/README.md"
+      ],
+      "incorporation": "Retained deterministic testability and reported test results without claiming compile history or per-class coverage."
+    },
+    {
+      "id": "lighthouse-equivalence",
+      "claim_paraphrase": "All five perfect Lighthouse values are equivalent feature-session audit evidence.",
+      "decision": "qualified",
+      "finding": "Java refactored explicitly did not rerun Lighthouse. Java architecture reports production frontend results without a desktop/mobile label. Java simple reports four categories on mobile simulation, Rust rebuilt four on desktop, and Rust greenfield five on both. These are unequal reported scopes.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/2bc09b8800faa4d7b8b3de4207279e24ad42e858/README.md",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/222ee5be2e5c09fac34ecb987b24cf3ec37e995b/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/168f09b79cfb359f975ea4b2156c8a38bb125554/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/14f526207e66b77cc22b38831d49c86bb92f1f91/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/9c1f8e7a37b9851a592fea34557d59e599c2fa0b/README.md"
+      ],
+      "incorporation": "Preserved the revision-specific audit matrix and delivery/measurement limits."
+    },
+    {
+      "id": "risk-quadrant",
+      "claim_paraphrase": "Arbitrary quadrant coordinates can rank architectural intrusion and maintenance risk.",
+      "decision": "rejected",
+      "finding": "The report supplies no measurable coordinate definitions, scoring procedure, or regression observations supporting the plotted values.",
+      "evidence": [
+        "maintenance-results.json"
+      ],
+      "incorporation": "Excluded the risk quadrant and used measured diffs plus behavior-specific comparisons."
+    },
+    {
+      "id": "tracking-caused-performance-regression",
+      "claim_paraphrase": "Tracking increased bundle/render cost and caused the greenfield Lighthouse recovery pass.",
+      "decision": "qualified",
+      "finding": "The README and commit sequence establish a later performance pass and its changes. No controlled before/after tracking comparison isolates the cause or time spent on this subtask.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/2bc09b8800faa4d7b8b3de4207279e24ad42e858/README.md",
+        "https://github.com/marcelomiyake/hotel-rust/commit/2ea4a547ed6c3e6391ca879c256a580b4e544dd5"
+      ],
+      "incorporation": "Retained the additional performance work as session scope, without attributing the regression solely to analytics."
+    },
+    {
+      "id": "greenfield-performance-revision",
+      "claim_paraphrase": "The greenfield performance commit can be linked using the supplied full hash beginning 2ea4a548.",
+      "decision": "rejected",
+      "finding": "The local revision for short hash 2ea4a54 resolves to 2ea4a547ed6c3e6391ca879c256a580b4e544dd5; the supplied full link used a different hash.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/commit/2ea4a547ed6c3e6391ca879c256a580b4e544dd5"
+      ],
+      "incorporation": "Recorded the verified revision in the reconciliation evidence."
+    }
+  ]
+}

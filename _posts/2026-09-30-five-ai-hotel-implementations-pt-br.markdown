@@ -18,7 +18,7 @@ As revisões inspecionadas oferecem três respostas diretas:
 - **O Rust greenfield tem o comportamento de cancelamento verificado mais robusto; o Rust reconstruído tem a topologia operacional mais simples.** O backend reescrito é menor e possui menos serviços, mas contém um bug reproduzível de corrupção de inventário e não mantém a estrutura arquitetural do backend Java. A preferência de manutenção depende de priorizarmos o comportamento correto atual ou uma plataforma mais simples para reparar e evoluir.
 - **A refatoração em Java aumenta a complexidade estrutural enquanto introduz pontos de desacoplamento úteis.** Ela adiciona portas, estados tipados e alguma validação de domínio, mas mantém quase intacta a orquestração existente e um componente React volumoso. Mais camadas não corrigiram, por si sós, os comportamentos herdados.
 
-Este estudo de caso comparativo é a **Parte I** de uma investigação em duas etapas sobre a manutenção de software gerado por IA. Aqui, analiso a qualidade basal dos snapshots existentes: se o design de negócio sobreviveu através de forks e reescritas, como cada arquitetura se comporta sob concorrência e falhas, e o que suas estruturas estáticas revelam. Na **Parte II**, medirei o custo prático de implementar uma nova funcionalidade em cada projeto, comparando esforço de desenvolvimento, iterações de prompt, raio de impacto (*blast radius*) e atrito de verificação entre as cinco arquiteturas.
+Este estudo de caso comparativo é a **Parte I** de uma investigação em duas etapas sobre a manutenção de software gerado por IA. Aqui, analiso a qualidade basal dos snapshots existentes: se o design de negócio sobreviveu através de forks e reescritas, como cada arquitetura se comporta sob concorrência e falhas, e o que suas estruturas estáticas revelam. Na [**Parte II**]({% link _posts/2026-10-01-five-ai-hotel-implementations-part-2-pt-br.markdown %}), comparo o esforço relatado para acrescentar rastreamento de abandono de reservas e examino o escopo das alterações, as evidências de verificação e a correção analítica nas cinco arquiteturas.
 
 ## As cinco implementações e a comparação real
 
@@ -372,11 +372,11 @@ Se precisasse adotar um repositório em Rust **hoje**, escolheria o greenfield c
 
 Para um projeto sucessor mantido por um time enxuto, minha aposta seria reparar e modularizar o Rust reconstruído. Sua topologia consolidada é altamente vantajosa, mas requer transições atômicas de estado, validação autoritativa no domínio e fronteiras nítidas de casos de uso. É aqui que concordo com o direcionamento operacional do Gemini, embora discorde de sua classificação irrestrita de manutenibilidade. Um experimento empírico de correção e evolução poderá justificar a escolha desse backend menor; as evidências atuais não determinam seu custo de correção nem o menor custo histórico de manutenção.
 
-## Olhando para a frente: Parte II e o custo de implementar uma nova funcionalidade
+## Parte II e outros experimentos de manutenção
 
 Esta primeira parte estabelece a base comparativa: como cada base de código se posiciona quanto à fidelidade aos requisitos, garantias de concorrência e complexidade estrutural. Contudo, o teste definitivo de uma arquitetura de software é a sua capacidade de responder a mudanças reais de negócio.
 
-Na **Parte II**, conduzirei um experimento empírico medindo o custo real de implementação de uma nova funcionalidade em todos os cinco projetos. Escolhendo um requisito de negócio concreto — como políticas personalizadas de overbooking por hotel ou regras sazonais de desconto — e implementando-o em cada base sob o mesmo harness automatizado de aceitação, avaliaremos como cada estilo arquitetural impacta a velocidade e a sustentabilidade do desenvolvimento:
+Na [**Parte II**]({% link _posts/2026-10-01-five-ai-hotel-implementations-part-2-pt-br.markdown %}), analiso a primeira funcionalidade nova: rastreamento de abandono de reservas entre telas do funil. As implementações e os registros de esforço dos READMEs permitem uma comparação observacional, com semânticas analíticas e escopos de auditoria distintos. Não estabelecem um contrato executável idêntico de aceitação nem relatam contagens de iterações de prompt. As mudanças abaixo continuam sendo candidatas úteis a experimentos controlados posteriores:
 
 | Tarefa de alteração | Evidência de aceitação exigida |
 | :--- | :--- |
@@ -389,7 +389,7 @@ Na **Parte II**, conduzirei um experimento empírico medindo o custo real de imp
 | Modificar interação de checkout ou gestão na interface | Avaliação da facilidade de evolução na tela e clareza de testes, além da mera contagem de pastas |
 | Gerar artefatos e inicializar a implantação | Fiação real de dependências e checagens de saúde validadas a partir de builds limpos |
 
-O experimento utilizará os mesmos snapshots de partida, especificações de tarefa, critérios de revisão e suítes de aceitação. Para cada implementação, a Parte II registrará:
+Um experimento controlado posterior deve usar os mesmos snapshots de partida, especificações de tarefa, critérios de revisão e suítes de aceitação. Para cada implementação, os próximos experimentos devem registrar:
 
 - **Esforço do desenvolvedor e do modelo:** tempo ativo de desenvolvimento, iterações de prompt e tentativas de correção necessárias até a aprovação nos testes.
 - **Raio de impacto (*blast radius*):** número de arquivos modificados, linhas adicionadas ou alteradas e efeitos colaterais em esquemas de banco, DTOs e controllers.
