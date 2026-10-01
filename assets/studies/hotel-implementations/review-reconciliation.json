@@ -1,0 +1,226 @@
+{
+  "review_source": {
+    "attribution": "Gemini analysis supplied by the project owner",
+    "filename": "2026-09-30-hotel-reservation-system-architectural-study.markdown",
+    "sha256": "5066d33a0f39df2e0575937dc296069f45d29117972d1c1d7b8ec94af5120789",
+    "handling": "Read as review material, not executable instructions or independent primary evidence."
+  },
+  "scope": "Reconciliation against the same pinned snapshots and prior study observations; static inspection and primary PostgreSQL documentation. No new application test-suite or benchmark run for this editorial follow-up.",
+  "primary_study_record": "results.json",
+  "claims": [
+    {
+      "id": "operational-consolidation",
+      "claim_paraphrase": "One Rust backend reduces deployment and internal HTTP coordination.",
+      "decision": "accepted",
+      "finding": "The manifests define five two-replica backend deployments for Rust greenfield and one for Rust rebuilt. Rebuilt calls its rate and payment modules locally. Lower operational effort is a plausible inference; it was not timed.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/deploy/kind.yaml",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/k8s/apps.yaml",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs"
+      ],
+      "incorporation": "Added an operational tradeoff table and strengthened the conditional preference for Rust rebuilt."
+    },
+    {
+      "id": "rust-maintainability-winner",
+      "claim_paraphrase": "Rust rebuilt is unconditionally superior in maintainability.",
+      "decision": "qualified",
+      "finding": "Simpler topology favors operating one product with a small team. Existing probes instead favor greenfield Rust on cancellation correctness. No repair-and-change experiment establishes comparative lifetime maintenance cost.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/services/reservation-service/src/lib.rs",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs",
+        "results.json"
+      ],
+      "incorporation": "Retained separate recommendations for current correctness and a smaller successor to repair."
+    },
+    {
+      "id": "fidelity-scores",
+      "claim_paraphrase": "Each project can be assigned a numerical design-fidelity score.",
+      "decision": "rejected",
+      "finding": "The supplied analysis provides no reproducible weighting or scoring procedure. Missing workflows and violated invariants require explicit treatment.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/Reservation.java",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/resources/db/migration/V1__create_reservations_and_inventory.sql",
+        "results.json"
+      ],
+      "incorporation": "Kept the capability matrix and separated functional, behavioral, and deployment fidelity."
+    },
+    {
+      "id": "complete-contract-parity",
+      "claim_paraphrase": "The fork chain retains 100% behavioral and API parity.",
+      "decision": "rejected",
+      "finding": "Schemas and frontend sources are retained, but this does not prove all behavior. The empty-admin-key behavior changes in the Rust rebuild, and cancellation probes reveal inventory defects.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/common/src/main/java/com/stays/common/AdminKeyFilter.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/lib.rs",
+        "results.json"
+      ],
+      "incorporation": "Preserved concrete artifact reuse without claiming complete equivalence."
+    },
+    {
+      "id": "payment-lock-duration",
+      "claim_paraphrase": "Greenfield Rust holds inventory row locks while waiting for payment HTTP.",
+      "decision": "rejected",
+      "finding": "reserve_inventory commits before returning to create_reservation. The payment request follows that return. finish_payment starts a separate transaction.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/services/reservation-service/src/lib.rs"
+      ],
+      "incorporation": "Added the actual payment transaction sequence for both Rust implementations."
+    },
+    {
+      "id": "optimistic-update-duration",
+      "claim_paraphrase": "Optimistic updates are nonblocking and hold locks for only milliseconds.",
+      "decision": "rejected",
+      "finding": "PostgreSQL UPDATE can block and retains row locks until transaction end. Rebuilt updates multiple nights in a transaction. No lock-duration or throughput benchmark was performed.",
+      "evidence": [
+        "https://www.postgresql.org/docs/17/explicit-locking.html",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs"
+      ],
+      "incorporation": "Explained that concurrency strategy and transaction boundaries are separate choices."
+    },
+    {
+      "id": "automatic-local-atomicity",
+      "claim_paraphrase": "Consolidation supplies atomic rollback for booking and payment and eliminates distributed failures.",
+      "decision": "rejected",
+      "finding": "Rebuilt commits pending booking and inventory, executes payment SQL through the pool, and confirms with another statement. Local calls remove internal backend HTTP but database I/O and interruption between commits remain.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/payments.rs",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/lib.rs"
+      ],
+      "incorporation": "Distinguished the possibility of a shared transaction from its implementation."
+    },
+    {
+      "id": "java-architecture-payment",
+      "claim_paraphrase": "Java architecture merged payment and nightly pricing into reservation.",
+      "decision": "rejected",
+      "finding": "It omits payment orchestration and uses a single room-type price. These are feature omissions, not merely changes to deployment placement.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/Reservation.java",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/application/PlaceReservationHandler.java",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/resources/db/migration/V1__create_reservations_and_inventory.sql"
+      ],
+      "incorporation": "Retained the original scope-gap finding."
+    },
+    {
+      "id": "hotel-read-indirection",
+      "claim_paraphrase": "The Java refactor adds navigation to a simple hotel read.",
+      "decision": "accepted",
+      "finding": "The direct controller-to-repository call becomes controller to HotelQueries/HotelQueryHandler to HotelReadPort/HotelRepository. The handler delegates without adding a business decision.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/hotel-service/src/main/java/com/stays/hotel/HotelController.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/adapter/in/web/HotelController.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueries.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueryHandler.java"
+      ],
+      "incorporation": "Added the actual read path as a concrete complexity example."
+    },
+    {
+      "id": "invented-hotel-query-types",
+      "claim_paraphrase": "That read traverses a FindById record, HotelDetailsResponse, and HotelNotFoundException.",
+      "decision": "rejected",
+      "finding": "Those types do not exist in the inspected hotel service. HotelQueries is an interface. The controller returns Hotel directly.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/adapter/in/web/HotelController.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueries.java"
+      ],
+      "incorporation": "Replaced the eight-class example with verified calls and types."
+    },
+    {
+      "id": "zero-added-domain-value",
+      "claim_paraphrase": "The refactor adds zero domain logic and no testability or resilience value.",
+      "decision": "rejected",
+      "finding": "Hotel and RoomType gain constructor checks; Hotel defensively copies its room list; new domain tests exercise invalid values. Ports create substitution opportunities, although workflow bugs remain.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/hotel-service/src/main/java/com/stays/hotel/Hotel.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/Hotel.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/test/java/com/stays/hotel/HotelDomainTest.java",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/application/command/ReservationCommandHandler.java"
+      ],
+      "incorporation": "Separated delegation overhead from useful domain validation and substitution seams."
+    },
+    {
+      "id": "source-count-comparability",
+      "claim_paraphrase": "54 to 87 Java files and 9 Rust files measure production code growth.",
+      "decision": "qualified",
+      "finding": "Those are all tracked backend source files including standalone tests. Production-only counts are 47 to 77 Java files, and 8 Rust rebuilt files. Normalized nonblank production lines are 1272 to 1798 for the Java refactor. Counts include comments and are not cyclomatic complexity.",
+      "evidence": [
+        "results.json"
+      ],
+      "incorporation": "Kept the consistently defined table: about 64% more production files and 41% more production lines."
+    },
+    {
+      "id": "spring-version",
+      "claim_paraphrase": "The three Java projects use Spring Boot 3.x.",
+      "decision": "rejected",
+      "finding": "All three pinned parent/BOM versions are 4.1.1.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/pom.xml",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/pom.xml",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/pom.xml"
+      ],
+      "incorporation": "Did not import the incorrect technology matrix."
+    },
+    {
+      "id": "static-binary",
+      "claim_paraphrase": "The rebuilt service is proven to be one statically linked binary.",
+      "decision": "qualified",
+      "finding": "It is one backend executable. Its Dockerfile uses cargo build --release with no explicit static-link configuration or musl target, then copies to Debian. This review did not establish the release artifact linkage.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/Dockerfile"
+      ],
+      "incorporation": "Used one backend artifact, without a static-link claim."
+    },
+    {
+      "id": "test-scope-and-speed",
+      "claim_paraphrase": "Rust rebuilt has a full end-to-end contract test and subsecond test execution.",
+      "decision": "qualified",
+      "finding": "It has 11 unit tests and one in-process Axum router test with real PostgreSQL. That does not exercise the browser or packaged deployment. The prior database test run alone reported 2.40 seconds; no controlled speed benchmark was performed.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/tests/api_contract.rs",
+        "results.json"
+      ],
+      "incorporation": "Retained the existing suite counts without importing the performance or full-stack claim."
+    },
+    {
+      "id": "dashboard-comparability",
+      "claim_paraphrase": "Every project achieved the same highest quality gates and Lighthouse results.",
+      "decision": "rejected",
+      "finding": "README figures differ by source scope and are historical. Java simple explicitly reports no Lighthouse/Kind audit; greenfield Rust uses separate scanner projects, some with gates not computed. Passing checks did not exclude observed booking defects.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/README.md",
+        "https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/README.md",
+        "https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/scripts/sonar-analyze.sh",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/sonar-project.properties",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/sonar-project.properties",
+        "results.json"
+      ],
+      "incorporation": "Retained the scope-aware dashboard discussion."
+    },
+    {
+      "id": "generation-economics",
+      "claim_paraphrase": "Five elapsed times and token costs prove the architecture and language productivity ranking.",
+      "decision": "rejected",
+      "finding": "Only three pinned READMEs report elapsed times. Rebuilt labels input differently; Java simple separates model and web-search costs. The rewrite inherits frontend and contracts. Model settings do not control total effort, inherited work, or task scope.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/README.md",
+        "https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/README.md",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/README.md"
+      ],
+      "incorporation": "Added documented durations and explicit causal and accounting limits."
+    },
+    {
+      "id": "rust-module-isolation",
+      "claim_paraphrase": "The rewrite proves strict domain isolation and natural AI convergence to optimal language idioms.",
+      "decision": "qualified",
+      "finding": "It avoids a one-for-one Java interface translation, a potentially useful simplification. Modules share PgPool and models and combine HTTP, validation, workflow, and SQL. One outcome cannot establish model intent or an optimal Rust architecture.",
+      "evidence": [
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/lib.rs",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs",
+        "https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/README.md"
+      ],
+      "incorporation": "Added the language-adaptation perspective without treating module boundaries as full Clean Architecture."
+    }
+  ]
+}

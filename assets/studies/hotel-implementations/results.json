@@ -1,0 +1,553 @@
+{
+  "study_date": "2026-09-30",
+  "timezone": "America/Sao_Paulo",
+  "scope": "Five pinned local checkouts; code inspection, existing tests, and selected adversarial probes. No load benchmark or production deployment.",
+  "inventory": [
+    {
+      "repo": "hotel-rust",
+      "sha": "961071eaa773c6f0e37c438da8336d2ac2f466eb",
+      "files": 82,
+      ".rs": {
+        "files": 15,
+        "lines": 4239
+      },
+      ".java": {
+        "files": 0,
+        "lines": 0
+      },
+      ".ts": {
+        "files": 12,
+        "lines": 717
+      },
+      ".tsx": {
+        "files": 3,
+        "lines": 637
+      },
+      ".vue": {
+        "files": 0,
+        "lines": 0
+      },
+      ".sql": {
+        "files": 4,
+        "lines": 152
+      }
+    },
+    {
+      "repo": "hotel-ddd-cleanarch-cqrs",
+      "sha": "47b0c3b79a96ba94c433e54639bfe9cdc5be1541",
+      "files": 141,
+      ".rs": {
+        "files": 0,
+        "lines": 0
+      },
+      ".java": {
+        "files": 54,
+        "lines": 1887
+      },
+      ".ts": {
+        "files": 14,
+        "lines": 573
+      },
+      ".tsx": {
+        "files": 8,
+        "lines": 823
+      },
+      ".vue": {
+        "files": 0,
+        "lines": 0
+      },
+      ".sql": {
+        "files": 3,
+        "lines": 103
+      }
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni",
+      "sha": "2945cbb7fdd929d29ec1671654d6dd09486d15a0",
+      "files": 107,
+      ".rs": {
+        "files": 0,
+        "lines": 0
+      },
+      ".java": {
+        "files": 54,
+        "lines": 2042
+      },
+      ".ts": {
+        "files": 8,
+        "lines": 301
+      },
+      ".tsx": {
+        "files": 3,
+        "lines": 1558
+      },
+      ".vue": {
+        "files": 0,
+        "lines": 0
+      },
+      ".sql": {
+        "files": 4,
+        "lines": 129
+      }
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs",
+      "sha": "429f97f28ffaa47ba208463fd11e555763a07b58",
+      "files": 152,
+      ".rs": {
+        "files": 0,
+        "lines": 0
+      },
+      ".java": {
+        "files": 87,
+        "lines": 2855
+      },
+      ".ts": {
+        "files": 13,
+        "lines": 482
+      },
+      ".tsx": {
+        "files": 4,
+        "lines": 1567
+      },
+      ".vue": {
+        "files": 0,
+        "lines": 0
+      },
+      ".sql": {
+        "files": 4,
+        "lines": 129
+      }
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust",
+      "sha": "fba23789a507bf3179a214560ee7f215ad9eaa74",
+      "files": 67,
+      ".rs": {
+        "files": 9,
+        "lines": 2351
+      },
+      ".java": {
+        "files": 0,
+        "lines": 0
+      },
+      ".ts": {
+        "files": 13,
+        "lines": 482
+      },
+      ".tsx": {
+        "files": 4,
+        "lines": 1567
+      },
+      ".vue": {
+        "files": 0,
+        "lines": 0
+      },
+      ".sql": {
+        "files": 4,
+        "lines": 129
+      }
+    }
+  ],
+  "normalized_metrics": [
+    {
+      "repo": "hotel-rust",
+      "backend": {
+        "prod_files": 15,
+        "prod_nonblank_lines": 2065,
+        "test_files_or_modules": 8,
+        "test_nonblank_lines": 1950,
+        "largest": [
+          [
+            "services/reservation-service/src/lib.rs",
+            652
+          ],
+          [
+            "services/management-service/src/lib.rs",
+            375
+          ],
+          [
+            "services/hotel-service/src/lib.rs",
+            358
+          ]
+        ]
+      },
+      "frontend": {
+        "prod_files": 7,
+        "prod_nonblank_lines": 809,
+        "test_files_or_modules": 7,
+        "test_nonblank_lines": 402,
+        "largest": [
+          [
+            "web/src/App.tsx",
+            413
+          ],
+          [
+            "web/src/api.ts",
+            130
+          ],
+          [
+            "web/src/types.ts",
+            100
+          ]
+        ]
+      },
+      "application_deployments": 6
+    },
+    {
+      "repo": "hotel-ddd-cleanarch-cqrs",
+      "backend": {
+        "prod_files": 50,
+        "prod_nonblank_lines": 1210,
+        "test_files_or_modules": 4,
+        "test_nonblank_lines": 400,
+        "largest": [
+          [
+            "services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/out/postgres/JdbcRoomInventory.java",
+            93
+          ],
+          [
+            "services/catalog-service/src/main/java/com/wayfarer/catalog/adapter/out/postgres/JdbcHotelCatalog.java",
+            87
+          ],
+          [
+            "services/reservation-service/src/main/java/com/wayfarer/reservation/domain/Reservation.java",
+            81
+          ]
+        ]
+      },
+      "frontend": {
+        "prod_files": 14,
+        "prod_nonblank_lines": 938,
+        "test_files_or_modules": 6,
+        "test_nonblank_lines": 299,
+        "largest": [
+          [
+            "web/src/presentation/pages.tsx",
+            214
+          ],
+          [
+            "web/src/presentation/App.tsx",
+            188
+          ],
+          [
+            "web/src/presentation/home-components.tsx",
+            103
+          ]
+        ]
+      },
+      "application_deployments": 3
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni",
+      "backend": {
+        "prod_files": 47,
+        "prod_nonblank_lines": 1272,
+        "test_files_or_modules": 7,
+        "test_nonblank_lines": 465,
+        "largest": [
+          [
+            "services/hotel-service/src/main/java/com/stays/hotel/HotelRepository.java",
+            147
+          ],
+          [
+            "services/reservation-service/src/main/java/com/stays/reservation/InventoryRepository.java",
+            104
+          ],
+          [
+            "services/reservation-service/src/main/java/com/stays/reservation/ReservationRepository.java",
+            85
+          ]
+        ]
+      },
+      "frontend": {
+        "prod_files": 5,
+        "prod_nonblank_lines": 1411,
+        "test_files_or_modules": 4,
+        "test_nonblank_lines": 294,
+        "largest": [
+          [
+            "frontend/src/App.tsx",
+            1241
+          ],
+          [
+            "frontend/src/types.ts",
+            89
+          ],
+          [
+            "frontend/src/date.ts",
+            37
+          ]
+        ]
+      },
+      "application_deployments": 5
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs",
+      "backend": {
+        "prod_files": 77,
+        "prod_nonblank_lines": 1798,
+        "test_files_or_modules": 10,
+        "test_nonblank_lines": 565,
+        "largest": [
+          [
+            "services/hotel-service/src/main/java/com/stays/hotel/adapter/out/jdbc/HotelRepository.java",
+            153
+          ],
+          [
+            "services/reservation-service/src/main/java/com/stays/reservation/adapter/out/jdbc/InventoryRepository.java",
+            106
+          ],
+          [
+            "services/reservation-service/src/main/java/com/stays/reservation/adapter/out/jdbc/ReservationRepository.java",
+            91
+          ]
+        ]
+      },
+      "frontend": {
+        "prod_files": 10,
+        "prod_nonblank_lines": 1538,
+        "test_files_or_modules": 5,
+        "test_nonblank_lines": 325,
+        "largest": [
+          [
+            "frontend/src/presentation/HotelApp.tsx",
+            1239
+          ],
+          [
+            "frontend/src/types.ts",
+            89
+          ],
+          [
+            "frontend/src/infrastructure/HttpHotelGateway.ts",
+            67
+          ]
+        ]
+      },
+      "application_deployments": 5
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust",
+      "backend": {
+        "prod_files": 8,
+        "prod_nonblank_lines": 1532,
+        "test_files_or_modules": 5,
+        "test_nonblank_lines": 654,
+        "largest": [
+          [
+            "services/backend/src/reservations.rs",
+            539
+          ],
+          [
+            "services/backend/src/hotel.rs",
+            303
+          ],
+          [
+            "services/backend/src/models.rs",
+            212
+          ]
+        ]
+      },
+      "frontend": {
+        "prod_files": 10,
+        "prod_nonblank_lines": 1538,
+        "test_files_or_modules": 5,
+        "test_nonblank_lines": 325,
+        "largest": [
+          [
+            "frontend/src/presentation/HotelApp.tsx",
+            1239
+          ],
+          [
+            "frontend/src/types.ts",
+            89
+          ],
+          [
+            "frontend/src/infrastructure/HttpHotelGateway.ts",
+            67
+          ]
+        ]
+      },
+      "application_deployments": 2
+    }
+  ],
+  "rust_probes": {
+    "greenfield_replay_with_rates_down": {
+      "http_status": 502,
+      "stored_status": "paid"
+    },
+    "greenfield_read_without_guest_credentials": {
+      "http_status": 200
+    },
+    "greenfield_concurrent_cancel": {
+      "http_statuses": [
+        200,
+        200
+      ],
+      "expected_reserved": 1,
+      "actual_reserved": 1
+    },
+    "greenfield_payment_unavailable": {
+      "http_status": 502,
+      "stored_status": "pending"
+    },
+    "rebuilt_read_without_guest_credentials": {
+      "http_status": 200
+    },
+    "rebuilt_concurrent_cancel": {
+      "http_statuses": [
+        200,
+        200
+      ],
+      "expected_reserved": 1,
+      "actual_reserved": 0
+    },
+    "rebuilt_capacity_validation": {
+      "http_status": 200,
+      "requested_guests": 999,
+      "room_max_guests": 2,
+      "stored_guests": 999
+    },
+    "rebuilt_empty_admin_key": {
+      "http_status": 200,
+      "configured_key": "empty",
+      "supplied_key": "empty"
+    }
+  },
+  "reported_model": "Codex, GPT-6 Luna, Max effort (README attribution and owner confirmation)",
+  "metrics_method": "git ls-files; backend Java/Rust production source; frontend TypeScript/TSX under src for production, test directories and .test files separately; nonblank physical lines including comments; separate trailing Rust #[cfg(test)] modules; exclude SQL, CSS, configuration, generated output, dependencies and docs.",
+  "java_architecture_probes": {
+    "ddd_concurrent_cancel": {
+      "http_statuses": [
+        200,
+        200
+      ],
+      "measure": "available_rooms",
+      "expected": 6,
+      "actual": 7
+    },
+    "ddd_read_without_guest_credentials": {
+      "http_status": 400
+    }
+  },
+  "existing_suite_results": [
+    {
+      "repo": "hotel-rust",
+      "backend_tests_passed": 34,
+      "frontend_tests_passed": 19,
+      "frontend_build": "passed",
+      "backend_test_skips": 0,
+      "rust_fmt": "passed",
+      "rust_clippy_with_warnings_denied": "passed"
+    },
+    {
+      "repo": "hotel-ddd-cleanarch-cqrs",
+      "backend_tests_passed": 17,
+      "frontend_tests_passed": 26,
+      "frontend_build": "passed",
+      "backend_test_skips": 0,
+      "java_clean_verify": "passed"
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni",
+      "backend_tests_passed": 19,
+      "frontend_tests_passed": 13,
+      "frontend_build": "passed",
+      "backend_test_skips": 0,
+      "java_clean_verify": "passed"
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs",
+      "backend_tests_passed": 24,
+      "frontend_tests_passed": 15,
+      "frontend_build": "passed",
+      "backend_test_skips": 0,
+      "java_clean_verify": "passed"
+    },
+    {
+      "repo": "hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust",
+      "backend_tests_passed": 12,
+      "frontend_tests_passed": 15,
+      "frontend_build": "passed",
+      "backend_test_skips": 0,
+      "rust_fmt": "passed",
+      "rust_clippy_with_warnings_denied": "passed"
+    }
+  ],
+  "startup_observations": {
+    "java_simple_and_refactored": "All four generated service JARs in each project lack Main-Class; Dockerfiles use java -jar. Direct Java simple reservation JAR launch failed.",
+    "java_simple_classpath_launch": "Failed due to missing RestClient.Builder bean. This second failure was not independently executed for Java refactored."
+  },
+  "not_run": [
+    "Fresh SonarCloud scans",
+    "Lighthouse",
+    "Full Kind builds/deployments",
+    "Real payment provider integration",
+    "Load/memory/latency benchmarks",
+    "Backup restore/failover"
+  ],
+  "reproduction_harness": {
+    "file": "probes.py",
+    "result": "Completed successfully; reproduced the recorded Rust outcomes and Java architecture double-release",
+    "command": "python3 probes.py --projects-root /path/to/checkouts --output-dir /tmp/hotel-study-results",
+    "meaning_of_success": "Observation collection succeeded; known application defects remain."
+  },
+  "reproduced_observations": {
+    "greenfield_replay_with_rates_down": {
+      "http_status": 502,
+      "stored_status": "paid"
+    },
+    "greenfield_read_without_guest_credentials": {
+      "http_status": 200
+    },
+    "greenfield_concurrent_cancel": {
+      "http_statuses": [
+        200,
+        200
+      ],
+      "expected_reserved": 1,
+      "actual_reserved": 1
+    },
+    "greenfield_payment_unavailable": {
+      "http_status": 502,
+      "stored_status": "pending"
+    },
+    "rebuilt_read_without_guest_credentials": {
+      "http_status": 200
+    },
+    "rebuilt_concurrent_cancel": {
+      "http_statuses": [
+        200,
+        200
+      ],
+      "expected_reserved": 1,
+      "actual_reserved": 0
+    },
+    "rebuilt_capacity_validation": {
+      "http_status": 200,
+      "requested_guests": 999,
+      "room_max_guests": 2,
+      "stored_guests": 999
+    },
+    "rebuilt_empty_admin_key": {
+      "http_status": 200,
+      "configured_key": "empty",
+      "supplied_key": "empty"
+    },
+    "java_architecture_concurrent_cancel": {
+      "http_statuses": [
+        200,
+        200
+      ],
+      "expected_available": 6,
+      "actual_available": 7,
+      "physical_capacity": 7
+    }
+  },
+  "review_reconciliation": {
+    "record": "review-reconciliation.json",
+    "source_sha256": "5066d33a0f39df2e0575937dc296069f45d29117972d1c1d7b8ec94af5120789",
+    "claims_reviewed": 18,
+    "method": "Reconciliation against the same pinned snapshots and prior study observations; static inspection and primary PostgreSQL documentation. No new application test-suite or benchmark run for this editorial follow-up."
+  }
+}
