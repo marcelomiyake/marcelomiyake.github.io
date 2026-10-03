@@ -5,8 +5,10 @@ seo_title: "AI Hotel Maintenance Compared (Part II) | Marcelo Miyake"
 date: 2026-10-01 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing, software-maintenance]
-description: "Part II compares effort, tokens, code changes, and analytics correctness when five AI-built hotel systems gain reservation abandonment tracking."
+description: "How I assess the cost of a feature by comparing reported effort with the payment and analytics behavior delivered across five hotel systems."
 ---
+
+When I assess the cost of a change, I include whether the implementation delivers the requested business behavior. Here I follow one feature across five hotel systems and compare the reported effort with the resulting payment and analytics logic. This is how I examine maintenance claims against what the code actually does.
 
 In [Part I]({% link _posts/2026-09-30-five-ai-hotel-implementations.markdown %}), I compared five AI-built hotel reservation systems before their next feature. The Java refactor added interfaces and handlers; the Rust rewrite consolidated services. Both offered plausible maintenance benefits. This time, we can examine what happened when each system had to change.
 

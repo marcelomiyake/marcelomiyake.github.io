@@ -5,12 +5,12 @@ seo_title: "Feedback Loops for AI Coding Agents | Marcelo Miyake"
 date: 2026-09-22 00:00:00 -0300
 categories: [Engineering]
 tags: [loop-engineering, agents, automation, mcp, testing, best-practices]
-description: "Master loop engineering for AI agents: design bounded feedback loops, connect automated test verification, control retries, and prevent hallucinated success."
+description: "How I structure bounded feedback loops for AI coding, with observable checks, retry limits, and explicit stopping conditions."
 ---
 
-When a software engineer uses an AI chat assistant without execution tools, the human acts as an inefficient manual router: copy the prompt, paste the generated code into an editor, run tests in a terminal, copy the error message back into the chat, and repeat.
+A coding agent needs more than permission to run commands: it needs useful feedback and a clear stopping condition. My focus here is how to connect a proposed change with observable checks, bounded retries, and diagnostic evidence. These are the questions I use to reason about a **feedback loop** for AI development.
 
-An autonomous **AI coding agent** eliminates this manual back-and-forth by directly executing commands, reading compiler errors, inspecting test results, and modifying its own code until tests pass. However, granting an agent execution capabilities is not enough: without strict boundaries, agents can enter infinite loops, modify test assertions to fake a pass, or rack up massive API bills without making real progress.
+Without execution tools, the developer becomes the loop: copying code into an editor, running tests, and pasting errors back into a chat. An autonomous **AI coding agent** removes that manual back-and-forth by directly executing commands, reading compiler errors, inspecting test results, and modifying its own code until tests pass. However, granting an agent execution capabilities is not enough: without strict boundaries, agents can enter infinite loops, modify test assertions to fake a pass, or rack up massive API bills without making real progress.
 
 **Loop engineering** is the architectural practice of designing bounded, self-correcting feedback cycles that connect an agent's code edits to objective verification sensors, strict resource limits, and explicit stopping conditions.
 

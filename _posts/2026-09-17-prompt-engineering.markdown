@@ -5,10 +5,10 @@ seo_title: "Prompt Engineering for Developers | Marcelo Miyake"
 date: 2026-09-17 00:00:00 -0300
 categories: [Engineering]
 tags: [prompt-engineering, ai, llm, coding, best-practices]
-description: "Learn how to write effective AI coding prompts with explicit scope, relevant context, testable acceptance criteria, and systematic evaluation."
+description: "How I turn an AI coding request into an engineering brief with explicit scope, constraints, examples, and acceptance checks."
 ---
 
-When you tell an AI coding assistant to "build a login screen," you leave critical architectural and product decisions open: which UI framework to use, how authentication tokens are stored, how error states appear, and what actually counts as finished. The model will fill those gaps with reasonable guesses, but those guesses often fail to match your production codebase.
+I treat a coding prompt as an engineering brief: it should make the intended behavior, constraints, and completion criteria clear. A request such as "build a login screen" leaves important decisions open. In this article, I show how I make those decisions visible before asking an agent to implement them.
 
 **Prompt engineering** for developers is the discipline of structuring instructions, technical context, and constraints so an AI assistant can produce code that fits the task and codebase. Clearer prompts reduce ambiguity, but the resulting code still needs review and verification.
 

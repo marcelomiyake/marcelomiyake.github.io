@@ -23,5 +23,15 @@ Jekyll::Hooks.register [:pages, :documents], :post_render do |page|
   html.css('.toc-trigger').each { |button| button['aria-label'] = portuguese ? 'Conteúdo' : 'Contents' }
   html.at_css('#back-to-top')&.[]=('aria-label', portuguese ? 'Voltar ao topo' : 'Back to top')
   html.at_css('meta[name="viewport"]')&.[]=('content', 'width=device-width, initial-scale=1, viewport-fit=cover')
+  if page.data['layout'] == 'post' && (header = html.at_css('main article > header'))
+    disclosure = Nokogiri::XML::Node.new('p', html)
+    disclosure['class'] = 'ai-authorship small mt-3'
+    disclosure.content = if portuguese
+                           page.site.data['locales']['pt-BR']['ai_disclosure']
+                         else
+                           page.site.config['ai_disclosure']
+                         end
+    header.add_child(disclosure)
+  end
   page.output = html.to_html
 end

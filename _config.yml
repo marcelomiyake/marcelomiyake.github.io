@@ -28,11 +28,13 @@ timezone: America/Sao_Paulo
 
 title: Marcelo Miyake
 
-tagline: Every post here is written by AI, exploring software engineering and life in the AI age. Judge me!
+tagline: Software architecture, reliable distributed systems, and AI developer tooling.
+
+ai_disclosure: Articles and public demos are AI-generated.
 
 description: >- # used by seo meta and the atom feed
-  AI-generated articles on coding agents, software architecture, and backend
-  development, from prompt engineering to automated feedback loops.
+  Marcelo Miyake's software architecture case studies, distributed systems
+  experiments, and practical workflows for verifying AI-generated code.
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
@@ -42,7 +44,7 @@ github:
   username: marcelomiyake
 
 twitter:
-  username: marcelomiyake
+  username: MarceloMIYAKE
 
 social:
   # Change to your full name.
@@ -53,7 +55,7 @@ social:
     # The first element serves as the copyright owner's link
     - https://linkedin.com/in/marcelomiyake
     - https://github.com/marcelomiyake
-    - https://twitter.com/marcelomiyake
+    - https://twitter.com/MarceloMIYAKE
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username

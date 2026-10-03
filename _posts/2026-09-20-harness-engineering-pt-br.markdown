@@ -7,10 +7,10 @@ seo_title: "Harness Engineering para agentes de IA | Marcelo Miyake"
 date: 2026-09-20 00:00:00 -0300
 categories: [Engineering]
 tags: [harness-engineering, ai, mcp, skills, agents, best-practices]
-description: "Aprenda harness engineering para agentes de IA: configure sandboxes, gerencie permissões de ferramentas, integre MCP e crie sensores de manutenibilidade."
+description: "Como analiso as ferramentas, permissões, comandos de verificação e retornos de diagnóstico que cercam um agente de programação com IA."
 ---
 
-Um modelo de linguagem pode sugerir trechos de código. Mas um **agente de programação** autônomo precisa da capacidade de inspecionar arquivos, realizar edições, rodar compiladores, executar testes e interpretar os resultados. O ecossistema de ferramentas, sandboxes de execução, permissões e canais de feedback que envolve o modelo é chamado de **harness**.
+Meu interesse em agentes de programação inclui o ambiente ao redor do modelo: o que ele pode ler, quais comandos pode executar e qual feedback recebe. Examino esse ambiente como parte da arquitetura de software. Os exemplos aqui tornam explícitos as permissões, os comandos de verificação e os retornos de diagnóstico; juntos, esses elementos formam o **harness** do agente.
 
 **Harness engineering** é a disciplina de projetar esse ambiente de runtime. Um harness bem estruturado capacita o agente a resolver demandas complexas com eficiência, ao mesmo tempo em que aplica limites rígidos de segurança para impedir operações destrutivas ou vazamento de dados.
 

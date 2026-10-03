@@ -21,7 +21,7 @@ files.each do |file|
   abort "#{file}: image missing alt" unless html.css('img:not([alt])').empty?
   html.css('script[type="application/ld+json"]').each { |node| JSON.parse(node.text) }
   robots = html.at_css('meta[name="robots"]')['content']
-  if file == '_site/404.html'
+  if File.basename(file) == '404.html'
     abort '404 must be noindex' unless robots.include?('noindex')
     next
   end

@@ -5,10 +5,10 @@ seo_title: "Harness Engineering for AI Agents | Marcelo Miyake"
 date: 2026-09-20 00:00:00 -0300
 categories: [Engineering]
 tags: [harness-engineering, ai, mcp, skills, agents, best-practices]
-description: "Master harness engineering for AI agents: design sandboxed execution, manage tool permissions, integrate MCP, and build actionable maintainability feedback."
+description: "How I reason about the tools, permissions, verification commands, and diagnostic feedback surrounding an AI coding agent."
 ---
 
-An AI language model can suggest code snippets. But an autonomous **coding agent** needs the ability to read repository files, make edits, run compilers, execute tests, and observe the results. The collection of tools, execution sandboxes, permissions, and feedback channels surrounding the model is called its **harness**.
+My interest in coding agents includes the environment around the model: what it can read, which commands it can run, and what feedback it receives. I examine that environment as part of the software architecture. The examples here focus on making permissions, verification commands, and diagnostic output explicit; together, these form the agent's **harness**.
 
 **Harness engineering** is the discipline of designing this runtime environment. A well-engineered harness gives an agent the capabilities it needs to complete engineering tasks while enforcing strict security boundaries to prevent unauthorized operations or data corruption.
 

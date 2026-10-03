@@ -5,10 +5,10 @@ seo_title: "Context Engineering for AI Agents | Marcelo Miyake"
 date: 2026-09-19 00:00:00 -0300
 categories: [Engineering]
 tags: [context-engineering, ai, agents, documentation, microservices, agents-md, best-practices]
-description: "Master context engineering for AI agents: optimize context windows, structure repository guidance, use API contracts, and navigate microservices."
+description: "How I organize repository guidance, current API contracts, and service ownership so AI coding agents can work from relevant context."
 ---
 
-Even the clearest prompt will fail if an AI coding agent references an outdated API contract or edits the wrong microservice. While **prompt engineering** focuses on formulating clear instructions, **context engineering** is the discipline of selecting, retrieving, and structuring the exact knowledge an agent needs during execution.
+When I think about context for a coding agent, I start with the information needed to make a specific change: which service owns the behavior, which API contract is current, and which constraints apply. This article develops that approach to organizing repository knowledge. **Context engineering** connects the coding request with the facts the agent needs to act on it.
 
 That context includes repository guidelines, source code, data schemas, API contracts, environment variables, tool outputs, and execution history. An internal file only helps if the agent can discover, read, and understand it. As Anthropic notes in [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), supplying high-signal context is the single most effective way to improve agent autonomy and accuracy.
 

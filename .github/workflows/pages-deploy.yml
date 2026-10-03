@@ -42,6 +42,9 @@ jobs:
           ruby-version: 3.3
           bundler-cache: true
 
+      - name: Check theme overrides
+        run: bundle exec ruby tools/check-theme-layouts.rb
+
       - name: Build site
         run: bundle exec jekyll b -d "_site${{ steps.pages.outputs.base_path }}"
         env:
@@ -52,6 +55,7 @@ jobs:
           bundle exec htmlproofer _site \
             \-\-disable-external \
             \-\-ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
+          bundle exec ruby tools/check-seo.rb
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v5

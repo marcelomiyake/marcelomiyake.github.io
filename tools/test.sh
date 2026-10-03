@@ -56,6 +56,9 @@ main() {
 
   read_baseurl
 
+  # check theme overrides
+  bundle exec ruby tools/check-theme-layouts.rb
+
   # build
   JEKYLL_ENV=production bundle exec jekyll b \
     -d "$SITE_DIR$_baseurl" -c "$_config"
@@ -64,6 +67,8 @@ main() {
   bundle exec htmlproofer "$SITE_DIR" \
     --disable-external \
     --ignore-urls "/^http:\/\/127.0.0.1/,/^http:\/\/0.0.0.0/,/^http:\/\/localhost/"
+
+  bundle exec ruby tools/check-seo.rb
 }
 
 while (($#)); do

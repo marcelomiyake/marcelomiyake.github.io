@@ -7,10 +7,10 @@ seo_title: "System Design com IA | Marcelo Miyake"
 date: 2026-09-23 00:00:00 -0300
 categories: [Engineering]
 tags: [system-design, architecture, ai, agents, documentation, best-practices]
-description: "Crie documentos de System Design com IA: estruture briefs técnicos, analise trade-offs de arquitetura, desenhe diagramas de sequência e revise contratos OpenAPI."
+description: "Como estruturo decisões de projeto, separo fatos de suposições e reviso briefs, diagramas e contratos de API gerados com IA."
 ---
 
-Peça para um modelo de IA "projetar um sistema de pagamentos" e ele gerará um documento aparentemente impecável em menos de trinta segundos. No entanto, esse documento frequentemente ignora os bancos de dados já existentes na empresa, erra cálculos básicos de throughput de rede, subestima cenários de falha distribuída e alucina recursos de APIs externas.
+Uso a documentação de projeto para tornar visível o raciocínio por trás de um sistema: requisitos, limites, escolhas e perguntas em aberto. A IA pode ajudar a elaborar essa documentação, mas o projeto ainda precisa ser confrontado com evidências do repositório e restrições operacionais. Aqui descrevo como organizo essa revisão, do brief técnico aos diagramas e contratos de API.
 
 Um **System Design Document** (também chamado de RFC ou Design Doc) é o artefato de engenharia que alinha a equipe técnica quanto à estratégia de arquitetura, fronteiras de microsserviços, propriedade de dados e recuperação de falhas *antes* da escrita do primeiro commit. Ferramentas de IA aceleram expressivamente o processo ao estruturar rascunhos, calcular estimativas de capacidade (back-of-the-envelope), gerar diagramas de sequência em Mermaid e auditar contratos de API. Contudo, os engenheiros humanos continuam sendo os responsáveis finais por avaliar trade-offs e aprovar os requisitos.
 

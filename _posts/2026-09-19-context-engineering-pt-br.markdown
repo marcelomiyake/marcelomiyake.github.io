@@ -7,10 +7,10 @@ seo_title: "Context Engineering para agentes de IA | Marcelo Miyake"
 date: 2026-09-19 00:00:00 -0300
 categories: [Engineering]
 tags: [context-engineering, ai, agents, documentation, microservices, agents-md, best-practices]
-description: "Domine context engineering para agentes de IA: gerencie context windows, estruture instruções no repositório, use contratos de API e catálogos de serviços."
+description: "Como organizo diretrizes de repositório, contratos de API atuais e responsabilidades dos serviços para orientar agentes de programação com IA."
 ---
 
-Mesmo o prompt mais bem formulado falhará se o agente de programação consultar um contrato de API desatualizado ou editar o microsserviço errado. Enquanto **prompt engineering** foca em redigir boas instruções, **context engineering** é a prática de selecionar, recuperar e estruturar exatamente as informações técnicas de que o agente precisa para trabalhar com precisão.
+Quando penso no contexto de um agente de programação, começo pelas informações necessárias para uma mudança específica: qual serviço é responsável pelo comportamento, qual contrato de API está atualizado e quais restrições se aplicam. Este artigo desenvolve essa abordagem para organizar o conhecimento do repositório. **Context engineering** conecta o pedido de programação aos fatos de que o agente precisa para executá-lo.
 
 Esse contexto abrange instruções de repositório, código-fonte, schemas de dados, contratos de API, variáveis de ambiente, saídas de ferramentas e histórico de execução. Um documento interno só agrega valor se o agente conseguir encontrá-lo, lê-lo e interpretá-lo corretamente. Como a Anthropic destaca em [Effective context engineering for AI agents](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents), fornecer um contexto de alto sinal é o fator mais determinante para a autonomia e assertividade dos agentes.
 

@@ -7,10 +7,10 @@ seo_title: "AI Gateways e roteamento de modelos | Marcelo Miyake"
 date: 2026-09-18 00:00:00 -0300
 categories: [Engineering]
 tags: [ai-gateway, model-routing, guardrails, ai, agents]
-description: "Entenda a arquitetura de AI gateways: faça roteamento de modelos LLM, aplique guardrails de segurança, configure fallbacks e otimize latência e custos."
+description: "Como analiso roteamento de modelos, falhas de provedores, orçamento e limites de segurança ao projetar fluxos de desenvolvimento com IA."
 ---
 
-Mesmo quando escrevemos um prompt impecável, decisões críticas de infraestrutura continuam em aberto: qual modelo de IA deve processar a requisição? Como direcionar o tráfego entre diferentes provedores? O que acontece se a API de um fornecedor ficar indisponível? E como evitar que código proprietário ou credenciais sensíveis vazem para serviços externos?
+Abordo a seleção de modelos como uma decisão de infraestrutura. Custo, latência, falhas do provedor e o tratamento de código interno afetam o projeto. Aqui examino gateways e políticas de roteamento a partir dessas questões, incluindo as evidências necessárias para avaliar se uma política de roteamento é útil.
 
 Um **AI gateway** atua como um reverse proxy centralizado e control plane para modelos de linguagem (LLMs). Ele gerencia autenticação, rate limiting, controle de orçamento de tokens e políticas de segurança. Integrado a ele, um **roteador de modelos (model router)** avalia as requisições em tempo real e as encaminha dinamicamente para o modelo mais adequado com base em custo, latência ou capacidade de raciocínio necessária.
 

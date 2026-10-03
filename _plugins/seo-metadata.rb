@@ -3,11 +3,13 @@ require 'nokogiri'
 require 'json'
 
 Jekyll::Hooks.register [:pages, :documents], :pre_render do |page|
-  if page.data['layout'] == 'home' && page.site.active_lang == 'pt-BR'
-    page.data['lang'] = 'pt-BR'
-    page.data['title'] = 'Engenharia de Software e IA'
-    page.data['seo_title'] = 'Engenharia de Software e IA | Marcelo Miyake'
-    page.data['description'] = 'Artigos sobre agentes de programação com IA, arquitetura de software e desenvolvimento backend, com práticas aplicáveis e evidências.'
+  if page.data['layout'] == 'home'
+    language = page.site.active_lang || page.site.default_lang
+    profiles = page.site.data['profile'] || {}
+    profile = profiles[language] || profiles[page.site.default_lang] || profiles['en']
+    raise "Missing _data/profile.yml entry for language '#{language}'" unless profile
+    page.data['lang'] = language
+    %w[title seo_title description].each { |key| page.data[key] = profile[key] }
   end
 
   next unless %w[tag category].include?(page.data['layout'])
@@ -54,7 +56,7 @@ Jekyll::Hooks.register [:pages, :documents], :post_render do |page|
     end
 
     html.css('#post-list h1').each { |heading| heading.name = 'h2' }
-    if (list = html.at_css('#post-list'))
+    if (list = html.at_css('#post-list')) && html.css('h1').empty?
       heading = Nokogiri::XML::Node.new('h1', html)
       heading['class'] = 'mb-4'
       heading.content = page.data['title'] || page.site.config['title']

@@ -5,10 +5,10 @@ seo_title: "System Design Documents with AI | Marcelo Miyake"
 date: 2026-09-23 00:00:00 -0300
 categories: [Engineering]
 tags: [system-design, architecture, ai, agents, documentation, best-practices]
-description: "Create system design documents with AI: structure technical briefs, evaluate architectural trade-offs, draw sequence diagrams, and review OpenAPI specs."
+description: "How I structure software design decisions, separate facts from assumptions, and review AI-generated briefs, diagrams, and API contracts."
 ---
 
-Ask an AI model to "design a payment system," and it will generate a plausible-looking architecture document within thirty seconds. However, that document often ignores existing databases, miscalculates network throughput, glosses over distributed failure recovery, and hallucinates API capabilities.
+I use design documentation to make the reasoning behind a system visible: its requirements, boundaries, trade-offs, and unanswered questions. AI can help draft that documentation, but the design still needs to be checked against repository evidence and operational constraints. Here I outline how I organize that review, from a technical brief to diagrams and API contracts.
 
 A **System Design Document** (also known as an RFC or Design Doc) is an engineering artifact that aligns teams on technical strategy, service boundaries, data ownership, and failure modes *before* writing code. AI tools can dramatically accelerate system design by drafting sections, calculating back-of-the-envelope capacity estimates, generating sequence diagrams, and checking API schemas for consistency. But human engineers must remain responsible for evaluating trade-offs and validating requirements.
 

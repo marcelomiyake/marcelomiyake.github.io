@@ -7,10 +7,10 @@ seo_title: "Prompt Engineering para desenvolvedores | Marcelo Miyake"
 date: 2026-09-17 00:00:00 -0300
 categories: [Engineering]
 tags: [prompt-engineering, ai, llm, coding, best-practices]
-description: "Aprenda a escrever prompts eficazes para agentes de IA com escopo claro, contexto técnico, critérios de aceite e avaliação sistemática de resultados."
+description: "Como transformo um pedido de código com IA em um brief de engenharia, com escopo, restrições, exemplos e critérios de aceite explícitos."
 ---
 
-Quando você pede para um assistente de IA "criar uma tela de login", você deixa decisões críticas de arquitetura e produto em aberto: qual framework utilizar, como os tokens de autenticação serão armazenados, como os estados de erro devem ser exibidos e o que realmente define que a tarefa foi concluída. O modelo preencherá essas lacunas com suposições plausíveis, mas que frequentemente não se alinham ao padrão do seu projeto em produção.
+Trato um prompt de programação como um brief de engenharia: ele deve deixar claros o comportamento esperado, as restrições e os critérios de conclusão. Um pedido como "crie uma tela de login" deixa decisões importantes em aberto. Neste artigo, mostro como torno essas decisões visíveis antes de pedir que um agente as implemente.
 
 **Prompt engineering** para desenvolvedores é a prática de estruturar instruções, contexto técnico e restrições para que assistentes de IA produzam código adequado à tarefa e ao repositório. Prompts mais claros reduzem ambiguidades, mas o código gerado ainda precisa de revisão e verificação.
 

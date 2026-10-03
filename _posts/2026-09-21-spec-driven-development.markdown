@@ -5,10 +5,10 @@ seo_title: "Spec-Driven Development with AI | Marcelo Miyake"
 date: 2026-09-21 00:00:00 -0300
 categories: [Engineering]
 tags: [spec-driven-development, agile, software-architecture, software-engineering, best-practices]
-description: "Master Spec-Driven Development (SDD) with AI: plan software architectures, write unambiguous specifications, and connect acceptance criteria to automated tests."
+description: "How I connect business requirements, design constraints, and observable acceptance checks before asking an AI agent to generate code."
 ---
 
-When an AI coding assistant can generate hundreds of lines of code in seconds, the primary engineering bottleneck shifts from *writing code* to *knowing what code to write*. Without explicit architectural planning, an agent can implement an entirely wrong solution ten times faster than a human engineer.
+The starting point of my approach to AI-assisted development is the behavior the business needs. Before asking for code, I want the requirements, constraints, and acceptance checks to be explicit. This article shows how I connect those concerns in a specification, including the questions that still need an answer before implementation.
 
 **Spec-Driven Development (SDD)** is an engineering discipline where developers define requirements, constraints, and testable acceptance criteria *before* asking an AI agent to produce code. Writing a concise specification aligns human engineers, catches misunderstandings early when changes cost nothing, and gives the agent an unambiguous target to implement and verify.
 

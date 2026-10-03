@@ -7,8 +7,10 @@ seo_title: "Manutenção de hotéis com IA comparada (Parte II) | Marcelo Miyake
 date: 2026-10-01 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing, software-maintenance]
-description: "A Parte II compara esforço, tokens, alterações de código e correção da análise de abandono de reservas em cinco sistemas de hotel criados com IA."
+description: "Como avalio o custo de uma funcionalidade comparando o esforço relatado com os comportamentos de pagamento e análise em cinco sistemas de hotel."
 ---
+
+Quando avalio o custo de uma mudança, considero se a implementação entrega o comportamento solicitado pelo negócio. Aqui acompanho uma funcionalidade em cinco sistemas de hotel e comparo o esforço relatado com as lógicas de pagamento e análise produzidas. É assim que examino afirmações sobre manutenção à luz do que o código realmente faz.
 
 Na [Parte I]({% link _posts/2026-09-30-five-ai-hotel-implementations-pt-br.markdown %}), comparei cinco sistemas de reservas de hotel criados com IA antes da próxima funcionalidade. A refatoração em Java acrescentou interfaces e handlers; a reescrita em Rust consolidou serviços. As duas mudanças ofereciam possíveis benefícios para a manutenção. Agora podemos examinar o que aconteceu quando cada sistema precisou evoluir.
 

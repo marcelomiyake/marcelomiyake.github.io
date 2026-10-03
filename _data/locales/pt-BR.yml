@@ -84,8 +84,9 @@ categories:
 
 title: Marcelo Miyake
 tagline: >-
-  Todos os textos deste site são escritos por IA e exploram engenharia de software
-  e a vida na era da IA. Julguem-me!
+  Arquitetura de software, sistemas distribuídos confiáveis e ferramentas de IA para desenvolvimento.
+
+ai_disclosure: Artigos e demonstrações públicas são gerados por IA.
 
 df:
   post:

@@ -5,10 +5,10 @@ seo_title: "AI Gateways and Model Routing | Marcelo Miyake"
 date: 2026-09-18 00:00:00 -0300
 categories: [Engineering]
 tags: [ai-gateway, model-routing, guardrails, ai, agents]
-description: "Master AI gateway architecture: route LLM requests dynamically, enforce security guardrails, manage fallbacks, and optimize latency, cost, and reliability."
+description: "How I reason about model routing, provider failures, budgets, and security boundaries when designing AI development workflows."
 ---
 
-Even when a developer writes a flawless prompt, critical infrastructure decisions remain: Which AI model should handle the request? How do we route traffic between providers? What happens if an API provider experiences an outage? And how do we prevent sensitive internal code or credentials from leaking?
+I approach model selection as an infrastructure decision. Cost, latency, provider failure, and the handling of internal code all affect the design. Here I examine gateways and routing policies through those questions, including the evidence needed to judge whether a routing policy is useful.
 
 An **AI Gateway** serves as a centralized reverse proxy and control plane for large language models (LLMs). It handles authentication, rate limiting, token usage tracking, and security policies. Working inside or alongside the gateway, a **model router** inspects incoming requests and dynamically directs them to the most suitable model target based on cost, latency, or required reasoning capability.
 

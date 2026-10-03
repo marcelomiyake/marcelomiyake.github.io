@@ -7,8 +7,10 @@ seo_title: "Cinco implementações de hotel com IA comparadas (Parte I) | Marcel
 date: 2026-09-30 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing]
-description: "Parte I de um estudo comparativo de cinco sistemas de hotel construídos com IA: fidelidade ao design, defeitos de concorrência, arquitetura e manutenção."
+description: "Como avalio cinco sistemas de hotel criados com IA por meio de regras de negócio, limites arquiteturais, defeitos reproduzíveis e escolhas de manutenção."
 ---
+
+Avalio uma arquitetura acompanhando suas regras de negócio até a implementação. Esta comparação coloca essa abordagem em prática: examino cinco versões do mesmo sistema de hotel, reproduzo cenários de falha e considero o que cada versão significa para a manutenção. É um exemplo de como conecto decisões de projeto a comportamentos observáveis.
 
 Cinco projetos partiram do mesmo design de reservas de hotel, utilizando o **GPT-6 Luna com esforço Max no Codex**. Alguns começaram em Rust ou Java; outros herdaram uma implementação, ganharam camadas arquiteturais e, por fim, mudaram de linguagem. O design de negócio sobreviveu? A arquitetura melhorou a qualidade? Qual versão eu escolheria manter?
 

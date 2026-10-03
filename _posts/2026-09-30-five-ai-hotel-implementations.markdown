@@ -5,8 +5,10 @@ seo_title: "Five AI Hotel Implementations Compared (Part I) | Marcelo Miyake"
 date: 2026-09-30 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing]
-description: "Part I of a comparative study of five AI-built hotel systems: design fidelity, concurrency defects, architecture, complexity, and maintenance after refactoring and rewriting."
+description: "How I evaluate five AI-built hotel systems through business rules, architectural boundaries, reproducible defects, and maintenance trade-offs."
 ---
+
+I evaluate an architecture by following its business rules into the implementation. This comparison puts that approach into practice: I inspect five versions of the same hotel system, reproduce failure cases, and consider what each version would mean for maintenance. It is an example of how I connect design decisions with observable behavior.
 
 Five projects started from the same hotel reservation design, using **GPT-6 Luna at Max effort in Codex**. Some started in Rust or Java; others inherited an implementation, gained architectural layers, and eventually changed language. Did the business design survive? Did the architecture improve quality? Which version would I choose to maintain?
 

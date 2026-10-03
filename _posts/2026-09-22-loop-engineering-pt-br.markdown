@@ -7,12 +7,12 @@ seo_title: "Ciclos de feedback para agentes de programação com IA | Marcelo Mi
 date: 2026-09-22 00:00:00 -0300
 categories: [Engineering]
 tags: [loop-engineering, agents, automation, mcp, testing, best-practices]
-description: "Domine loop engineering para agentes de IA: projete ciclos de feedback com testes automatizados, controle retries e evite falsos positivos em código gerado."
+description: "Como estruturo ciclos de feedback limitados para programação com IA, com verificações observáveis, limites de tentativas e condições de parada."
 ---
 
-Quando um desenvolvedor utiliza um assistente de IA em uma interface tradicional de chat sem ferramentas integradas, o ser humano atua como um roteador manual ineficiente: copia a instrução, cola o código gerado no editor, roda os testes no terminal, copia o stack trace de erro de volta para o chat e repete o processo.
+Um agente de programação precisa de mais do que permissão para executar comandos: precisa de feedback útil e de uma condição clara de parada. Meu foco aqui é conectar uma mudança proposta a verificações observáveis, tentativas limitadas e evidências de diagnóstico. São essas as questões que uso para analisar um **ciclo de feedback** no desenvolvimento com IA.
 
-Um **agente de programação com IA** autônomo elimina esse trabalho braçal: ele executa comandos diretamente, analisa erros de compilação, inspeciona os resultados dos testes e edita o código até que todas as validações passem. No entanto, conceder permissão de execução sem controle traz sérios riscos: o agente pode entrar em loops infinitos, alterar asserções de testes para forçar um resultado positivo ou consumir orçamentos exorbitantes de tokens sem fazer progresso real.
+Sem ferramentas de execução, o próprio desenvolvedor vira o ciclo: copia o código para o editor, roda os testes e cola os erros de volta no chat. Um **agente de programação com IA** autônomo elimina esse trabalho braçal: ele executa comandos diretamente, analisa erros de compilação, inspeciona os resultados dos testes e edita o código até que todas as validações passem. No entanto, conceder permissão de execução sem controle traz sérios riscos: o agente pode entrar em loops infinitos, alterar asserções de testes para forçar um resultado positivo ou consumir orçamentos exorbitantes de tokens sem fazer progresso real.
 
 **Loop engineering** é a disciplina de engenharia de software voltada a projetar ciclos de feedback delimitados e autocorretivos. Esses ciclos conectam as alterações de código feitas pelo agente a sensores automatizados de validação (testes, linters, traces), regras rígidas de consumo de recursos e condições explícitas de parada.
 

@@ -1,0 +1,22 @@
+{% include lang.html %}
+{% assign profile = site.data.profile[lang] %}
+
+<section class="profile-intro" aria-labelledby="profile-heading">
+  <p class="profile-eyebrow">{{ profile.eyebrow | escape }}</p>
+  <h1 id="profile-heading">{{ profile.heading | escape }}</h1>
+  <p>{{ profile.intro | escape }}</p>
+  <p>{{ profile.focus | escape }}</p>
+  <p class="profile-evidence-note">{{ profile.disclosure | escape }}</p>
+</section>
+
+<section class="profile-studies" aria-labelledby="selected-studies">
+  <h2 id="selected-studies">{{ profile.selected_label | escape }}</h2>
+  <ul>
+    {% for study in profile.cases %}
+      <li>
+        <a href="{{ study.url | relative_url }}">{{ study.title | escape }}</a>
+        <p>{{ study.description | escape }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</section>

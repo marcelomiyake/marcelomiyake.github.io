@@ -7,8 +7,10 @@ seo_title: "Modelos mais baratos e um harness robusto | Marcelo Miyake"
 date: 2026-09-25 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, agents, harness-engineering, rust, kubernetes, system-design, sonarqube]
-description: "O que cinco projetos locais em Rust e Kubernetes mostram sobre desenvolvimento com IA, verificação e os limites dos modelos mais baratos."
+description: "O que aprendi com cinco projetos locais em Rust sobre orientar agentes de programação com especificações, feedback e evidências de verificação."
 ---
+
+Uso pequenos projetos de referência para explorar como requisitos, ferramentas e verificação se conectam em um fluxo de programação com IA. Neste experimento, meu interesse está tanto no software produzido quanto nas evidências disponíveis para avaliá-lo. Essa distinção orienta a leitura dos resultados e as perguntas que deixo em aberto sobre o custo dos modelos.
 
 Um modelo de IA mais barato consegue construir software distribuído útil quando recebe requisitos claros e feedback rápido? Explorei essa questão em cinco projetos educacionais inspirados no [Byte Byte Go](https://bytebytego.com/): um [encurtador de URLs](https://github.com/marcelomiyake/url-shortener), um [web crawler](https://github.com/marcelomiyake/web-crawler), um [sistema de notificações](https://github.com/marcelomiyake/notification-system), o [OpenTube](https://github.com/marcelomiyake/opentube) e um [sistema de autocompletar buscas](https://github.com/marcelomiyake/search-autocomplete-system).
 

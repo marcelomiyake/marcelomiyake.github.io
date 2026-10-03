@@ -7,10 +7,10 @@ seo_title: "Spec-Driven Development com IA | Marcelo Miyake"
 date: 2026-09-21 00:00:00 -0300
 categories: [Engineering]
 tags: [spec-driven-development, agile, software-architecture, software-engineering, best-practices]
-description: "Domine Spec-Driven Development (SDD) com IA: planeje arquiteturas, defina critérios de aceite testáveis e evite custos ocultos de manutenção em código gerado."
+description: "Como conecto requisitos de negócio, restrições de projeto e critérios de aceite observáveis antes de pedir código a um agente de IA."
 ---
 
-Quando um assistente de IA consegue gerar centenas de linhas de código em questão de segundos, o principal gargalo da engenharia de software muda de *escrever código* para *saber exatamente qual código deve ser escrito*. Sem um planejamento arquitetural explícito, um agente de programação pode implementar uma solução completamente equivocada dez vezes mais rápido do que um desenvolvedor humano.
+O ponto de partida da minha abordagem ao desenvolvimento com IA é o comportamento de que o negócio precisa. Antes de pedir código, quero que os requisitos, as restrições e os critérios de aceite estejam explícitos. Este artigo mostra como conecto essas questões em uma especificação, incluindo as dúvidas que ainda precisam de resposta antes da implementação.
 
 **Spec-Driven Development (SDD)** é uma metodologia de desenvolvimento em que requisitos, restrições e critérios de aceite testáveis são formalizados em uma especificação (spec) *antes* de solicitar que a IA gere código. Escrever uma especificação concisa alinha o time de engenharia, identifica divergências de negócio no momento em que alterar decisões tem custo zero e fornece ao agente um alvo claro e objetivo para implementar e testar.
 

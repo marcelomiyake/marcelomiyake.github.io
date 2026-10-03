@@ -1,0 +1,68 @@
+en:
+  title: How I Approach Software Engineering
+  seo_title: How I Approach Software Engineering | Marcelo Miyake
+  description: >-
+    Marcelo Miyake's engineering notebook: case studies, design decisions, and
+    experiments in software architecture, distributed systems, and AI development.
+  eyebrow: Architecture · Distributed systems · AI development
+  heading: How I approach software engineering
+  intro: >-
+    This blog is my engineering notebook. You'll find case studies, design
+    decisions, and experiments in software architecture, distributed systems,
+    and AI-assisted development, with code, verification results, and the limits
+    of each experiment.
+  focus: >-
+    My posts show how I break down requirements, compare architectures, and
+    examine what the code actually does. My background in mission-critical
+    systems informs the questions I bring to this work: what must stay true
+    for the business, how does the system fail, and what evidence supports
+    the next decision?
+  selected_label: My approach through case studies
+  cases:
+    - title: When passing tests still miss a booking defect
+      url: /posts/five-ai-hotel-implementations/
+      description: I compare five Java and Rust systems by inspecting their business rules and reproducing concurrency failures. This is how I evaluate an architecture beyond its diagrams and test coverage.
+    - title: What a feature really costs to maintain
+      url: /posts/five-ai-hotel-implementations-part-2/
+      description: I follow one feature across five implementations, comparing reported effort with payment and analytics behavior. It shows why I include correctness in the cost of a change.
+    - title: Building a useful feedback loop for AI coding
+      url: /posts/cheaper-models-strong-harness/
+      description: I explore AI coding workflows through five local Rust projects, looking at specifications, compiler feedback, and verification records. The focus is what the evidence supports about the workflow.
+  disclosure: >-
+    Articles and public demos are AI-generated. Case studies document source
+    revisions, verification scope, and the limits of their findings.
+  latest_label: Latest engineering notes
+pt-BR:
+  title: Como Abordo a Engenharia de Software
+  seo_title: Como Abordo a Engenharia de Software | Marcelo Miyake
+  description: >-
+    O caderno de engenharia de Marcelo Miyake: estudos de caso, decisões de
+    projeto e experimentos em arquitetura, sistemas distribuídos e desenvolvimento com IA.
+  eyebrow: Arquitetura · Sistemas distribuídos · Desenvolvimento com IA
+  heading: Como abordo a engenharia de software
+  intro: >-
+    Este blog é meu caderno de engenharia. Aqui reúno estudos de caso, decisões
+    de projeto e experimentos em arquitetura de software, sistemas distribuídos
+    e desenvolvimento com IA, com código, resultados de verificação e os limites
+    de cada experimento.
+  focus: >-
+    Meus artigos mostram como decomponho requisitos, comparo arquiteturas e
+    examino o que o código realmente faz. Minha experiência em sistemas de
+    missão crítica orienta as perguntas que trago para este trabalho: o que
+    precisa continuar verdadeiro para o negócio, como o sistema falha e quais
+    evidências sustentam a próxima decisão?
+  selected_label: Minha abordagem nos estudos de caso
+  cases:
+    - title: Quando testes aprovados ainda deixam passar um defeito de reserva
+      url: /posts/five-ai-hotel-implementations/
+      description: Comparo cinco sistemas em Java e Rust examinando regras de negócio e reproduzindo falhas de concorrência. É assim que avalio uma arquitetura além dos diagramas e da cobertura de testes.
+    - title: O custo real de manter uma nova funcionalidade
+      url: /posts/five-ai-hotel-implementations-part-2/
+      description: Acompanho uma funcionalidade em cinco implementações, comparando o esforço relatado com os comportamentos de pagamento e análise. O estudo mostra por que incluo a correção no custo de uma mudança.
+    - title: Um ciclo de feedback útil para programação com IA
+      url: /posts/cheaper-models-strong-harness/
+      description: Exploro fluxos de programação com IA em cinco projetos locais em Rust, examinando especificações, feedback do compilador e registros de verificação. O foco é o que as evidências sustentam sobre o fluxo de trabalho.
+  disclosure: >-
+    Artigos e demonstrações públicas são gerados por IA. Os estudos de caso
+    documentam revisões do código, escopo de verificação e limites das conclusões.
+  latest_label: Notas recentes de engenharia
