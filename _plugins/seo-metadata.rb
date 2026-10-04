@@ -10,6 +10,12 @@ Jekyll::Hooks.register [:pages, :documents], :pre_render do |page|
     raise "Missing _data/profile.yml entry for language '#{language}'" unless profile
     page.data['lang'] = language
     %w[title seo_title description].each { |key| page.data[key] = profile[key] }
+    page_number = page.pager&.page || 1
+    if page_number > 1
+      page.data['title'] = format(profile['pagination_title'], page: page_number)
+      page.data['seo_title'] = "#{page.data['title']} | #{page.site.config['title']}"
+      page.data['description'] = format(profile['pagination_description'], page: page_number)
+    end
   end
 
   next unless %w[tag category].include?(page.data['layout'])
@@ -34,25 +40,27 @@ Jekyll::Hooks.register [:pages, :documents], :post_render do |page|
 
   # Post cards are subsections of the home page, not separate page headings.
   if page.data['layout'] == 'home'
-    if page.site.active_lang == 'pt-BR'
-      title = page.data['title'] || 'Engenharia de Software e IA'
-      description = page.data['description']
-      localized_home_url = [page.site.config['url'], page.site.baseurl].map(&:to_s).join.sub(%r{/+\z}, '') + '/pt-BR/'
-      html.at_css('meta[property="og:title"]')&.[]=('content', title)
-      html.at_css('meta[name="twitter:title"]')&.[]=('content', title)
+    title = page.data['title']
+    description = page.data['description']
+    language = page.data['lang']
+    home_path = language == page.site.default_lang ? page.url : "/#{language}#{page.url}"
+    home_url = [page.site.config['url'], page.site.baseurl].map(&:to_s).join.sub(%r{/+\z}, '') + home_path
+    html.at_css('meta[property="og:title"]')&.[]=('content', title)
+    html.at_css('meta[name="twitter:title"]')&.[]=('content', title)
+    if language == 'pt-BR'
       html.at_css('meta[property="og:locale"]')&.[]=('content', 'pt_BR')
-      html.at_css('meta[property="og:url"]')&.[]=('content', localized_home_url)
-      html.css('meta[name="description"], meta[name="twitter:description"], meta[property="og:description"]').each do |meta|
-        meta['content'] = description if description
-      end
+    end
+    html.at_css('meta[property="og:url"]')&.[]=('content', home_url)
+    html.css('meta[name="description"], meta[name="twitter:description"], meta[property="og:description"]').each do |meta|
+      meta['content'] = description if description
+    end
 
-      if (structured_data = html.at_css('script[type="application/ld+json"]'))
-        website = JSON.parse(structured_data.content)
-        website['description'] = description if description
-        website['headline'] = title
-        website['url'] = localized_home_url
-        structured_data.content = JSON.generate(website)
-      end
+    if (structured_data = html.at_css('script[type="application/ld+json"]'))
+      website = JSON.parse(structured_data.content)
+      website['description'] = description if description
+      website['headline'] = title
+      website['url'] = home_url
+      structured_data.content = JSON.generate(website)
     end
 
     html.css('#post-list h1').each { |heading| heading.name = 'h2' }

@@ -28,10 +28,15 @@ en:
     - title: Building a useful feedback loop for AI coding
       url: /posts/cheaper-models-strong-harness/
       description: I explore AI coding workflows through five local Rust projects, looking at specifications, compiler feedback, and verification records. The focus is what the evidence supports about the workflow.
+    - title: Automating AI tasks with verifiable completion
+      url: /posts/ai-task-automation/
+      description: I explore scheduled AI work through an autonomous Rust pipeline, examining completion contracts, bounded repair loops, and quality gates. The focus is separating task execution from observable done criteria.
   disclosure: >-
     Articles and public demos are AI-generated. Case studies document source
     revisions, verification scope, and the limits of their findings.
   latest_label: Latest engineering notes
+  pagination_title: "Engineering notes — page %{page}"
+  pagination_description: "Page %{page} of Marcelo Miyake's engineering notes on software architecture, distributed systems, and AI development."
 pt-BR:
   title: Como Abordo a Engenharia de Software
   seo_title: Como Abordo a Engenharia de Software | Marcelo Miyake
@@ -62,7 +67,12 @@ pt-BR:
     - title: Um ciclo de feedback útil para programação com IA
       url: /posts/cheaper-models-strong-harness/
       description: Exploro fluxos de programação com IA em cinco projetos locais em Rust, examinando especificações, feedback do compilador e registros de verificação. O foco é o que as evidências sustentam sobre o fluxo de trabalho.
+    - title: Automatizando tarefas com IA e conclusão verificável
+      url: /posts/ai-task-automation/
+      description: Exploro o trabalho agendado com IA por meio de um pipeline autônomo em Rust, examinando contratos de conclusão, ciclos de correção limitados e quality gates. O foco é separar a execução da tarefa dos critérios observáveis de conclusão.
   disclosure: >-
     Artigos e demonstrações públicas são gerados por IA. Os estudos de caso
     documentam revisões do código, escopo de verificação e limites das conclusões.
   latest_label: Notas recentes de engenharia
+  pagination_title: "Notas de engenharia — página %{page}"
+  pagination_description: "Página %{page} das notas de engenharia de Marcelo Miyake sobre arquitetura de software, sistemas distribuídos e desenvolvimento com IA."

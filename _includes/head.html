@@ -48,11 +48,11 @@
 
   {{ seo_tags }}
   {% if page.layout == 'home' %}
-    {% assign home_en_url = '/' | absolute_url %}
-    {% assign home_pt_url = '/pt-BR/' | absolute_url %}
+    {% assign home_en_url = page.url | absolute_url %}
+    {% assign home_pt_url = '/pt-BR' | append: page.url | absolute_url %}
     {% assign canonical_home_url = home_en_url %}
     {% unless site.active_lang == site.default_lang %}
-      {% assign canonical_home_url = '/' | append: site.active_lang | append: '/' | absolute_url %}
+      {% assign canonical_home_url = '/' | append: site.active_lang | append: page.url | absolute_url %}
     {% endunless %}
     <link rel="canonical" {% static_href %}href="{{ canonical_home_url }}"{% endstatic_href %}>
     <link rel="alternate" hreflang="{{ site.default_lang }}" {% static_href %}href="{{ home_en_url }}"{% endstatic_href %}>

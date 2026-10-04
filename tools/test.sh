@@ -7,6 +7,7 @@
 # Usage: See help information
 
 set -eu
+unset DEBUG || true
 
 SITE_DIR="_site"
 
