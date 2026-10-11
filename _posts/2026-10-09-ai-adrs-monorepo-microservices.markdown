@@ -262,3 +262,5 @@ The convergence of AI coding agents and systems-level infrastructure is cementin
 
 Architecture decisions are living documents. As autonomous agents become core members of the engineering team, our repository structures must evolve to support their operational realities.
 
+In the next article, I explore the third architectural shift catalyzed by AI: **[the case for WebAssembly adoption in serverless inference and agentic sandboxing]({% link _posts/2026-10-11-ai-adrs-webassembly-adoption.markdown %})**.
+

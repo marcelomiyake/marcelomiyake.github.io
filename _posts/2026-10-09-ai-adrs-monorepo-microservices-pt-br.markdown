@@ -262,3 +262,5 @@ A convergência entre agentes de desenvolvimento com IA e infraestrutura de sist
 
 Decisões de arquitetura são artefatos vivos. Conforme agentes autônomos se tornam participantes ativos do ciclo de desenvolvimento, a estrutura de nossos repositórios deve evoluir para acompanhar essa realidade operacional.
 
+No próximo artigo, analiso a terceira mudança arquitetural catalisada pela IA: **[a adoção de WebAssembly para inferência serverless e sandboxing de agentes]({% link _posts/2026-10-11-ai-adrs-webassembly-adoption-pt-br.markdown %})**.
+
