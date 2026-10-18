@@ -4,8 +4,26 @@
 require 'nokogiri'
 
 Jekyll::Hooks.register :site, :post_render do |site|
+  # Polyglot excludes `assets` from non-default languages, so their pages would
+  # otherwise get the theme's stylesheet instead of the site's Sass override.
+  overrides = {}
+  render_override = lambda do |path|
+    next overrides[path] if overrides.key?(path)
+
+    dir = File.dirname(path)
+    name = "#{File.basename(path, '.css')}.scss"
+    next overrides[path] = nil unless path.end_with?('.css') && File.file?(File.join(site.source, dir, name))
+
+    page = Jekyll::Page.new(site, site.source, dir, name)
+    # The theme's stylesheet shares this path in Liquid's template cache.
+    site.liquid_renderer.cache.delete(page.relative_path)
+    overrides[path] = Jekyll::Renderer.new(site, page, site.site_payload).run
+  end
+
   read_asset = lambda do |url|
     path = url.delete_prefix(site.baseurl.to_s).delete_prefix('/')
+    override = render_override.call(path)
+    next override if override
     rendered = site.pages.find { |asset| asset.url.delete_prefix('/') == path }
     next rendered.output if rendered
     [site.source, site.theme.root].each do |root|
