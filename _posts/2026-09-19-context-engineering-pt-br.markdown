@@ -168,7 +168,7 @@ Evite depender de revisões manuais para manter a documentação alinhada ao có
 * Quebre o build no CI caso a documentação gerada e versionada discorde dos schemas atuais do código.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Pipeline automatizado de contexto e documentação
     accDescr: Alterações em código ou contratos disparam regeneração de documentação, validações automáticas de schema e code review humano antes do merge.
     A["Alteração em Código / Schema"] --> B["Regenerar Documentação & Schemas"]

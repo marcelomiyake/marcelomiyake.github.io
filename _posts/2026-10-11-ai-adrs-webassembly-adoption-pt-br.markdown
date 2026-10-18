@@ -137,7 +137,7 @@ Nos contêineres Linux tradicionais, o isolamento depende do compartilhamento do
 * Contêineres iniciam com acesso amplo a chamadas de sistema, a menos que sejam bloqueados manualmente por perfis complexos.
 
 O WebAssembly neutraliza essa superfície de ataque por meio do **Isolamento de Falhas de Software (Software Fault Isolation - SFI)** aplicado diretamente no nível do conjunto de instruções:
-1. **Memória Linear Isolada**: Todo módulo WebAssembly opera estritamente dentro de um buffer de memória linear delimitado ($[0, \text{limite}]$). Qualquer tentativa de acessar endereços fora desse espaço dispara uma falha de execução imediata.
+1. **Memória Linear Isolada**: Todo módulo WebAssembly opera estritamente dentro de um buffer de memória linear delimitado (endereços de 0 até o seu limite). Qualquer tentativa de acessar endereços fora desse espaço dispara uma falha de execução imediata.
 2. **Segurança por Capacidades com Bloqueio Padrão**: Sob a interface WASI, os módulos convidados não possuem **nenhum acesso inato** a chamadas de sistema, timers de hardware, sockets de rede ou sistemas de arquivos.
 3. **Delegação Explícita pelo Host**: Toda capacidade externa precisa ser concedida explicitamente pelo host na inicialização (por exemplo, liberando apenas um descritor de diretório virtual específico ou um socket com restrições).
 
@@ -319,22 +319,21 @@ APIs hospedadas na nuvem introduzem atrasos de ida e volta na rede (RTT) entre *
 Um Architecture Decision Record confiável precisa registrar os trade-offs e limitações com transparência. Embora o WebAssembly apresente vantagens evidentes, limitações arquiteturais importantes impedem que ele substitua os contêineres Linux em todas as etapas:
 
 ### 1. Teto de memória linear de 32 bits (`wasm32`)
-A especificação base do WebAssembly opera sobre um endereçamento linear de 32 bits (`wasm32`), restringindo cada instância ao limite de **4 GiB de memória linear**:
+A maioria dos módulos e ferramentas de WebAssembly em uso ainda tem como alvo um endereçamento linear de 32 bits (`wasm32`), que restringe cada memória ao limite de **4 GiB**:
 
-$$
-\text{Memória Máxima Endereçável (wasm32)} = 2^{32} \text{ bytes} = 4 \text{ GiB}
-$$
+**Memória máxima endereçável (wasm32) = 2<sup>32</sup> bytes = 4 GiB**
+{: .text-center }
 
 Embora 4 GiB sejam suficientes para microsserviços, essa capacidade é limitada para modelos generativos modernos, cujos parâmetros, caches contextuais KV e tensores intermediários facilmente ultrapassam dezenas de gigabytes.
-* Para executar modelos com mais de aproximadamente 3 bilhões de parâmetros, os runtimes precisam recorrer à proposta de 64 bits (`memory64`) ou desacoplar o armazenamento de tensores na memória do host (o padrão do WASI-NN).
-* Caso a aplicação tente alocar tensores diretamente no espaço linear do Wasm, ocorrerão erros imediatos de alocação ao atingir o teto de 4 GiB.
+* O [WebAssembly 3.0](https://webassembly.org/news/2025-09-17-wasm-3.0/), concluído em setembro de 2025, padronizou memórias de 64 bits (`memory64`), mas na web uma memória de 64 bits fica limitada a 16 GB, e o suporte de runtimes e ferramentas ainda precisa ser verificado para cada alvo. Para modelos maiores, os runtimes desacoplam o armazenamento de tensores na memória do host (o padrão do WASI-NN).
+* Caso a aplicação tente alocar tensores diretamente em uma memória linear `wasm32`, ocorrerão erros imediatos de alocação ao atingir o teto de 4 GiB.
 
 ### 2. Concorrência: WASI Preview 1 vs. Preview 2 e 3
 A evolução das interfaces de sistema fora do navegador gerou momentos de fragmentação:
 * O padrão inicial **WASI Preview 1** era estritamente single-threaded e carecia de sockets nativos. Instâncias Wasm em servidores multiprocessados só conseguiam utilizar um único núcleo de CPU, entregando vazão menor que contêineres Linux com suporte multithread.
 * Extensões proprietárias (como o WASIX da Wasmer) tentaram adicionar threads e APIs POSIX, mas fragmentaram o ecossistema.
 * A especificação **WASI 0.2 (Preview 2)** equacionou essa lacuna ao consolidar o **WebAssembly Component Model** e padronizar interfaces para `wasi-sockets` e `wasi-http`.
-* No entanto, **o suporte nativo a multithreading seguro e I/O assíncrono** ainda está em fase de padronização, com estabilização prevista para a **WASI 0.3**. Até lá, ambientes de alta concorrência devem distribuir as requisições em pools de instâncias Wasm individuais em vez de sincronizar threads concorrentes dentro de um mesmo módulo.
+* A **[WASI 0.3](https://bytecodealliance.org/articles/WASI-0.3)**, lançada em junho de 2026, torna o I/O assíncrono nativo nos componentes por meio dos tipos `stream` e `future`; o suporte nos runtimes e nas ferramentas dos módulos convidados ainda está sendo disponibilizado. Ela não adiciona multithreading dentro de um componente, por isso ambientes de alta concorrência continuam distribuindo as requisições em pools de instâncias Wasm individuais em vez de sincronizar threads concorrentes dentro de um mesmo módulo.
 
 ### 3. A divisão estrutural entre treinamento e inferência
 O WebAssembly é projetado como um **mecanismo de execução e inferência**; ele não é adequado para o treinamento de modelos:

@@ -155,7 +155,7 @@ flowchart TD
     I --> V["5. Validar Testes de Aceite"]
     V -- "Defeito de Implementação" --> I
     V -- "Lacuna de Requisito / Novo Aprendizado" --> S
-    V -- "Critérios 100% Atendidos" --> D["6. Code Review & Deploy"]
+    V -- "Critérios 100% Atendidos" --> D["6. Entrega & Deploy"]
 ```
 
 Mantenha a especificação versionada no Git junto ao código-fonte da aplicação. Ao alterar uma regra de negócio, atualize a spec, os testes e o código no mesmo commit atômico.
@@ -182,4 +182,4 @@ Spec-Driven Development mantém o desenvolvimento com agentes de IA previsível,
 * Evite **complexidade arquitetural prematura**; priorize simplicidade e manutenibilidade.
 * Mantenha especificações **versionadas no Git** junto ao código-fonte.
 
-Uma especificação sólida define *o que* deve ser construído. Mas como o agente implementa o código, detecta falhas em tempo de execução e se autocorige de forma autônoma? No próximo artigo da série, [Loop Engineering: projetando feedback automatizado para agentes de programação com IA](/posts/loop-engineering/), mostramos como projetar ciclos fechados de feedback e validação.
+Uma especificação sólida define *o que* deve ser construído. Mas como o agente implementa o código, detecta falhas em tempo de execução e se autocorrige de forma autônoma? No próximo artigo da série, [Loop Engineering: projetando feedback automatizado para agentes de programação com IA](/posts/loop-engineering/), mostramos como projetar ciclos fechados de feedback e validação.

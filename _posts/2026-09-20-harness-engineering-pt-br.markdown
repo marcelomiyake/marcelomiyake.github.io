@@ -30,7 +30,7 @@ Um harness robusto distingue com clareza a infraestrutura de segurança das inst
 Escrever no prompt algo como *"Nunca execute comandos destrutivos no banco de produção"* é apenas uma orientação contextual para o modelo; a IA pode cometer erros ou alucinar. A proteção real vem de limites de rede (egress filtering), credenciais com privilégios mínimos e runtimes em sandbox isolado.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Ciclo de execução de ferramentas e sandbox do agente
     accDescr: O modelo de IA propõe uma ação com ferramenta. O runtime valida permissões e executa o comando em sandbox isolado. O status de saída e o resultado retornam ao modelo.
     Model["Modelo Propõe Ação de Ferramenta"] --> Runtime["Runtime Valida Permissões & Escopo"]
@@ -107,7 +107,7 @@ Padronize todos os comandos do agente no arquivo `AGENTS.md` com scripts hermét
 
 ## Padronize a integração de ferramentas com MCP
 
-O **Model Context Protocol (MCP)** é um protocolo aberto que padroniza como agentes de IA descobrem e acionam ferramentas disponibilizadas por servidores locais ou remotos. Com MCP, o agente se conecta facilmente a inspetores de schema de banco, sistemas de issues, APIs corporativas ou browsers headless (consulte a [especificação de ferramentas do MCP](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)).
+O **Model Context Protocol (MCP)** é um protocolo aberto que padroniza como agentes de IA descobrem e acionam ferramentas disponibilizadas por servidores locais ou remotos. Com MCP, o agente se conecta facilmente a inspetores de schema de banco, sistemas de issues, APIs corporativas ou browsers headless (consulte a [especificação de ferramentas do MCP](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)).
 
 No entanto, usar MCP não torna a execução segura por si só:
 * **Garanta conexões de banco de dados em modo somente leitura (read-only):** Uma descrição no MCP dizendo "read-only" não protege o banco se o usuário configurado tiver permissões de escrita (`INSERT`/`DROP`).
@@ -179,5 +179,7 @@ Harness engineering transforma um modelo gerador de texto em um parceiro de enge
 * Associe diretrizes de arquitetura a **sensores automatizados e diagnósticos acionáveis**.
 * Centralize comandos de build e validação no **`AGENTS.md`**.
 * Integre ferramentas externas via **MCP** e encapsule fluxos recorrentes como **skills**.
+
+Em um artigo posterior, [Por que Harness Engineering importa](/posts/harness-engineering-in-practice/), analiso estudos que mantêm o modelo fixo e medem como apenas o harness altera a acurácia e o custo.
 
 Com ferramentas operacionais estáveis e um sandbox seguro, como garantir que o agente implemente exatamente o que o negócio precisa? No próximo artigo, [Spec-Driven Development: por que planejar importa mais do que nunca com IA](/posts/spec-driven-development/), mostramos como especificações evitam desvios arquiteturais dispendiosos.

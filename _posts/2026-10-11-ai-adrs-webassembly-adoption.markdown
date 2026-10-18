@@ -135,7 +135,7 @@ In a traditional Linux container architecture, isolation relies on shared-kernel
 * Containers initialize with broad operating system call visibility unless manually stripped down via restrictive profiles.
 
 WebAssembly eliminates this attack surface through **Software Fault Isolation (SFI)** enforced directly at the instruction-set level:
-1. **Isolated Linear Memory**: Every WebAssembly module operates strictly inside an isolated linear memory buffer ($[0, \text{bound}]$). The module cannot reference memory addresses outside its designated address space without triggering an immediate hardware/runtime fault.
+1. **Isolated Linear Memory**: Every WebAssembly module operates strictly inside an isolated linear memory buffer (addresses 0 to its bound). The module cannot reference memory addresses outside its designated address space without triggering an immediate hardware/runtime fault.
 2. **Default-Deny Capability Security**: Under the WebAssembly System Interface (WASI), guest modules possess **zero innate access** to system calls, hardware timers, network sockets, or the filesystem.
 3. **Explicit Host Delegation**: Every external capability must be explicitly passed into the instance by the host embedder at initialization (e.g., granting read access to a single virtual directory descriptor or a specific constrained network socket).
 
@@ -317,22 +317,21 @@ Cloud-based model APIs introduce network round-trip times (RTT) ranging from **1
 A credible Architecture Decision Record must document trade-offs with unsparing rigor. While WebAssembly offers undeniable strengths, several architectural bottlenecks prevent it from replacing Linux containers across all computing tiers:
 
 ### 1. Linear memory limits and the 32-bit ceiling (`wasm32`)
-The current baseline WebAssembly specification operates on a 32-bit linear address space (`wasm32`), which strictly restricts a single instance to a maximum of **4 GiB of linear memory**:
+Most deployed WebAssembly modules and toolchains still target a 32-bit linear address space (`wasm32`), which restricts a single memory to a maximum of **4 GiB**:
 
-$$
-\text{Max Addressable Memory (wasm32)} = 2^{32} \text{ bytes} = 4 \text{ GiB}
-$$
+**Max addressable memory (wasm32) = 2<sup>32</sup> bytes = 4 GiB**
+{: .text-center }
 
 While 4 GiB is generous for microservices, it is insufficient for modern generative AI models, where parameter weights, Key-Value (KV) context caches, and intermediate activation tensors routinely require tens of gigabytes.
-* To run models larger than ~3 billion parameters, host runtimes must either rely on the emerging 64-bit memory proposal (`memory64`) or decouple tensor memory from the Wasm runtime using host-side memory mappings (the WASI-NN pattern).
-* If an application attempts to manipulate multi-gigabyte model weights directly inside its own linear memory, it risks immediate allocation faults when approaching the 4 GiB boundary.
+* [WebAssembly 3.0](https://webassembly.org/news/2025-09-17-wasm-3.0/), completed in September 2025, standardized 64-bit memories (`memory64`), but on the web a 64-bit memory is limited to 16 GB, and runtime and toolchain support still has to be checked per target. For larger models, host runtimes decouple tensor memory from the Wasm instance using host-side memory mappings (the WASI-NN pattern).
+* If an application attempts to manipulate multi-gigabyte model weights directly inside a `wasm32` linear memory, it risks immediate allocation faults when approaching the 4 GiB boundary.
 
 ### 2. Concurrency bottlenecks: WASI Preview 1 vs. Preview 2/3
 Ecosystem fragmentation across system interfaces has created concurrency challenges:
 * **WASI Preview 1** was single-threaded and lacked native socket and process management. Early Wasm micro-containers running on multi-core servers could only utilize a single CPU core, producing lower throughput than multi-threaded Linux containers.
 * Non-standard forks (such as Wasmer's WASIX) introduced threading and POSIX APIs, but created fragmentation.
 * **WASI 0.2 (Preview 2)** resolved this by establishing the **WebAssembly Component Model** and standardizing `wasi-sockets` and `wasi-http`.
-* However, **native capability-safe multithreading and asynchronous I/O** remain works in progress, scheduled for stabilization in **WASI 0.3**. Until then, high-throughput server environments must distribute traffic across pools of individual Wasm instances rather than managing concurrent threads within a single module.
+* **[WASI 0.3](https://bytecodealliance.org/articles/WASI-0.3)**, released in June 2026, makes asynchronous I/O native to components through first-class `stream` and `future` types; runtime and guest toolchain support is still rolling out. It does not add multithreading inside a component, so high-throughput server environments still distribute traffic across pools of individual Wasm instances rather than managing concurrent threads within a single module.
 
 ### 3. The structural bifurcation between training and inference
 WebAssembly is strictly an **execution and inference engine**; it is currently unsuited for model training:

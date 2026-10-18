@@ -72,7 +72,7 @@ Perguntar "este prompt é seguro?" é vago demais para um sistema automatizado. 
 Lembre-se de que filtros prévios possuem limites. A própria AWS documenta que o [filtro de prompt-attack do Bedrock](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-prompt-attack.html) inspeciona a mensagem inicial do usuário, mas não avalia automaticamente os resultados retornados por ferramentas externas. Se o agente carregar um documento web com comandos maliciosos embutidos, o guardrail inicial não impedirá esse prompt injection indireto.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Pipeline de política e roteamento no AI Gateway
     accDescr: As verificações na entrada bloqueiam requisições proibidas ou direcionam requisições permitidas a um pool de modelos aprovado. As verificações na saída validam a resposta antes da entrega.
     P["Prompt de Entrada & Metadados"] --> G{"Guardrails & Políticas de Entrada"}

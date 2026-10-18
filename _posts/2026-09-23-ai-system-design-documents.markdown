@@ -153,39 +153,53 @@ Sensitivity analysis: If 90% of merchant exports contain fewer than 5,000 orders
 
 ## 5. Generate contracts and diagrams from shared decisions
 
-A complete System Design Document links prose, sequence diagrams, and OpenAPI contracts:
+A complete System Design Document links prose, sequence diagrams, and OpenAPI contracts. The export flow has two phases. First, the API accepts the job and handles a retried submission:
 
 ```mermaid
+%%{init: {"sequence": {"width": 100, "actorMargin": 30}}}%%
 sequenceDiagram
-    accTitle: Asynchronous order export sequence with idempotency
-    accDescr: The API commits a job and outbox entry together. A dispatcher publishes queued work and can retry after a crash. The worker stores an object key; downloads are authorized and signed within the job's access window.
-    participant Client as Merchant Client
-    participant API as Export API Gateway
-    participant DB as Job Store (PostgreSQL)
-    participant Queue as Redis Queue
-    participant Dispatcher as Outbox Dispatcher
-    participant Worker as Background Worker
-    participant S3 as Object Storage (S3)
+    accTitle: Order export submission with an outbox and idempotent retry
+    accDescr: The API commits a job, its idempotency key, and an outbox entry in one transaction. A dispatcher publishes the queued job and retries until acknowledged. When the client retries after a timeout, the API finds the existing job by idempotency key and returns it.
+    participant Client as Merchant<br/>Client
+    participant API as Export API<br/>Gateway
+    participant DB as Job Store<br/>(PostgreSQL)
+    participant Dispatcher as Outbox<br/>Dispatcher
+    participant Queue as Redis<br/>Queue
 
-    Client->>API: POST /api/v1/orders/exports (Idempotency-Key: abc-123)
-    API->>API: Authenticate & Verify merchant_id
-    API->>DB: Commit Job, Idempotency Key & Outbox entry in one transaction
-    DB-->>API: Job created (id: job_987)
-    Dispatcher->>DB: Read unpublished outbox entry
-    Dispatcher->>Queue: Publish job_987 (retry until acknowledged)
-    Note over Client,API: Network timeout: Client misses HTTP 202 response
-    Client->>API: RETRY POST /api/v1/orders/exports (Idempotency-Key: abc-123)
-    API->>DB: Query Idempotency Key abc-123 for merchant_id
-    DB-->>API: Match found: returns job_987
-    API-->>Client: 202 Accepted (Location: /api/v1/orders/exports/job_987)
-    
+    Client->>API: POST /api/v1/orders/exports<br/>Idempotency-Key: abc-123
+    API->>API: Authenticate &<br/>verify merchant_id
+    API->>DB: Commit job, idempotency<br/>key & outbox entry<br/>in one transaction
+    DB-->>API: Job created<br/>(id: job_987)
+    Dispatcher->>DB: Read unpublished<br/>outbox entry
+    Dispatcher->>Queue: Publish job_987<br/>(retry until<br/>acknowledged)
+    Note over Client,API: Network timeout:<br/>client misses HTTP 202
+    Client->>API: RETRY POST<br/>/api/v1/orders/exports<br/>Idempotency-Key: abc-123
+    API->>DB: Query idempotency<br/>key abc-123 for<br/>merchant_id
+    DB-->>API: Match found:<br/>returns job_987
+    API-->>Client: 202 Accepted<br/>Location: /api/v1/<br/>orders/exports/job_987
+```
+
+Then a worker produces the file, and each download is authorized within the access window:
+
+```mermaid
+%%{init: {"sequence": {"width": 100, "actorMargin": 30}}}%%
+sequenceDiagram
+    accTitle: Order export processing and authorized download
+    accDescr: A worker dequeues the job, streams order records into a compressed CSV upload, and records the object key and access deadline. A download request is authorized against the merchant and deadline before the API redirects to a signed URL capped at that deadline.
+    participant Client as Merchant<br/>Client
+    participant API as Export API<br/>Gateway
+    participant DB as Job Store<br/>(PostgreSQL)
+    participant Queue as Redis<br/>Queue
+    participant Worker as Background<br/>Worker
+    participant S3 as Object<br/>Storage (S3)
+
     Queue->>Worker: Dequeue job_987
-    Worker->>DB: Stream order records (cursor)
-    Worker->>S3: Stream compressed CSV upload
-    Worker->>DB: Mark the job completed and store its object key and access deadline
-    Client->>API: GET /api/v1/orders/exports/job_987/download
-    API->>DB: Check merchant authorization and access deadline
-    API-->>Client: 303 See Other (signed URL capped at deadline)
+    Worker->>DB: Stream order<br/>records (cursor)
+    Worker->>S3: Stream compressed<br/>CSV upload
+    Worker->>DB: Mark job completed,<br/>store object key<br/>& access deadline
+    Client->>API: GET /api/v1/orders/<br/>exports/job_987/<br/>download
+    API->>DB: Check merchant<br/>authorization and<br/>access deadline
+    API-->>Client: 303 See Other<br/>(signed URL capped<br/>at deadline)
 ```
 
 The database commit and Redis publication are separate operations, so the dispatcher must retry outbox entries after a crash. Queue delivery can also repeat: the worker must claim the job idempotently, use a lease to recover abandoned work, and clean up partial uploads. Issue signed URLs with a short TTL (for example, five minutes) capped by the completion-based deadline. A signed object URL is a bearer link; anyone who obtains it can use it until expiry. If every download must recheck the user's identity, serve the file through an authenticated endpoint instead of redirecting to object storage.

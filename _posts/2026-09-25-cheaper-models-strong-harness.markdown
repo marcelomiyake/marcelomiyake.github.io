@@ -83,6 +83,8 @@ The projects show that a lower-cost model can contribute to substantial local im
 
 A cheaper token price may save money on a short, well-scoped task. If a model needs more retries or produces defects that take longer to review, the total cost may rise. The harness can improve either model's results; the comparison must hold it constant to isolate model choice.
 
+The reverse experiment is also informative. In the studies I review in [Why Harness Engineering Matters]({% post_url 2026-10-18-harness-engineering-in-practice %}), holding the model family constant and changing only the harness moved estimated cost per trial by 2.1x to 3.1x.
+
 ---
 
 ## Apply the lessons without overstating the result

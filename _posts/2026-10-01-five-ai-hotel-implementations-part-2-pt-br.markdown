@@ -138,7 +138,7 @@ Abrir detalhes do hotel e entrar no checkout produzem denominadores diferentes p
 Um contrato futuro de aceitação poderia tornar o abandono provisório, registrar atividade além da navegação e permitir que um pagamento verificado prevaleça sobre uma expiração anterior:
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Contrato comum proposto para abandono de reservas
     accDescr: Cada jornada iniciada preserva a última tela de checkout. Pagamento verificado no backend conclui a jornada; caso contrário, trinta minutos sem atividade indicam abandono provisório. Nova atividade ou pagamento provoca reavaliação.
     J["Jornada e última tela de checkout"] --> P{"Pagamento verificado no backend?"}

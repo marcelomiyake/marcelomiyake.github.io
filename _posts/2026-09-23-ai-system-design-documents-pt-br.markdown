@@ -155,39 +155,53 @@ Análise de sensibilidade: Se 90% dos lojistas exportarem menos de 5.000 pedidos
 
 ## 5. Gere contratos de API e diagramas a partir das decisões
 
-Um documento de System Design de qualidade alinha texto explicativo, diagramas de sequência em Mermaid e especificações OpenAPI:
+Um documento de System Design de qualidade alinha texto explicativo, diagramas de sequência em Mermaid e especificações OpenAPI. O fluxo de exportação tem duas fases. Primeiro, a API aceita o job e trata um envio repetido:
 
 ```mermaid
+%%{init: {"sequence": {"width": 100, "actorMargin": 30}}}%%
 sequenceDiagram
-    accTitle: Sequência de exportação assíncrona de pedidos com idempotência
-    accDescr: A API grava job e outbox na mesma transação. Um dispatcher publica o trabalho e pode repetir após falhas. O worker armazena a chave do objeto; downloads são autorizados e assinados dentro do prazo de acesso.
-    participant Client as Merchant Client
-    participant API as Export API Gateway
-    participant DB as Job Store (PostgreSQL)
-    participant Queue as Redis Queue
-    participant Dispatcher as Outbox Dispatcher
-    participant Worker as Background Worker
-    participant S3 as Object Storage (S3)
+    accTitle: Envio da exportação de pedidos com outbox e retry idempotente
+    accDescr: A API grava o job, a idempotency key e a entrada do outbox na mesma transação. Um dispatcher publica o job na fila e repete até receber confirmação. Quando o cliente repete o envio após um timeout, a API encontra o job existente pela idempotency key e o retorna.
+    participant Client as Merchant<br/>Client
+    participant API as Export API<br/>Gateway
+    participant DB as Job Store<br/>(PostgreSQL)
+    participant Dispatcher as Outbox<br/>Dispatcher
+    participant Queue as Redis<br/>Queue
 
-    Client->>API: POST /api/v1/orders/exports (Idempotency-Key: abc-123)
-    API->>API: Autenticar & Validar merchant_id
-    API->>DB: Commit de Job, Idempotency Key e Outbox na mesma transação
-    DB-->>API: Job persistido com sucesso (id: job_987)
-    Dispatcher->>DB: Ler entrada pendente do outbox
-    Dispatcher->>Queue: Publicar job_987 (repetir até confirmação)
-    Note over Client,API: Timeout de rede: Cliente perde a resposta HTTP 202
-    Client->>API: RETRY POST /api/v1/orders/exports (Idempotency-Key: abc-123)
-    API->>DB: Consultar Idempotency Key abc-123 para o merchant_id
-    DB-->>API: Registro localizado: retorna job_987 existente
-    API-->>Client: 202 Accepted (Location: /api/v1/orders/exports/job_987)
-    
-    Queue->>Worker: Consumir job_987 da fila
-    Worker->>DB: Streaming de pedidos via cursor
-    Worker->>S3: Streaming de upload compactado (.csv.gz)
-    Worker->>DB: Marcar o job como concluído e gravar a chave do objeto e o prazo de acesso
-    Client->>API: GET /api/v1/orders/exports/job_987/download
-    API->>DB: Validar autorização do lojista e prazo de acesso
-    API-->>Client: 303 See Other (URL assinada limitada ao prazo)
+    Client->>API: POST /api/v1/orders/exports<br/>Idempotency-Key: abc-123
+    API->>API: Autenticar &<br/>validar merchant_id
+    API->>DB: Commit de job,<br/>idempotency key e outbox<br/>na mesma transação
+    DB-->>API: Job persistido<br/>(id: job_987)
+    Dispatcher->>DB: Ler entrada<br/>pendente do outbox
+    Dispatcher->>Queue: Publicar job_987<br/>(repetir até<br/>confirmação)
+    Note over Client,API: Timeout de rede:<br/>cliente perde o HTTP 202
+    Client->>API: RETRY POST<br/>/api/v1/orders/exports<br/>Idempotency-Key: abc-123
+    API->>DB: Consultar idempotency<br/>key abc-123 do<br/>merchant_id
+    DB-->>API: Registro localizado:<br/>retorna job_987
+    API-->>Client: 202 Accepted<br/>Location: /api/v1/<br/>orders/exports/job_987
+```
+
+Depois, um worker gera o arquivo, e cada download é autorizado dentro do prazo de acesso:
+
+```mermaid
+%%{init: {"sequence": {"width": 100, "actorMargin": 30}}}%%
+sequenceDiagram
+    accTitle: Processamento da exportação de pedidos e download autorizado
+    accDescr: Um worker consome o job, faz streaming dos pedidos para um upload CSV compactado e grava a chave do objeto e o prazo de acesso. Cada pedido de download é autorizado quanto ao lojista e ao prazo antes de a API redirecionar para uma URL assinada limitada a esse prazo.
+    participant Client as Merchant<br/>Client
+    participant API as Export API<br/>Gateway
+    participant DB as Job Store<br/>(PostgreSQL)
+    participant Queue as Redis<br/>Queue
+    participant Worker as Background<br/>Worker
+    participant S3 as Object<br/>Storage (S3)
+
+    Queue->>Worker: Consumir job_987
+    Worker->>DB: Streaming de<br/>pedidos via cursor
+    Worker->>S3: Upload compactado<br/>(.csv.gz) em streaming
+    Worker->>DB: Marcar job concluído<br/>e gravar chave do objeto<br/>e prazo de acesso
+    Client->>API: GET /api/v1/orders/<br/>exports/job_987/<br/>download
+    API->>DB: Validar autorização<br/>do lojista e prazo<br/>de acesso
+    API-->>Client: 303 See Other<br/>(URL assinada<br/>limitada ao prazo)
 ```
 
 O commit no banco e a publicação no Redis são operações separadas; por isso, o dispatcher precisa repetir entradas do outbox após uma falha. A entrega pela fila também pode se repetir: o worker deve reivindicar o job de modo idempotente, usar um lease para recuperar trabalho abandonado e limpar uploads parciais. Emita URLs assinadas com TTL curto (por exemplo, cinco minutos), limitado pelo prazo contado da conclusão. A URL assinada do objeto é um link de acesso: qualquer pessoa que a obtenha pode usá-la até o vencimento. Se cada download precisar revalidar a identidade do usuário, sirva o arquivo por um endpoint autenticado em vez de redirecionar para o object storage.

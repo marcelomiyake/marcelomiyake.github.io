@@ -166,7 +166,7 @@ Do not rely on humans to manually update documentation. Automate context validat
 * Fail the build if committed documentation drifts from generated schemas.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Automated documentation and context pipeline
     accDescr: Code or contract changes trigger documentation regeneration, schema validation, and human review before merging.
     A["Code / Schema Change"] --> B["Regenerate API Docs & Tables"]

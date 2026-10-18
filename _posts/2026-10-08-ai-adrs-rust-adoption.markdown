@@ -34,7 +34,7 @@ flowchart TD
 
     subgraph ModernADR ["Updated 2026 ADR Calculus"]
         Dec["Decision: Adopt Rust for compute & inference infrastructure"]
-        Cons["Consequences: Deterministic sub-10ms p99 latency, 1000x defect density reduction"]
+        Cons["Consequences: Deterministic sub-10ms p99 latency, ~1000x lower memory-safety bug density (Android data)"]
     end
 
     PreAI --> AIShifts
@@ -162,23 +162,23 @@ With Rust, the relationship flips. The compiler acts as an uncompromising, deter
 This feedback loop connects directly to the principles I discussed in [Harness Engineering]({% link _posts/2026-09-20-harness-engineering.markdown %}) and [Loop Engineering]({% link _posts/2026-09-22-loop-engineering.markdown %}): the compiler provides structured diagnostic output that the AI agent can consume iteratively until the solution compiles cleanly.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: The compiler-as-harness repair loop for AI-generated Rust
     accDescr: An AI assistant proposes Rust code. The Rust compiler runs borrow checker and type analysis. Diagnostic errors feed back directly into the agent for automated repair, delivering verified memory safety before human review.
     A["AI Coding Agent"] -->|Proposes code| C["Rust Compiler (rustc + Clippy)"]
     C -->|Borrow / Lifetime errors| F["Structured Diagnostics JSON"]
     F -->|Bounded repair loop| A
-    C -->|Compiles cleanly| V["Verified Candidate (Zero Memory Leaks, No Data Races)"]
+    C -->|Compiles cleanly| V["Compiled Candidate (Memory-Safe, No Data Races in Safe Rust)"]
     V --> H["Human Architecture Review"]
 ```
 
-Empirical data from large-scale enterprise adoptions validates this effect. Google’s multi-year migration of foundational Android OS components to Rust revealed striking metrics:
+Empirical data from large-scale enterprise adoptions validates this effect. Google’s multi-year shift of new Android OS development to Rust and other memory-safe languages produced striking metrics ([2024 report](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html), [2025 report](https://blog.google/security/rust-in-android-move-fast-fix-things/)):
 
-* **Memory vulnerabilities dropped dramatically**: Absolute memory safety flaws fell from 223 in 2019 to under 50 in 2024, with memory bugs dropping from 76% of total OS vulnerabilities to under 20%.
-* **~1,000x defect density reduction**: New Rust code exhibited approximately three orders of magnitude lower memory flaw density compared to legacy C/C++.
-* **20% fewer review revisions**: Rust code required one-fifth fewer iterations before qualification compared to other languages.
-* **25% faster review turnaround**: Reviewers spent less time hunting for edge cases because memory safety was already verified by the compiler.
-* **4x reduction in production rollbacks**: Systems deployed in Rust experienced one-quarter the rollback frequency of legacy baselines.
+* **Memory vulnerabilities dropped dramatically**: Memory safety issues fell from 76% of Android vulnerabilities in 2019 to 24% in 2024, and below 20% in 2025.
+* **~1,000x lower vulnerability density**: Google estimates roughly three orders of magnitude lower memory-safety vulnerability density in Android's Rust code than in its C and C++ code.
+* **20% fewer review revisions**: Rust changes of similar size needed about 20% fewer revisions than their C++ counterparts.
+* **25% less review time**: Rust changes spent 25% less time in code review.
+* **4x lower rollback rate**: Rust changes were rolled back about one-quarter as often.
 
 Crucially, Google noted that legacy code vulnerabilities naturally decay as bugs are discovered and patched over time. Organizations do not need massive, risky rewrites of existing systems; introducing Rust for new high-throughput services immediately halts the injection of new memory-safety defects.
 
@@ -190,7 +190,7 @@ These technical shifts are reinforced by institutional mandates that software ar
 
 * **White House ONCD Directive (February 2024)**: In *Back to the Building Blocks: A Path Toward Secure and Measurable Software*, the Office of the National Cyber Director, in coordination with CISA, NSA, and the FBI, called on commercial software vendors and critical infrastructure operators to systematically adopt memory-safe programming languages, explicitly naming Rust as a primary recommendation.
 * **Linux Kernel Core Language (December 2025)**: The Linux Kernel Maintainers Summit reclassified Rust from an experimental language to a permanent core language alongside C, cementing its status across foundational operating system infrastructure.
-* **Safety-Critical Certifications**: The Ferrocene compiler toolchain achieved IEC 61508 SIL 2 qualification, officially opening regulated automotive, aerospace, and medical device systems to Rust.
+* **Safety-Critical Certifications**: The Ferrocene toolchain is TÜV SÜD-qualified for ISO 26262 (ASIL D), IEC 61508 (SIL 3), and IEC 62304 (Class C), and in December 2025 a subset of Rust's core library received [IEC 61508 SIL 2 certification](https://ferrous-systems.com/blog/ferrocene-libcore-news-release/), opening regulated automotive, industrial, and medical device systems to Rust.
 * **Developer Ecosystem Growth**: Longitudinal data from SlashData shows the global Rust developer community reached 4.0 million active developers by Q1 2024, doubling from 2.0 million in 2022. In the 2025 Stack Overflow Developer Survey, Rust marked its tenth consecutive year as the world's most admired programming language.
 
 ---

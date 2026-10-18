@@ -70,7 +70,7 @@ Never allow user prompts to override security or spending policies. A prompt tha
 Remember that pre-execution filters have blind spots. For example, AWS documents that [Bedrock's prompt-attack filter](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails-prompt-attack.html) scans user input but does not automatically evaluate tool outputs or retrieved documents. If an agent reads an external web page containing malicious instructions, the initial prompt guardrail will not prevent indirect prompt injection.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: AI Gateway policy and routing pipeline
     accDescr: Input checks block disallowed requests or route allowed requests to an approved model pool. Output checks verify the generated response before delivery.
     P["Incoming Prompt & Metadata"] --> G{"Input Policy & Guardrails"}

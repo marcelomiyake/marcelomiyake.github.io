@@ -178,7 +178,7 @@ Os seis artigos desta série compõem uma arquitetura coesa para o uso profissio
 | [Context Engineering](/posts/context-engineering/) | Quais fatos, contratos e instruções do repositório ele precisa consultar? |
 | [Harness Engineering](/posts/harness-engineering/) | Quais ferramentas, sandboxes e sensores executam e validam o trabalho? |
 | [Spec-Driven Development](/posts/spec-driven-development/) | Qual comportamento observável e critérios de aceite definem o sucesso? |
-| **Loop Engineering** | Como o agente executa, valida, se autocorige e para com segurança? |
+| **Loop Engineering** | Como o agente executa, valida, se autocorrige e para com segurança? |
 
 ---
 

@@ -196,7 +196,7 @@ A mesma omissão aparece no código do Java simples e refatorado. As validaçõe
 
 ### Uma chave de staff vazia muda de significado na reescrita em Rust
 
-O filtro original de administração em Java nega o acesso explicitamente caso a chave configurada esteja em branco. O Rust reconstruído compara os bytes fornecidos com os esperados em tempo constante, mas não rejeita uma chave configurada como vazia. Em uma probe local, configurar uma chave vazia e enviar o cabeçalho `X-Admin-Key` em branco permitiu alterar tarifas recebendo **HTTP 200**. [Filtro Java][simple-admin], [Middleware Rust][rebuilt-router].
+O filtro original de administração em Java nega o acesso explicitamente caso a chave configurada esteja em branco. O Rust reconstruído compara os bytes fornecidos com os esperados, mas não rejeita uma chave configurada como vazia. Em uma probe local, configurar uma chave vazia e enviar o cabeçalho `X-Admin-Key` em branco permitiu alterar tarifas recebendo **HTTP 200**. [Filtro Java][simple-admin], [Middleware Rust][rebuilt-router].
 
 Esse achado aplica-se à hipótese de configuração vazia, e não a chaves devidamente configuradas. Os manifestos podem injetar um segredo válido, mas a reescrita alterou o comportamento de falha na ausência de configuração.
 
@@ -340,7 +340,7 @@ As garantias de segurança de memória do Rust não asseguram que “um cancelam
 
 ### O SonarCloud e a cobertura utilizam escopos diferentes
 
-Os READMEs históricos relatam zero vulnerabilidades abertas no SonarCloud e coberturas superiores às metas estipuladas: 89,1% no Java arquitetura, 85,2% no Java simples, 86,6% no Java refatorado e 91,1% no Rust reconstruído. O Rust greenfield exibe sete projetos analisados isoladamente, com percentuais distintos e alguns quality gates marcados como “Not computed”, em vez de um índice unificado. São registros legados dos autores, e não escaneamentos novos desta auditoria.
+Os READMEs históricos relatam zero problemas abertos no SonarCloud e coberturas superiores às metas estipuladas: 89,1% no Java arquitetura, 85,2% no Java simples, 86,6% no Java refatorado e 91,1% no Rust reconstruído. O Rust greenfield exibe sete projetos analisados isoladamente, com percentuais distintos e alguns quality gates marcados como “Not computed”, em vez de um índice unificado. São registros legados dos autores, e não escaneamentos novos desta auditoria.
 
 As configurações dos scanners diferem em linguagens, relatórios importados, exclusões e granularidade de análise. Portanto, essas porcentagens não definem qual base é mais sustentável. Um teste automatizado pode cobrir quase todas as linhas de código e ainda ignorar cancelamentos simultâneos que corrompem o inventário. [Script de análise do greenfield][rust-sonar], [Escopo do Java arquitetura][ddd-sonar], [Escopo do reconstruído][rebuilt-sonar].
 
@@ -354,7 +354,7 @@ Nenhuma auditoria nova do Lighthouse foi conduzida para este artigo. Notas eleva
 
 Utilizar o mesmo modelo e o modo Max fixa dois parâmetros, mas não iguala o esforço total nem a complexidade do ponto de partida. Os READMEs reportam **2h 32m 55s** para o Rust greenfield, **3h 46m 53s** para o Java arquitetura e **1h 02m 24s** para o Rust reconstruído. Os READMEs do Java simples e refatorado não informam tempos decorridos equivalentes, motivo pelo qual as estimativas do Gemini para esses dois foram descartadas. Trata-se de durações de sessão reportadas, não de medições de tarefas humanas de manutenção. [Registro do Rust][rust-readme], [Registro do Java arquitetura][ddd-readme], [Registro da reescrita][rebuilt-readme].
 
-A contabilização de tokens também varia na documentação. O Rust reconstruído lista suas entradas como não cacheadas, enquanto projetos anteriores tratam tokens cacheados como fração da entrada total. O Java simples discrimina $0,84 em tokens de modelo e $0,15 em buscas web; juntar esses valores enquanto outros projetos consideram apenas tokens distorce a base. Sem inspecionar os logs originais das requisições, não é viável estabelecer um ranking justo de custo por arquitetura. [Contabilidade do Java simples][simple-readme], [Contabilidade da reescrita][rebuilt-readme].
+A contabilização de tokens também varia na documentação. O Rust reconstruído lista suas entradas como não cacheadas, enquanto projetos anteriores tratam tokens cacheados como fração da entrada total. O Java simples discrimina US$ 0,84 em tokens de modelo e US$ 0,15 em buscas web; juntar esses valores enquanto outros projetos consideram apenas tokens distorce a base. Sem inspecionar os logs originais das requisições, não é viável estabelecer um ranking justo de custo por arquitetura. [Contabilidade do Java simples][simple-readme], [Contabilidade da reescrita][rebuilt-readme].
 
 O esforço da reescrita final não inclui o trabalho prévio investido no frontend reaproveitado, nos contratos e nos projetos Java antecessores. Sua sessão mais breve é perfeitamente compatível com herança de código e escopo reduzido de implantação; não isola uma vantagem intrínseca de produtividade do Rust. Da mesma forma, a sessão mais longa do Java arquitetura não prova que o uso de interfaces foi o causador exclusivo do tempo adicional.
 

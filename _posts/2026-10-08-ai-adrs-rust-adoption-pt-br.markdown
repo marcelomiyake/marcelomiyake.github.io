@@ -36,7 +36,7 @@ flowchart TD
 
     subgraph ModernADR ["Novo Cálculo do ADR em 2026"]
         Dec["Decisão: Adotar Rust para infraestrutura de computação e inferência"]
-        Cons["Consequências: Latência determinística sub-10ms em p99 e redução de 1000x em falhas"]
+        Cons["Consequências: Latência determinística sub-10ms em p99 e densidade ~1000x menor de falhas de memória (dados do Android)"]
     end
 
     PreAI --> AIShifts
@@ -164,23 +164,23 @@ Em Rust, o cenário se inverte. O compilador atua como um harness determinístic
 Esse loop de feedback se conecta diretamente aos conceitos que explorei em [Harness Engineering]({% link _posts/2026-09-20-harness-engineering-pt-br.markdown %}) e [Loop Engineering]({% link _posts/2026-09-22-loop-engineering-pt-br.markdown %}): o compilador gera diagnósticos estruturados que o agente consome iterativamente até que o código compile sem erros.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Ciclo de correção automática com compilador como harness em Rust
     accDescr: Um agente de IA propõe código Rust. O compilador analisa ownership e tipos. Diagnósticos de erro alimentam diretamente o agente em um loop de correção delimitado, entregando segurança de memória antes da revisão humana.
     A["Agente de Código com IA"] -->|Propõe código| C["Compilador Rust (rustc + Clippy)"]
     C -->|Erros de empréstimo / lifetime| F["Diagnósticos estruturados em JSON"]
     F -->|Loop delimitado de correção| A
-    C -->|Compilação limpa| V["Candidato Verificado (Sem vazamentos, sem data races)"]
+    C -->|Compilação limpa| V["Candidato Compilado (Memória segura, sem data races em Rust seguro)"]
     V --> H["Revisão Humana de Arquitetura"]
 ```
 
-Evidências empíricas de grandes organizações confirmam esse ganho. A migração de componentes centrais do Android para Rust, documentada pelo Google ao longo de vários anos, apresentou dados expressivos:
+Evidências empíricas de grandes organizações confirmam esse ganho. A transição do novo desenvolvimento do Android para Rust e outras linguagens com segurança de memória, documentada pelo Google ao longo de vários anos, apresentou dados expressivos ([relatório de 2024](https://security.googleblog.com/2024/09/eliminating-memory-safety-vulnerabilities-Android.html), [relatório de 2025](https://blog.google/security/rust-in-android-move-fast-fix-things/)):
 
-* **Queda substancial em falhas de memória**: O volume anual de vulnerabilidades de memória caiu de 223 em 2019 para menos de 50 em 2024, reduzindo sua representatividade de 76% do total de falhas do sistema operacional para menos de 20%.
-* **Densidade de defeitos ~1.000 vezes menor**: O código novo escrito em Rust apresentou uma densidade de vulnerabilidades de memória cerca de três ordens de magnitude menor do que o código legado em C/C++.
-* **20% menos revisões antes do merge**: O código em Rust exigiu um quinto a menos de ciclos de ajustes durante o desenvolvimento.
-* **Revisão de código 25% mais rápida**: Os revisores gastaram menos tempo procurando falhas de limite e vazamento de memória, pois essas garantias já haviam sido validadas pelo compilador.
-* **Redução de 4x na taxa de rollback**: Serviços em Rust registraram uma frequência de rollback quatro vezes menor do que a média dos serviços legados.
+* **Queda substancial em falhas de memória**: Os problemas de segurança de memória caíram de 76% das vulnerabilidades do Android em 2019 para 24% em 2024 e ficaram abaixo de 20% em 2025.
+* **Densidade de vulnerabilidades ~1.000 vezes menor**: O Google estima uma densidade de vulnerabilidades de memória cerca de três ordens de magnitude menor no código Rust do Android do que no seu código C e C++.
+* **20% menos revisões**: Alterações em Rust de tamanho semelhante precisaram de cerca de 20% menos revisões do que as equivalentes em C++.
+* **25% menos tempo de code review**: Alterações em Rust passaram 25% menos tempo em revisão de código.
+* **Taxa de rollback 4x menor**: Alterações em Rust foram revertidas cerca de quatro vezes menos.
 
 Além disso, o Google constatou que vulnerabilidades em sistemas existentes decaem naturalmente conforme os bugs são corrigidos ao longo do tempo. As empresas não precisam reescrever todo o legado de uma só vez; exigir Rust para novos serviços de alto desempenho estanca imediatamente a injeção de novas falhas de memória.
 
@@ -192,7 +192,7 @@ Essas mudanças técnicas são acompanhadas por diretrizes institucionais que in
 
 * **Diretriz da Casa Branca e ONCD (fevereiro de 2024)**: No relatório *Back to the Building Blocks: A Path Toward Secure and Measurable Software*, o Escritório do Diretor Cibernético Nacional dos EUA, em conjunto com CISA, NSA e FBI, recomendou formalmente que operadores de infraestrutura crítica migrem para linguagens com segurança de memória, posicionando Rust como a principal recomendação.
 * **Linguagem central do Kernel Linux (dezembro de 2025)**: O Linux Kernel Maintainers Summit reclassificou Rust de linguagem experimental para linguagem de desenvolvimento permanente do kernel, ao lado do C.
-* **Certificações para sistemas críticos**: A cadeia de ferramentas Ferrocene obteve qualificação de segurança IEC 61508 SIL 2, liberando o uso de Rust em setores altamente regulados, como automotivo, aeroespacial e médico.
+* **Certificações para sistemas críticos**: A cadeia de ferramentas Ferrocene é qualificada pela TÜV SÜD para ISO 26262 (ASIL D), IEC 61508 (SIL 3) e IEC 62304 (Classe C), e em dezembro de 2025 um subconjunto da biblioteca core do Rust recebeu a [certificação IEC 61508 SIL 2](https://ferrous-systems.com/blog/ferrocene-libcore-news-release/), liberando o uso de Rust em setores regulados, como automotivo, industrial e de dispositivos médicos.
 * **Evolução da comunidade**: Levantamento da SlashData apontou que a comunidade ativa de Rust chegou a 4 milhões de desenvolvedores no início de 2024 (o dobro de 2022). Em 2025, o Stack Overflow registrou o décimo ano consecutivo de Rust como a linguagem mais admirada do mundo.
 
 ---
@@ -211,7 +211,7 @@ Aceito
 2026-10-08
 
 ## Contexto
-Nossa plataforma corporativa está integrando recuperação aumentada por geração (RAG)
+Nossa plataforma corporativa está integrando geração aumentada por recuperação (RAG)
 e embeddings vetoriais em tempo real. Nos caminhos críticos de telemetria e recomendação,
 nossos microsserviços em Go apresentam picos de latência p99 superiores a 120ms provocados
 por assistentes de ritmo de garbage collection (mark assist) durante a navegação em

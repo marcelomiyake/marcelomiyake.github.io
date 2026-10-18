@@ -68,7 +68,7 @@ Essa escolha trouxe um custo operacional invisível conhecido como o **"imposto 
 Em um ambiente de polyrepos, qualquer mudança arquitetural que corte múltiplos serviços — como atualizar um contrato em Protocol Buffers, migrar um protocolo de autenticação ou alterar um modelo de domínio compartilhado — torna-se uma transação distribuída complexa. O desenvolvedor precisa:
 1. Comitar a alteração de interface em um repositório central de bibliotecas.
 2. Aguardar a esteira de CI gerar e publicar uma nova versão semântica em um registro interno.
-3. Abrir pull requests individuais em cada um dos repositórios que consom a biblioteca.
+3. Abrir pull requests individuais em cada um dos repositórios que consomem a biblioteca.
 4. Coordenar a sequência de merge e a ordem de deploy entre diferentes equipes.
 5. Manter camadas temporárias de retrocompatibilidade para suportar deploys graduais.
 
@@ -116,29 +116,30 @@ Quando um desenvolvedor solicita a um agente de IA a adição de um campo em um 
 O pull request gerado representa um **commit atômico**. Ou todo o grafo compila e passa nos testes, ou o pull request é rejeitado. Não há estados intermediários quebrados nem divergência de versões em produção.
 
 ```mermaid
+%%{init: {"sequence": {"width": 100, "actorMargin": 30}}}%%
 sequenceDiagram
     accTitle: Refatoração atômica transversal orquestrada por agente de IA em monorepo
     accDescr: Um agente de IA modifica uma definição em packages/api-contracts, regenera bindings, atualiza serviços consumidores em apps/ e valida testes afetados em um único pull request atômico.
     autonumber
-    actor Dev as Engenheiro de Software
-    participant Agent as Agente de Código com IA
-    participant Contracts as packages/api-contracts
-    participant Identity as apps/identity-service
-    participant Order as apps/order-service
-    participant CI as CI com Grafo (Nx / Bazel)
+    actor Dev as Engenheiro<br/>de Software
+    participant Agent as Agente de<br/>Código com IA
+    participant Contracts as packages/<br/>api-contracts
+    participant Identity as apps/identity-<br/>service
+    participant Order as apps/order-<br/>service
+    participant CI as CI com Grafo<br/>(Nx / Bazel)
 
-    Dev->>Agent: "Adicione tenant_id ao evento OrderCreated e atualize os consumidores"
-    Agent->>Contracts: Atualiza order_events.proto e gera stubs
-    Agent->>Identity: Atualiza payload do produtor do evento
-    Agent->>Order: Atualiza handler e mocks do consumidor
-    Agent->>CI: Executa testes dos projetos afetados via DAG
-    CI-->>Agent: Testes aprovados sem divergência de contrato
-    Agent-->>Dev: Propõe Pull Request atômico unificado
+    Dev->>Agent: "Adicione tenant_id ao<br/>OrderCreated e atualize<br/>os consumidores"
+    Agent->>Contracts: Atualiza order_events.proto<br/>e gera stubs
+    Agent->>Identity: Atualiza payload<br/>do produtor
+    Agent->>Order: Atualiza handler<br/>e mocks do consumidor
+    Agent->>CI: Executa testes afetados<br/>via DAG
+    CI-->>Agent: Testes aprovados sem<br/>divergência de contrato
+    Agent-->>Dev: Propõe Pull Request<br/>atômico unificado
 ```
 
 Os dados de velocidade observados no setor são contundentes:
 
-* **Engenharia de Plataforma do Airbnb**: O Airbnb utilizou agentes de IA dentro de um monorepo unificado para concluir uma migração crítica de infraestrutura originalmente estimada em 18 meses em apenas **6 semanas** — uma aceleração de 12 vezes.
+* **Airbnb**: Um [pipeline de migração baseado em LLMs](https://airbnb.tech/infrastructure/accelerating-large-scale-test-migration-with-llms/) migrou quase 3.500 arquivos de testes React do Enzyme para a React Testing Library em **6 semanas**, contra uma estimativa de 1,5 ano de trabalho manual de engenharia.
 * **Benchmarks da Plataforma Nx**: Em medições controladas conduzidas pela Nx, engenheiros utilizando agentes em monorepos com grafos completaram alterações complexas entre múltiplos projetos **4 vezes mais rápido** do que em polyrepos, com redução de um terço no esforço total.
 * **Stripe**: Realiza o merge de mais de **1.000 pull requests gerados por IA por semana** em um monorepo interno com centenas de milhões de linhas de código.
 * **Razorpay**: Gera cerca de 1.000 pull requests automatizados semanalmente, com cerca de 100 integrados sem intervenção humana e um terço das revisões de código concluídas integralmente por IA.

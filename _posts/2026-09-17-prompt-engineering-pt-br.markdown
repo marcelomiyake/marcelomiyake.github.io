@@ -209,8 +209,8 @@ Registre os resultados em uma tabela comparativa. Os valores abaixo são ilustra
 
 | Tarefa / Commit Inicial | Versão do Prompt & Modelo | Testes de Aceite Aprovados | Regressões | Tentativas de Correção | Tempo de Review | Latência | Custo Total |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Desconto checkout #482 | Prompt v1 / Claude 3.5 | 4 / 5 | 1 | 2 | 12 min | 45s | \$0,042 |
-| Desconto checkout #482 | Prompt v2 / Claude 3.5 | 5 / 5 | 0 | 0 | 4 min | 28s | \$0,028 |
+| Desconto checkout #482 | Prompt v1 / Claude 3.5 | 4 / 5 | 1 | 2 | 12 min | 45s | US\$ 0,042 |
+| Desconto checkout #482 | Prompt v2 / Claude 3.5 | 5 / 5 | 0 | 0 | 4 min | 28s | US\$ 0,028 |
 
 Para avaliações automatizadas em escala, você pode usar ferramentas de scoring estruturado como a [primitiva Score do TypeSafe Jev](https://docs.typesafe.ai/primitives/score) para avaliar a cobertura de requisitos e a qualidade dos diffs, aplicando o [padrão de composite scoring](https://docs.typesafe.ai/patterns/composite-scoring).
 

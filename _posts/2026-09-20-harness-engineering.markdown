@@ -28,7 +28,7 @@ A robust agent harness separates platform-level security controls from project-l
 A written prompt instruction like *"Never write to production databases"* is merely guidance to the model; a model can misunderstand or hallucinate. Enforced network boundaries, unprivileged service accounts, and sandboxed runtimes provide actual, non-negotiable security controls.
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Agent tool execution and sandbox loop
     accDescr: The AI model proposes a tool action. The runtime checks permissions and runs the tool in an isolated sandbox. Exit status and output return to the model.
     Model["Model Proposes Tool Action"] --> Runtime["Runtime Checks Permissions & Scope"]
@@ -105,7 +105,7 @@ Standardize all agent commands in an `AGENTS.md` file using hermetic, script-bac
 
 ## Standardize tool connectivity with MCP
 
-The **Model Context Protocol (MCP)** is an open standard that allows AI agents to discover and invoke tools exposed by local or remote servers. MCP can connect agents to database schema inspectors, issue trackers, internal APIs, or headless browsers (see [MCP Tools Specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools)).
+The **Model Context Protocol (MCP)** is an open standard that allows AI agents to discover and invoke tools exposed by local or remote servers. MCP can connect agents to database schema inspectors, issue trackers, internal APIs, or headless browsers (see [MCP Tools Specification](https://modelcontextprotocol.io/specification/2026-07-28/server/tools)).
 
 However, using MCP does not automatically make an agent safe:
 * **Enforce read-only database connections:** An MCP tool description stating "read-only" does not prevent SQL writes unless enforced by database user credentials.
@@ -177,5 +177,7 @@ Harness engineering transforms an AI model into a dependable engineering collabo
 * Pair architectural guidelines with **automated sensors and actionable error messages**.
 * Standardize build and verification scripts in **`AGENTS.md`**.
 * Connect external tools via **MCP** and package recurring tasks as **skills**.
+
+In a later article, [Why Harness Engineering Matters]({% post_url 2026-10-18-harness-engineering-in-practice %}), I review studies that hold the model fixed and measure how the harness alone changes accuracy and cost.
 
 Once your agent has reliable tools and a safe execution sandbox, how do you define what it should build? In our next guide, [Spec-Driven Development: Why Planning Matters More Than Ever with AI]({% post_url 2026-09-21-spec-driven-development %}), we explore how specifications prevent costly architectural drift.

@@ -85,6 +85,8 @@ Os projetos mostram que um modelo de menor custo pode contribuir para implementa
 
 O preço menor por token pode economizar em uma tarefa curta e bem delimitada. Se o modelo precisar de mais tentativas ou gerar defeitos que levem mais tempo para revisar, o custo total pode aumentar. O harness pode melhorar os resultados de ambos os modelos; mantenha-o constante para isolar o efeito da escolha do modelo.
 
+O experimento inverso também é informativo. Nos estudos que analiso em [Por que Harness Engineering importa](/posts/harness-engineering-in-practice/), manter a família de modelos fixa e trocar apenas o harness alterou o custo estimado por tentativa entre 2,1x e 3,1x.
+
 ---
 
 ## Aplique as lições sem exagerar as conclusões

@@ -136,7 +136,7 @@ Opening hotel details and entering checkout create different funnel denominators
 A consistent future acceptance contract could make abandonment provisional, record activity rather than only navigation, and allow verified payment to supersede an earlier timeout:
 
 ```mermaid
-flowchart LR
+flowchart TD
     accTitle: Proposed common contract for reservation abandonment
     accDescr: Each started journey retains its last checkout screen. Backend-verified payment marks it completed; otherwise thirty minutes of inactivity provisionally marks it abandoned. New activity or payment causes reassessment.
     J["Journey and last checkout screen"] --> P{"Payment verified by backend?"}

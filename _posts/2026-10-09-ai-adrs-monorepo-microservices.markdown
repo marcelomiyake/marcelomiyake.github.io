@@ -114,29 +114,30 @@ When an engineer instructs an AI agent to add a field to a Protocol Buffer contr
 The resulting pull request represents a **single atomic commit**. Either the entire dependency graph builds, passes linting, and clears integration tests, or the pull request is rejected. Version skew and broken intermediate states are structurally eliminated.
 
 ```mermaid
+%%{init: {"sequence": {"width": 100, "actorMargin": 30}}}%%
 sequenceDiagram
     accTitle: Atomic cross-cutting refactoring orchestrated by an AI agent in a monorepo
     accDescr: An AI agent modifies a shared protobuf definition in packages/api-contracts, regenerates bindings, updates consumer services in apps/, and verifies all affected test suites in a single atomic pull request.
     autonumber
-    actor Dev as Software Engineer
-    participant Agent as AI Coding Agent
-    participant Contracts as packages/api-contracts
-    participant Identity as apps/identity-service
-    participant Order as apps/order-service
-    participant CI as Graph-Aware CI (Nx / Bazel)
+    actor Dev as Software<br/>Engineer
+    participant Agent as AI Coding<br/>Agent
+    participant Contracts as packages/<br/>api-contracts
+    participant Identity as apps/identity-<br/>service
+    participant Order as apps/order-<br/>service
+    participant CI as Graph-Aware CI<br/>(Nx / Bazel)
 
-    Dev->>Agent: "Add tenant_id to OrderCreated event and update consumers"
-    Agent->>Contracts: Update order_events.proto & generate stubs
-    Agent->>Identity: Update event publisher payload
-    Agent->>Order: Update event subscriber handler & mocks
-    Agent->>CI: Run affected test suites (DAG analysis)
-    CI-->>Agent: Tests pass with zero contract drift
-    Agent-->>Dev: Propose single atomic Pull Request
+    Dev->>Agent: "Add tenant_id to<br/>OrderCreated and<br/>update consumers"
+    Agent->>Contracts: Update order_events.proto<br/>& generate stubs
+    Agent->>Identity: Update event<br/>publisher payload
+    Agent->>Order: Update subscriber<br/>handler & mocks
+    Agent->>CI: Run affected test suites<br/>(DAG analysis)
+    CI-->>Agent: Tests pass with<br/>zero contract drift
+    Agent-->>Dev: Propose single atomic<br/>Pull Request
 ```
 
 The empirical velocity gains of this model are striking:
 
-* **Airbnb Platform Engineering**: Airbnb leveraged AI agents within a unified monorepo to compress a critical infrastructure migration originally budgeted for 18 months down to **6 weeks**—a 12x duration compression.
+* **Airbnb**: An [LLM-driven migration pipeline](https://airbnb.tech/infrastructure/accelerating-large-scale-test-migration-with-llms/) moved nearly 3,500 React test files from Enzyme to React Testing Library in **6 weeks**, against an estimated 1.5 years of manual engineering work.
 * **Nx Platform Benchmarks**: In controlled developer benchmarks conducted by platform tooling provider Nx, software engineers utilizing AI agents within graph-managed monorepos completed complex cross-project changes **4x faster** than in multi-repo configurations, reducing overall engineering effort by one-third.
 * **Stripe**: Merges over **1,000 AI-authored pull requests per week** against an internal monorepo spanning hundreds of millions of lines of code.
 * **Razorpay**: Generates approximately 1,000 automated pull requests weekly, with roughly 100 merging with zero human intervention and one in three code reviews completing end-to-end via automated AI review.
