@@ -12,3 +12,8 @@
   .bundle
 {%- endif -%}
 ';
+
+/* Wrap long Markdown table cells instead of stretching tables past the post column. */
+.content .table-wrapper > table :is(th, td) {
+  white-space: normal;
+}
