@@ -23,14 +23,9 @@ Modern software engineering treats an autonomous agent not as an isolated neural
 
 In this decomposition, the **model** provides probabilistic reasoning, code synthesis, and high-level planning. The **harness** is the deterministic software infrastructure that wraps the model—governing its context window, mediating filesystem and network access, executing tools inside isolated sandboxes, and feeding structured diagnostic signals back into the reasoning loop.
 
-### The cybernetic control matrix: guides and sensors
+### Guides and sensors
 
-As Birgitta Böckeler outlines in [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html), an effective harness operates as a **closed-loop cybernetic control system**. It regulates a probabilistic model through two directional mechanisms crossed with two execution modes:
-
-| Control Direction | Computational / Deterministic (Zero Token Cost, 100% Precision) | Inferential / Semantic (LLM-Driven, Contextual Flexibility) |
-| :--- | :--- | :--- |
-| **Feedforward Guides** *(Anticipatory steering before action)* | Pre-hydrated sandbox snapshots, static AST call-graph injection, deterministic tool schemas, filesystem chroot, network egress allowlists | Root `AGENTS.md` / `CLAUDE.md` constitutional prompts, on-demand `SKILL.md` playbooks, architectural few-shot examples |
-| **Feedback Sensors** *(Reactive verification after action)* | Compiler diagnostics (`rustc`, `tsc`), linter rules, unit/integration test runners, mutation testing, git diff path blockers | LLM-as-a-Judge PR reviewers, adversarial QA evaluator subagents, semantic scope-creep detectors |
+The earlier [Harness Engineering]({% post_url 2026-09-20-harness-engineering %}#pair-every-architectural-rule-with-observable-feedback) guide covers Birgitta Böckeler's split between **guides**, which steer the model before it acts, and **sensors**, which check its work afterward. In [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html), Böckeler also divides both by how they run: computational controls such as sandbox rules, compilers, linters, and tests, and inferential ones such as `AGENTS.md` instructions, skills, and LLM reviewers.
 
 ![Diagram of the Cybernetic Agent Harness governing probabilistic models through deterministic and semantic control loops](/assets/img/harness-engineering-in-practice/cybernetic-agent-harness.png){: width="1600" height="1278" }
 _The Cybernetic Agent Harness combines anticipatory feedforward guides with post-action feedback sensors across a four-layer runtime architecture._
@@ -39,15 +34,15 @@ _The Cybernetic Agent Harness combines anticipatory feedforward guides with post
 
 A [source-code study of **11 production coding agents**](https://arxiv.org/abs/2609.00006)—spanning roughly **4 million lines of code** across Claude Code, OpenAI Codex CLI, Gemini CLI, Mistral Vibe, OpenHands, Aider, Mini-SWE-Agent, Hermes, Pi, OpenCode, and OpenClaw—shows how much runtime surrounds the core `while (tool_call)` inference loop, and maps it into seven canonical subsystems. Regardless of language (Python, TypeScript, or Rust), production harnesses keep reimplementing the same runtime responsibilities:
 
-1. **The Agentic Execution Loop**: Managing turn-taking, streaming tool-call parsing, retry backoff, and explicit stop conditions (`end_turn`, budget caps, or terminal verification).
-2. **Rich File & Shell Tooling**: Search-and-replace patch parsers (`edit`), ripgrep-backed regex search (`grep`), AST-aware symbol navigation, and persistent PTY shell sessions.
-3. **Layered Instruction Hierarchy**: Merging global enterprise policy, repository-root `AGENTS.md` / `CLAUDE.md` files, and subdirectory-scoped rules.
-4. **Adaptive Context Compaction**: Monitoring token pressure and summarizing stale tool outputs before hitting the **context rot zone** (where recall degrades as the window fills).
-5. **Tiered Permission & Policy Engine**: Classifying actions into auto-approved reads, workspace-bounded edits, and high-risk mutations requiring policy verification or human approval.
-6. **Subagent Spawning & Context Isolation**: Delegating noisy exploration or parallel verification tasks to child workers with fresh context windows so only concise summaries return to the parent agent.
-7. **Deterministic Checkpoints & Rollback**: Using shadow git repositories or worktree snapshots to revert failed multi-file edits cleanly.
-8. **Crash Recovery & Append-Only Persistence**: Recording every turn to disk (`JSONL` or SQLite) so interrupted long-horizon sessions resume without losing state.
-9. **Extensibility Protocols**: Exposing Model Context Protocol (MCP) clients, lazy-loaded skills, and in-process lifecycle hooks.
+1. **Agent loop**: Managing turn-taking, streaming tool-call parsing, retry backoff, failure recovery, and explicit stop conditions (`end_turn`, budget caps, or terminal verification).
+2. **LLM integration**: Speaking each provider's protocol, assembling the prompt, and managing prompt caching, extended thinking, and model routing.
+3. **Tools and actions**: Search-and-replace patch parsers (`edit`), ripgrep-backed regex search (`grep`), AST-aware symbol navigation, and persistent PTY shell sessions.
+4. **Memory and context**: Loading layered instruction files such as `AGENTS.md` / `CLAUDE.md`, monitoring token pressure, and summarizing stale tool outputs before hitting the **context rot zone** (where recall degrades as the window fills).
+5. **Safety and permissions**: Classifying actions into auto-approved reads, workspace-bounded edits, and high-risk mutations requiring policy verification or human approval, and isolating their execution.
+6. **Orchestration**: Delegating noisy exploration or parallel verification tasks to subagents with fresh context windows so only concise summaries return to the parent agent.
+7. **Extensibility**: Configuration, lifecycle hooks, lazy-loaded skills, plugins, and Model Context Protocol (MCP) clients.
+
+The paper treats two more surfaces as cross-cutting rather than as subsystems: the interface layer (terminal UI, CLI, IDE protocol, SDK) and the session substrate, which persists transcripts so interrupted sessions can resume or fork.
 
 ---
 
@@ -161,7 +156,7 @@ Because `Function Hooks` execute in-process with the host privileges of the deve
 | :--- | :--- | :--- | :--- |
 | **License & Source Model** | **MIT Open Source** (`@deepseek-ai/dsh` TypeScript monorepo) | Proprietary CLI with open TypeScript Mod SDK | **Apache-2.0 Open Source** (Rust core + TypeScript bindings) |
 | **Core Runtime Architecture** | **Cordis** DI micro-kernel; every built-in feature is a removable plugin | Bun-powered runtime with in-process `($, e, next)` middleware hooks | Native Rust runtime optimized for OS-level sandboxing |
-| **Model Ecosystem** | DeepSeek adapter by default; other providers through pluggable `ctx.llm` adapters | Optimized for Anthropic Claude models (Opus, Sonnet, Haiku, Fable) | Optimized for OpenAI reasoning models (`o3`, `o4-mini`, `GPT-5` series) |
+| **Model Ecosystem** | DeepSeek adapter by default; other providers through pluggable `ctx.llm` adapters | Optimized for Anthropic Claude models (Opus, Sonnet, Haiku, Fable) | Optimized for OpenAI's GPT-6 family (GPT-6.1 Sol is the default) |
 | **Context & Cache Strategy** | Append-only `JSONL` session log with cache-preserving compaction (**~99% KV-cache hit rates reported**) | Automatic `/compact` summarization + `CLAUDE.md` prompt caching | Stateless turn compression with local diff snapshotting |
 | **Isolation & Security Model** | Configurable permission plugin + Docker/Bubblewrap sandbox adapters | Tiered permission rules + enterprise managed-mods policy | Kernel-enforced `Seatbelt` (macOS) and `Landlock` / `seccomp` (Linux) |
 
@@ -352,7 +347,7 @@ Prompt instructions cannot enforce data governance; the harness runtime must med
 Finally, an enterprise harness never trusts the model's self-reported *"All tests pass and the feature is ready"* message:
 
 * **Protected Path Blockers**: Like Spotify's `Honk` Diff Judge, a deterministic tool-call sensor blocks edits to `.github/workflows/`, `Dockerfile`, IAM policies, database migration history, or linter suppression rules (`// eslint-disable`) unless explicitly authorized by an elevated workflow.
-* **Actionable Diagnostic Remediation**: Following Böckeler's maintainability sensor pattern, custom architectural linters return structured `VIOLATION` / `RULE` / `REMEDIATION` messages directly to the agent's observation stream so it can self-correct module boundary leaks in one turn.
+* **Actionable Diagnostic Remediation**: Custom architectural linters return messages that name the violation, the rule, and the fix (see the [example in Harness Engineering]({% post_url 2026-09-20-harness-engineering %}#make-maintainability-feedback-actionable)), so the agent can correct a module boundary leak without guessing.
 * **Bounded Repair Budgets**: Enforcing a hard cap (such as two local compiler/test repair rounds and two CI rounds) prevents runaway token spend and escalates ambiguous failures to human engineers with a clean reproducibility report.
 
 ---

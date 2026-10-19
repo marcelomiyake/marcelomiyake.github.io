@@ -25,14 +25,9 @@ A engenharia de software moderna trata um agente autônomo não como uma rede ne
 
 Nessa decomposição, o **modelo** fornece raciocínio probabilístico, síntese de código e planejamento de alto nível. O **harness** é a infraestrutura de software determinística que envolve o modelo — gerenciando a janela de contexto, mediando o acesso ao sistema de arquivos e à rede, executando ferramentas em sandboxes isolados e devolvendo sinais diagnósticos estruturados para o ciclo de raciocínio.
 
-### A matriz de controle cibernético: guias e sensores
+### Guias e sensores
 
-Como Birgitta Böckeler detalha em [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html), um harness eficaz opera como um **sistema de controle cibernético em malha fechada**. Ele regula um modelo probabilístico combinando duas direções de controle com dois modos de execução:
-
-| Direção de Controle | Computacional / Determinístico (Custo Zero de Tokens, 100% de Precisão) | Inferencial / Semântico (Baseado em LLM, Flexibilidade Contextual) |
-| :--- | :--- | :--- |
-| **Guias Feedforward** *(Direcionamento antecipado antes da ação)* | Snapshots de sandbox pré-aquecidos, injeção estática de grafos AST, schemas determinísticos de ferramentas, isolamento `chroot`, allowlists de rede | Prompts constitucionais no `AGENTS.md` / `CLAUDE.md`, playbooks sob demanda em `SKILL.md`, exemplos arquiteturais few-shot |
-| **Sensores de Feedback** *(Verificação reativa após a ação)* | Diagnósticos de compilador (`rustc`, `tsc`), regras de linter, executores de testes unitários e de integração, testes de mutação, bloqueadores de diff por caminho | Revisores de PR no padrão LLM-as-a-Judge, subagentes avaliadores de QA adversarial, detectores semânticos de desvio de escopo |
+O artigo anterior sobre [Harness Engineering](/posts/harness-engineering/#combine-cada-regra-arquitetural-com-um-sensor-observável) apresenta a divisão de Birgitta Böckeler entre **guias**, que orientam o modelo antes da ação, e **sensores**, que verificam o trabalho depois dela. Em [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html), Böckeler também classifica ambos pela forma de execução: controles computacionais, como regras de sandbox, compiladores, linters e testes, e controles inferenciais, como instruções no `AGENTS.md`, skills e revisores baseados em LLM.
 
 ![Diagrama do Harness de Agente Cibernético governando modelos probabilísticos por meio de loops de controle determinísticos e semânticos](/assets/img/harness-engineering-in-practice/cybernetic-agent-harness.png){: width="1600" height="1278" }
 _O Harness de Agente Cibernético combina guias feedforward antecipados com sensores de feedback pós-ação em uma arquitetura de runtime de quatro camadas._
@@ -41,15 +36,15 @@ _O Harness de Agente Cibernético combina guias feedforward antecipados com sens
 
 Um [estudo do código-fonte de **11 agentes de programação em produção**](https://arxiv.org/abs/2609.00006) — somando cerca de **4 milhões de linhas de código** entre Claude Code, OpenAI Codex CLI, Gemini CLI, Mistral Vibe, OpenHands, Aider, Mini-SWE-Agent, Hermes, Pi, OpenCode e OpenClaw — mostra quanto runtime existe ao redor do loop central de inferência (`while (tool_call)`) e o organiza em sete subsistemas canônicos. Independentemente da linguagem (Python, TypeScript ou Rust), os harnesses de produção reimplementam sempre as mesmas responsabilidades de runtime:
 
-1. **Loop de Execução Agêntica**: Orquestração de turnos, parsing de chamadas de ferramentas em streaming, retentativas com backoff e condições explícitas de parada (`end_turn`, tetos de orçamento ou validação terminal).
-2. **Ferramental de Arquivos e Shell**: Parsers de patch baseados em busca e substituição (`edit`), busca regex via ripgrep (`grep`), navegação de símbolos com AST e sessões persistentes de shell PTY.
-3. **Hierarquia de Instruções em Camadas**: Combinação de políticas corporativas globais, arquivos `AGENTS.md` / `CLAUDE.md` na raiz do repositório e regras específicas por subdiretório.
-4. **Compactação Adaptativa de Contexto**: Monitoramento da pressão de tokens e sumarização de saídas antigas de ferramentas antes de atingir a **zona de degradação de contexto (context rot)** (onde a precisão cai conforme a janela se enche).
-5. **Motor de Permissões e Políticas em Camadas**: Classificação de ações entre leituras pré-aprovadas, edições restritas ao workspace e mutações críticas que exigem validação de política ou aprovação humana.
-6. **Criação de Subagentes e Isolamento de Contexto**: Delegação de buscas ruidosas ou verificações paralelas para subagentes com janelas de contexto limpas, retornando apenas resumos concisos ao agente principal.
-7. **Checkpoints Determinísticos e Rollback**: Uso de repositórios git sombra ou snapshots de worktree para reverter edições malsucedidas em múltiplos arquivos.
-8. **Recuperação de Falhas e Persistência Append-Only**: Gravação de cada turno em disco (`JSONL` ou SQLite) para retomar sessões longas interrompidas sem perda de estado.
-9. **Protocolos de Extensibilidade**: Suporte a clientes do Model Context Protocol (MCP), carregamento preguiçoso (lazy-loading) de skills e hooks de ciclo de vida em memória (in-process).
+1. **Loop do agente**: Orquestração de turnos, parsing de chamadas de ferramentas em streaming, retentativas com backoff, recuperação de falhas e condições explícitas de parada (`end_turn`, tetos de orçamento ou validação terminal).
+2. **Integração com o LLM**: Implementação do protocolo de cada provedor, montagem do prompt e gestão de cache de prompt, raciocínio estendido (thinking) e roteamento entre modelos.
+3. **Ferramentas e ações**: Parsers de patch baseados em busca e substituição (`edit`), busca regex via ripgrep (`grep`), navegação de símbolos com AST e sessões persistentes de shell PTY.
+4. **Memória e contexto**: Carregamento de arquivos de instrução em camadas, como `AGENTS.md` / `CLAUDE.md`, monitoramento da pressão de tokens e sumarização de saídas antigas de ferramentas antes de atingir a **zona de degradação de contexto (context rot)** (onde a precisão cai conforme a janela se enche).
+5. **Segurança e permissões**: Classificação de ações entre leituras pré-aprovadas, edições restritas ao workspace e mutações críticas que exigem validação de política ou aprovação humana, além do isolamento da execução.
+6. **Orquestração**: Delegação de buscas ruidosas ou verificações paralelas para subagentes com janelas de contexto limpas, retornando apenas resumos concisos ao agente principal.
+7. **Extensibilidade**: Configuração, hooks de ciclo de vida, skills carregadas sob demanda, plugins e clientes do Model Context Protocol (MCP).
+
+O artigo trata duas outras superfícies como transversais, e não como subsistemas: a camada de interface (UI de terminal, CLI, protocolo de IDE, SDK) e o substrato de sessão, que persiste as transcrições para que sessões interrompidas possam ser retomadas ou bifurcadas.
 
 ---
 
@@ -163,7 +158,7 @@ Como os `Function Hooks` rodam no mesmo processo e com os mesmos privilégios do
 | :--- | :--- | :--- | :--- |
 | **Licença e Modelo de Código** | **Open Source MIT** (monorepo TypeScript `@deepseek-ai/dsh`) | CLI proprietária com SDK aberto de Mods em TypeScript | **Open Source Apache-2.0** (núcleo em Rust + bindings TypeScript) |
 | **Arquitetura de Runtime** | Micro-kernel DI **Cordis**; cada recurso nativo é um plugin removível | Runtime em Bun com middlewares in-process `($, e, next)` | Runtime nativo em Rust otimizado para sandboxing no nível do SO |
-| **Ecossistema de Modelos** | Adaptador DeepSeek por padrão; outros provedores via adaptadores plugáveis em `ctx.llm` | Otimizado para modelos Anthropic Claude (Opus, Sonnet, Haiku, Fable) | Otimizado para modelos de raciocínio da OpenAI (séries `o3`, `o4-mini`, `GPT-5`) |
+| **Ecossistema de Modelos** | Adaptador DeepSeek por padrão; outros provedores via adaptadores plugáveis em `ctx.llm` | Otimizado para modelos Anthropic Claude (Opus, Sonnet, Haiku, Fable) | Otimizado para a família GPT-6 da OpenAI (GPT-6.1 Sol é o padrão) |
 | **Estratégia de Contexto e Cache** | Log de sessão `JSONL` append-only com compactação que preserva o cache (**relatos de ~99% de acerto de KV-cache**) | Sumarização automática `/compact` + cache de prompt do `CLAUDE.md` | Compressão de turnos sem estado com snapshots locais de diff |
 | **Isolamento e Segurança** | Plugin configurável de permissões + adaptadores de sandbox Docker/Bubblewrap | Regras de permissão em camadas + política corporativa de managed-mods | Isolamento no kernel via `Seatbelt` (macOS) e `Landlock` / `seccomp` (Linux) |
 
@@ -354,7 +349,7 @@ Instruções em linguagem natural no prompt não garantem governança de dados; 
 Por fim, um harness corporativo nunca confia cegamente na mensagem do próprio modelo dizendo *"Todos os testes passaram e a funcionalidade está pronta"*:
 
 * **Bloqueio de Caminhos Protegidos**: Como no Juiz de Diff do `Honk` no Spotify, um sensor determinístico nas chamadas de ferramenta bloqueia edições em `.github/workflows/`, `Dockerfile`, políticas de IAM, histórico de migrations de banco ou supressões de linter (`// eslint-disable`), a menos que haja autorização explícita.
-* **Diagnósticos Acionáveis de Arquitetura**: Seguindo o padrão de sensores de manutenibilidade de Böckeler, linters arquiteturais customizados retornam mensagens estruturadas no formato `VIOLAÇÃO` / `REGRA` / `CORREÇÃO` diretamente para o fluxo de observação do agente, permitindo corrigir vazamentos entre camadas em um único turno.
+* **Diagnósticos Acionáveis de Arquitetura**: Linters arquiteturais customizados retornam mensagens que indicam a violação, a regra e a correção (veja o [exemplo em Harness Engineering](/posts/harness-engineering/#torne-o-feedback-de-manutenibilidade-acionável)), para que o agente corrija um vazamento entre camadas sem precisar adivinhar.
 * **Orçamentos Delimitados de Reparo**: Impor um teto rígido (como duas rodadas de reparo local de compilador/testes e duas rodadas de CI) evita gastos descontrolados de tokens e encaminha falhas ambíguas para revisão humana acompanhadas de evidências claras de reprodução.
 
 ---
