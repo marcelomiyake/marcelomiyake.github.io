@@ -10,7 +10,7 @@ I am a Software Engineering Specialist and Systems Architect based in São Paulo
 
 Start with the [hotel implementation study](https://marcelomiyake.com.br/posts/five-ai-hotel-implementations/) and its [maintenance follow-up](https://marcelomiyake.com.br/posts/five-ai-hotel-implementations-part-2/). See [About](https://marcelomiyake.com.br/about/) for my background and engineering approach.
 
-To be clear, my goal lately isn't to build production-ready projects on GitHub. Over recent months, I wanted to improve the process for working with AI tools and practices and test whether it is possible to get good results with cheap models. Every project has guardrails for code quality and all of them were deployed on Kubernetes (most repositories feature real screenshots in the cluster), but they probably have plenty of bugs!
+My public projects are learning and reference implementations, not production systems. Over recent months, I have been testing how far AI coding tools, including low-cost models, can go when paired with specifications, quality gates, and feedback loops. The system-design projects were deployed to a local Kind cluster, and the case studies document defects that their tests missed.
 
 You can also find me on:
 

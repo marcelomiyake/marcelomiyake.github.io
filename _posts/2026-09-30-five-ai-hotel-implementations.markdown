@@ -26,13 +26,15 @@ I use short names throughout the article:
 
 | Name | Repository | Inspected commit | Backend topology |
 | :--- | :--- | :--- | :--- |
-| Rust greenfield | [hotel-rust][rust-repo] | [961071e][rust-commit] | Five Rust services and a shared crate |
-| Java architecture | [hotel-ddd-cleanarch-cqrs][ddd-repo] | [47b0c3b][ddd-commit] | Two Java services |
-| Java simple | [hotel-dry-kiss-yagni][simple-repo] | [2945cbb][simple-commit] | Four Java services and a shared library |
-| Java refactored | [hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs][refactored-repo] | [429f97f][refactored-commit] | Four Java services and a shared library |
-| Rust rebuilt | [hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust][rebuilt-repo] | [fba2378][rebuilt-commit] | One Rust backend |
+| Rust greenfield | [hotel-rust-greenfield][rust-repo] | [961071e][rust-commit] | Five Rust services and a shared crate |
+| Java architecture | [hotel-java-architecture][ddd-repo] | [47b0c3b][ddd-commit] | Two Java services |
+| Java simple | [hotel-java-simple][simple-repo] | [2945cbb][simple-commit] | Four Java services and a shared library |
+| Java refactored | [hotel-java-refactored][refactored-repo] | [429f97f][refactored-commit] | Four Java services and a shared library |
+| Rust rebuilt | [hotel-rust-rebuilt][rebuilt-repo] | [fba2378][rebuilt-commit] | One Rust backend |
 
 The shared Java module is a library, not a fifth running service. The topology counts come from the code and deployment manifests.
+
+On 2026-10-19 the repositories were renamed to match these short names (for example, `hotel-dry-kiss-yagni` became `hotel-java-simple`); links to the old names still redirect.
 
 The READMEs record the model, effort, original prompts, and implementation measurements. The project owner also confirmed the model settings. I did not independently audit the complete generation logs.
 
@@ -423,66 +425,66 @@ The harness requires the three pinned, clean snapshots and creates and removes i
 
 Fresh SonarCloud scans, Lighthouse audits, full Kind image deployments, real payment-provider integration, load benchmarks, backup restoration, and production failover were not run. Findings from static review and targeted probes cover the stated paths rather than every possible behavior.
 
-[rust-repo]: https://github.com/marcelomiyake/hotel-rust
-[ddd-repo]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs
-[simple-repo]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni
-[refactored-repo]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs
-[rebuilt-repo]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust
-[rust-commit]: https://github.com/marcelomiyake/hotel-rust/commit/961071eaa773c6f0e37c438da8336d2ac2f466eb
-[ddd-commit]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/commit/47b0c3b79a96ba94c433e54639bfe9cdc5be1541
-[simple-commit]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/commit/2945cbb7fdd929d29ec1671654d6dd09486d15a0
-[refactored-commit]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/commit/429f97f28ffaa47ba208463fd11e555763a07b58
-[rebuilt-commit]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/commit/fba23789a507bf3179a214560ee7f215ad9eaa74
+[rust-repo]: https://github.com/marcelomiyake/hotel-rust-greenfield
+[ddd-repo]: https://github.com/marcelomiyake/hotel-java-architecture
+[simple-repo]: https://github.com/marcelomiyake/hotel-java-simple
+[refactored-repo]: https://github.com/marcelomiyake/hotel-java-refactored
+[rebuilt-repo]: https://github.com/marcelomiyake/hotel-rust-rebuilt
+[rust-commit]: https://github.com/marcelomiyake/hotel-rust-greenfield/commit/961071eaa773c6f0e37c438da8336d2ac2f466eb
+[ddd-commit]: https://github.com/marcelomiyake/hotel-java-architecture/commit/47b0c3b79a96ba94c433e54639bfe9cdc5be1541
+[simple-commit]: https://github.com/marcelomiyake/hotel-java-simple/commit/2945cbb7fdd929d29ec1671654d6dd09486d15a0
+[refactored-commit]: https://github.com/marcelomiyake/hotel-java-refactored/commit/429f97f28ffaa47ba208463fd11e555763a07b58
+[rebuilt-commit]: https://github.com/marcelomiyake/hotel-rust-rebuilt/commit/fba23789a507bf3179a214560ee7f215ad9eaa74
 [baseline]: https://bytebytego.com/courses/system-design-interview/hotel-reservation-system
 [clean-architecture]: https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
 [cqrs]: https://martinfowler.com/bliki/CQRS.html
-[rust-booking]: https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/services/reservation-service/src/lib.rs
-[rust-sonar]: https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/scripts/sonar-analyze.sh
-[ddd-place]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/application/PlaceReservationHandler.java
-[ddd-domain]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/Reservation.java
-[ddd-availability]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/RoomAvailability.java
-[ddd-inventory]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/out/postgres/JdbcRoomInventory.java
-[ddd-store]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/out/postgres/JdbcReservationStore.java
-[ddd-schema]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/resources/db/migration/V1__create_reservations_and_inventory.sql
-[ddd-catalog]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/catalog-service/src/main/java/com/wayfarer/catalog/adapter/in/web/HotelController.java
-[ddd-cancel]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/application/CancelReservationHandler.java
-[ddd-query]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/in/web/ReservationQueryController.java
-[ddd-tests]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/test/java/com/wayfarer/reservation/ReservationIntegrationTest.java
-[ddd-sonar]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/sonar-project.properties
-[simple-transactions]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/reservation-service/src/main/java/com/stays/reservation/ReservationTransactions.java
-[simple-controller]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/reservation-service/src/main/java/com/stays/reservation/ReservationController.java
-[simple-admin]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/common/src/main/java/com/stays/common/AdminKeyFilter.java
-[simple-tests]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/reservation-service/src/test/java/com/stays/reservation/ReservationFlowIntegrationTest.java
-[simple-pom]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/pom.xml
-[simple-docker]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/Dockerfile
-[simple-ui]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/frontend/src/App.tsx
-[simple-readme]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/README.md
-[refactored-readme]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/README.md
-[refactored-transactions]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/ReservationTransactions.java
-[refactored-handler]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/application/command/ReservationCommandHandler.java
-[refactored-service]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/ReservationService.java
-[refactored-payment-query]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/payment-service/src/main/java/com/stays/payment/application/query/PaymentQueryHandler.java
-[refactored-request]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/ReservationRequest.java
-[refactored-search]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/SearchService.java
-[refactored-inventory]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/adapter/out/jdbc/InventoryRepository.java
-[refactored-pom]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/pom.xml
-[refactored-docker]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/Dockerfile
-[refactored-ui]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/frontend/src/presentation/HotelApp.tsx
-[rebuilt-readme]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/README.md
-[rebuilt-booking]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs
-[rebuilt-router]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/lib.rs
-[rebuilt-tests]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/tests/api_contract.rs
-[rebuilt-sonar]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/sonar-project.properties
-[rust-readme]: https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/README.md
-[ddd-readme]: https://github.com/marcelomiyake/hotel-ddd-cleanarch-cqrs/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/README.md
-[rust-deployment]: https://github.com/marcelomiyake/hotel-rust/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/deploy/kind.yaml
-[rebuilt-deployment]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/k8s/apps.yaml
-[rebuilt-payments]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/payments.rs
-[simple-hotel-controller]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/hotel-service/src/main/java/com/stays/hotel/HotelController.java
-[simple-hotel-model]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/hotel-service/src/main/java/com/stays/hotel/Hotel.java
-[refactored-hotel-controller]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/adapter/in/web/HotelController.java
-[refactored-hotel-query]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueryHandler.java
-[refactored-hotel-queries]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueries.java
-[refactored-hotel-model]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/Hotel.java
-[refactored-hotel-tests]: https://github.com/marcelomiyake/hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/test/java/com/stays/hotel/HotelDomainTest.java
+[rust-booking]: https://github.com/marcelomiyake/hotel-rust-greenfield/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/services/reservation-service/src/lib.rs
+[rust-sonar]: https://github.com/marcelomiyake/hotel-rust-greenfield/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/scripts/sonar-analyze.sh
+[ddd-place]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/application/PlaceReservationHandler.java
+[ddd-domain]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/Reservation.java
+[ddd-availability]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/domain/RoomAvailability.java
+[ddd-inventory]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/out/postgres/JdbcRoomInventory.java
+[ddd-store]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/out/postgres/JdbcReservationStore.java
+[ddd-schema]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/resources/db/migration/V1__create_reservations_and_inventory.sql
+[ddd-catalog]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/catalog-service/src/main/java/com/wayfarer/catalog/adapter/in/web/HotelController.java
+[ddd-cancel]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/application/CancelReservationHandler.java
+[ddd-query]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/main/java/com/wayfarer/reservation/adapter/in/web/ReservationQueryController.java
+[ddd-tests]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/services/reservation-service/src/test/java/com/wayfarer/reservation/ReservationIntegrationTest.java
+[ddd-sonar]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/sonar-project.properties
+[simple-transactions]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/reservation-service/src/main/java/com/stays/reservation/ReservationTransactions.java
+[simple-controller]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/reservation-service/src/main/java/com/stays/reservation/ReservationController.java
+[simple-admin]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/common/src/main/java/com/stays/common/AdminKeyFilter.java
+[simple-tests]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/reservation-service/src/test/java/com/stays/reservation/ReservationFlowIntegrationTest.java
+[simple-pom]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/pom.xml
+[simple-docker]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/Dockerfile
+[simple-ui]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/frontend/src/App.tsx
+[simple-readme]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/README.md
+[refactored-readme]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/README.md
+[refactored-transactions]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/ReservationTransactions.java
+[refactored-handler]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/application/command/ReservationCommandHandler.java
+[refactored-service]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/ReservationService.java
+[refactored-payment-query]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/payment-service/src/main/java/com/stays/payment/application/query/PaymentQueryHandler.java
+[refactored-request]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/ReservationRequest.java
+[refactored-search]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/SearchService.java
+[refactored-inventory]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/reservation-service/src/main/java/com/stays/reservation/adapter/out/jdbc/InventoryRepository.java
+[refactored-pom]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/pom.xml
+[refactored-docker]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/Dockerfile
+[refactored-ui]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/frontend/src/presentation/HotelApp.tsx
+[rebuilt-readme]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/README.md
+[rebuilt-booking]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/reservations.rs
+[rebuilt-router]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/lib.rs
+[rebuilt-tests]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/tests/api_contract.rs
+[rebuilt-sonar]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/sonar-project.properties
+[rust-readme]: https://github.com/marcelomiyake/hotel-rust-greenfield/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/README.md
+[ddd-readme]: https://github.com/marcelomiyake/hotel-java-architecture/blob/47b0c3b79a96ba94c433e54639bfe9cdc5be1541/README.md
+[rust-deployment]: https://github.com/marcelomiyake/hotel-rust-greenfield/blob/961071eaa773c6f0e37c438da8336d2ac2f466eb/deploy/kind.yaml
+[rebuilt-deployment]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/k8s/apps.yaml
+[rebuilt-payments]: https://github.com/marcelomiyake/hotel-rust-rebuilt/blob/fba23789a507bf3179a214560ee7f215ad9eaa74/services/backend/src/payments.rs
+[simple-hotel-controller]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/hotel-service/src/main/java/com/stays/hotel/HotelController.java
+[simple-hotel-model]: https://github.com/marcelomiyake/hotel-java-simple/blob/2945cbb7fdd929d29ec1671654d6dd09486d15a0/services/hotel-service/src/main/java/com/stays/hotel/Hotel.java
+[refactored-hotel-controller]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/adapter/in/web/HotelController.java
+[refactored-hotel-query]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueryHandler.java
+[refactored-hotel-queries]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/application/query/HotelQueries.java
+[refactored-hotel-model]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/main/java/com/stays/hotel/Hotel.java
+[refactored-hotel-tests]: https://github.com/marcelomiyake/hotel-java-refactored/blob/429f97f28ffaa47ba208463fd11e555763a07b58/services/hotel-service/src/test/java/com/stays/hotel/HotelDomainTest.java
 [postgres-locking]: https://www.postgresql.org/docs/17/explicit-locking.html
