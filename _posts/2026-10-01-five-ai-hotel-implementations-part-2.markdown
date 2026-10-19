@@ -2,11 +2,15 @@
 layout: post
 title: "One Hotel Design, Five AI Implementations, Part II: The Cost of a New Feature"
 seo_title: "AI Hotel Maintenance Compared (Part II) | Marcelo Miyake"
-date: 2026-10-01 00:00:00 -0300
+date: 2026-10-01 17:49:11 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing, software-maintenance]
 description: "How I assess the cost of a feature by comparing reported effort with the payment and analytics behavior delivered across five hotel systems."
+social_image: /assets/studies/hotel-implementations/social/part-2-en.png
 ---
+
+> I designed the experiment and wrote the prompts. Codex (GPT-6 Luna) inspected the repositories, ran the checks and probes, and drafted this article; Gemini supplied a second review. I reviewed the findings before publishing.
+{: .prompt-info }
 
 When I assess the cost of a change, I include whether the implementation delivers the requested business behavior. Here I follow one feature across five hotel systems and compare the reported effort with the resulting payment and analytics logic. This is how I examine maintenance claims against what the code actually does.
 
@@ -209,7 +213,7 @@ The SQL check delivered sequence 3 for checkout before sequence 2 for details. T
 
 The outcome view joins the booking table. It reports completion when a payment ID exists, even if the separate analytics completion update failed, and classifies `PAYMENT_FAILED` separately. The backend completion callback logs an analytics error instead of failing the paid booking response; a client completion event also verifies confirmed/payment-backed state. [Outcome view][rebuilt-view], [booking integration][rebuilt-booking].
 
-The actual view uses `reservations.bookings`, rather than the payment-record join illustrated in Gemini's report. Its payment ID, explicit completion timestamp, and payment-failure branch determine the outcome:
+The view joins `reservations.bookings`; the booking's payment ID, the explicit completion timestamp, and the payment-failure branch determine the outcome:
 
 ```sql
 CREATE OR REPLACE VIEW reservation_analytics.journey_outcomes AS

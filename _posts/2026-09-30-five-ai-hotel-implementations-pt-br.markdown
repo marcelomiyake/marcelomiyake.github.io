@@ -4,21 +4,30 @@ lang: pt-BR
 permalink: /posts/five-ai-hotel-implementations/
 title: "Um design de hotel, cinco implementações com IA, Parte I: qualidade após forks e reescritas"
 seo_title: "Cinco implementações de hotel com IA comparadas (Parte I) | Marcelo Miyake"
-date: 2026-09-30 00:00:00 -0300
+date: 2026-09-30 22:48:28 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing]
 description: "Como avalio cinco sistemas de hotel criados com IA por meio de regras de negócio, limites arquiteturais, defeitos reproduzíveis e escolhas de manutenção."
+social_image: /assets/studies/hotel-implementations/social/part-1-pt-br.png
 ---
+
+> Eu projetei o experimento e escrevi os prompts. O Codex (GPT-6 Luna) inspecionou os repositórios, executou as verificações e as probes e redigiu este artigo; o Gemini forneceu uma segunda revisão. Revisei os achados antes da publicação.
+{: .prompt-info }
 
 Avalio uma arquitetura acompanhando suas regras de negócio até a implementação. Esta comparação coloca essa abordagem em prática: examino cinco versões do mesmo sistema de hotel, reproduzo cenários de falha e considero o que cada versão significa para a manutenção. É um exemplo de como conecto decisões de projeto a comportamentos observáveis.
 
 Cinco projetos partiram do mesmo design de reservas de hotel, utilizando o **GPT-6 Luna com esforço Max no Codex**. Alguns começaram em Rust ou Java; outros herdaram uma implementação, ganharam camadas arquiteturais e, por fim, mudaram de linguagem. O design de negócio sobreviveu? A arquitetura melhorou a qualidade? Qual versão eu escolheria manter?
 
-As revisões inspecionadas oferecem três respostas diretas:
+Principais achados nas revisões inspecionadas:
 
-- **Nenhum implementa o design original completo com garantias demonstradas para produção.** O núcleo de reservas sobrevive nos cinco, mas omissões de requisitos, lacunas de autorização e falhas em cenários de exceção permanecem.
-- **O Rust greenfield tem o comportamento de cancelamento verificado mais robusto; o Rust reconstruído tem a topologia operacional mais simples.** O backend reescrito é menor e possui menos serviços, mas contém um bug reproduzível de corrupção de inventário e não mantém a estrutura arquitetural do backend Java. A preferência de manutenção depende de priorizarmos o comportamento correto atual ou uma plataforma mais simples para reparar e evoluir.
-- **A refatoração em Java aumenta a complexidade estrutural enquanto introduz pontos de desacoplamento úteis.** Ela adiciona portas, estados tipados e alguma validação de domínio, mas mantém quase intacta a orquestração existente e um componente React volumoso. Mais camadas não corrigiram, por si sós, os comportamentos herdados.
+- **Os cinco passam em suas suítes de teste e builds existentes.** Os testes aprovados não excluíram os defeitos abaixo.
+- **Duas das três implementações que o estudo conseguiu testar perderam um quarto reservado** quando dois cancelamentos da mesma reserva se sobrepuseram: o Rust reconstruído e o Java arquitetura liberaram o inventário duas vezes.
+- **Duas versões Java não iniciam como empacotadas.** O Java simples e o Java refatorado geram JARs de serviço sem a entrada `Main-Class`, então o `java -jar` de seus Dockerfiles falha.
+- **O Rust reconstruído aceitou uma reserva de 999 hóspedes em um quarto para 2**, e aceitou um `X-Admin-Key` vazio quando a chave configurada estava vazia.
+- **Nenhum implementa o design original completo** com garantias demonstradas para produção.
+- **Preferência de manutenção:** o Rust greenfield tem o comportamento de cancelamento verificado mais robusto. O Rust reconstruído tem a topologia operacional mais simples, mas seus defeitos precisariam ser corrigidos antes. A refatoração Java acrescenta pontos de desacoplamento úteis sem corrigir os comportamentos herdados.
+
+O padrão por trás desses resultados: **forks preservam exatamente aquilo que o processo de aceitação protege.**
 
 Este estudo de caso comparativo é a **Parte I** de uma investigação em duas etapas sobre a manutenção de software gerado por IA. Aqui, analiso a qualidade basal dos snapshots existentes: se o design de negócio sobreviveu através de forks e reescritas, como cada arquitetura se comporta sob concorrência e falhas, e o que suas estruturas estáticas revelam. Na [**Parte II**]({% link _posts/2026-10-01-five-ai-hotel-implementations-part-2-pt-br.markdown %}), comparo o esforço relatado para acrescentar rastreamento de abandono de reservas e examino o escopo das alterações, as evidências de verificação e a correção analítica nas cinco arquiteturas.
 
@@ -38,7 +47,7 @@ O módulo Java compartilhado é uma biblioteca utilitária, não um quinto servi
 
 Em 19/10/2026 os repositórios foram renomeados para corresponder a esses nomes curtos (por exemplo, `hotel-dry-kiss-yagni` passou a ser `hotel-java-simple`); os links com os nomes antigos continuam redirecionando.
 
-Os READMEs registram o modelo, o esforço, os prompts originais e as métricas de implementação. O proprietário do projeto também confirmou as configurações do modelo. Não auditei de forma independente a íntegra dos logs de geração.
+Os READMEs registram o modelo, o esforço, os prompts originais e as métricas de implementação, e eu confirmei as configurações do modelo. A íntegra dos logs de geração não foi auditada de forma independente.
 
 As três construções iniciais compartilham a mesma especificação de referência e restrições tecnológicas, mas são implementações separadas. A cadeia de transformações documentada é:
 
@@ -61,7 +70,15 @@ O prompt de reescrita solicita um backend em Rust mantendo o design system e os 
 
 O estudo inspecionou as cinco cópias locais em **30 de setembro de 2026**, fixadas nos commits acima. Rastreou fluxos de reserva, cancelamento, precificação, alterações de inventário e acesso de hóspedes por meio de handlers HTTP, código de aplicação e consultas SQL. Também comparou limites do frontend, configurações de implantação, comportamento de build, escopo de testes e documentação.
 
-Uma segunda análise fornecida pelo Gemini favoreceu o Rust reconstruído em termos de manutenibilidade e criticou o excesso de camadas no Java. Essas são perspectivas úteis. Verifiquei as alegações contestadas confrontando-as com as mesmas fontes fixadas e com os registros de teste deste estudo, incorporando os argumentos sustentados por evidências. O [registro de reconciliação de revisão]({{ '/assets/studies/hotel-implementations/review-reconciliation.json' | relative_url }}) documenta as alegações aceitas, qualificadas e rejeitadas; a segunda análise foi tratada como fonte de hipóteses, não como evidência empírica independente.
+Uma segunda análise fornecida pelo Gemini favoreceu o Rust reconstruído em termos de manutenibilidade e criticou o excesso de camadas no Java. Verifiquei cada alegação confrontando-a com as mesmas fontes fixadas e com os registros de teste deste estudo; os argumentos sustentados por evidências aparecem nas seções seguintes. A segunda análise foi tratada como fonte de hipóteses, não como evidência empírica independente.
+
+| Decisão sobre a segunda revisão | Alegações |
+| :--- | :--- |
+| Aceitas (2) | Um único backend Rust reduz a coordenação de implantação e de HTTP interno. A refatoração Java acrescenta navegação a uma leitura simples de hotel. |
+| Qualificadas (5) | O Rust reconstruído é incondicionalmente mais fácil de manter. Contagens de arquivos medem o crescimento do código de produção. O serviço reconstruído é um único binário estático. O Rust reconstruído tem um teste de contrato de ponta a ponta e testes abaixo de um segundo. A reescrita comprova isolamento estrito entre módulos. |
+| Rejeitadas (11) | Notas numéricas de fidelidade ao design. Paridade completa de comportamento e de API ao longo da cadeia de forks. O Rust greenfield mantém locks de linha durante a chamada HTTP de pagamento. Atualizações otimistas retêm locks por apenas milissegundos. A consolidação torna reserva e pagamento atômicos. O Java arquitetura incorporou pagamento e preço por noite ao serviço de reservas. A leitura de hotel passa por `FindById`, `HotelDetailsResponse` e `HotelNotFoundException`, tipos que não existem no serviço. A refatoração não agrega nenhum valor de domínio. Os projetos Java usam Spring Boot 3.x (usam 4.1.1). Todos os projetos atingiram os mesmos quality gates. Tempos e custos de tokens comprovam um ranking de produtividade. |
+
+O [registro de reconciliação de revisão]({{ '/assets/studies/hotel-implementations/review-reconciliation.json' | relative_url }}) traz a conclusão e os links de evidência de cada alegação.
 
 As evidências foram separadas em três categorias:
 
@@ -126,11 +143,13 @@ O cenário montado é deliberadamente enxuto:
 
 O resultado correto exige que um quarto permaneça reservado.
 
-| Implementação testada | Respostas | Inventário final esperado | Inventário final observado |
-| :--- | :--- | :--- | :--- |
-| Rust greenfield | Ambos HTTP 200 | Um quarto reservado | Um quarto reservado |
-| Rust reconstruído | Ambos HTTP 200 | Um quarto reservado | **Zero quartos reservados** |
-| Java arquitetura | Ambos HTTP 200 | Seis quartos disponíveis de sete | **Sete quartos disponíveis**, apesar de uma reserva ativa |
+| Implementação | Respostas | Quartos reservados: esperado / observado |
+| :--- | :--- | :--- |
+| Rust greenfield | Ambos HTTP 200 | 1 / 1 |
+| Rust reconstruído | Ambos HTTP 200 | 1 / **0** |
+| Java arquitetura | Ambos HTTP 200 | 1 / **0** (os sete quartos aparecem disponíveis) |
+| Java simples | Não testado | O serviço empacotado não inicia |
+| Java refatorado | Não testado | O serviço empacotado não inicia |
 
 As requisições sobrepuseram-se sob um cronograma de locks controlado; não foi um teste de estresse probabilístico. Esses resultados comprovam falhas funcionais sob esse agendamento, embora não quantifiquem sua frequência em produção.
 
@@ -296,7 +315,7 @@ Para a rota `GET /api/hotels/{id}`, o caminho de execução altera-se conforme a
 | Java simples | `HotelController` → `HotelRepository` → JDBC |
 | Java refatorado | `HotelController` → `HotelQueries` / `HotelQueryHandler` → `HotelReadPort` / `HotelRepository` → JDBC |
 
-O handler de consulta atua como mero repassador, sem introduzir decisões de negócio. Isso valida a preocupação levantada pelo Gemini sobre indirection desnecessária em leituras simples. Porém, o exemplo de oito classes citado naquela análise prévia não condiz com este código: `HotelQueries` é uma interface, e nem o record `FindById`, nem `HotelDetailsResponse`, nem `HotelNotFoundException` existem nesse serviço. O controller continua retornando `Hotel` diretamente. [Controller original][simple-hotel-controller], [controller refatorado][refactored-hotel-controller], [handler de consulta][refactored-hotel-query], [interface de consulta][refactored-hotel-queries].
+O handler de consulta atua como mero repassador, sem introduzir decisões de negócio, o que confirma a preocupação levantada pelo Gemini sobre indireção desnecessária em leituras simples. `HotelQueries` é uma interface, e o controller continua retornando `Hotel` diretamente. [Controller original][simple-hotel-controller], [controller refatorado][refactored-hotel-controller], [handler de consulta][refactored-hotel-query], [interface de consulta][refactored-hotel-queries].
 
 Classificar todo o código adicionado como inútil seria um erro. O construtor refatorado de `Hotel` valida dados essenciais, rejeitando identificadores nulos, nomes em branco e notas fora da faixa; além disso, realiza cópia defensiva da lista de quartos. Novos testes unitários validam esses limites de domínio. São ganhos palpáveis frente ao registro de dados anêmico anterior. [Modelo original][simple-hotel-model], [modelo refatorado][refactored-hotel-model], [testes de domínio][refactored-hotel-tests].
 
@@ -416,7 +435,15 @@ Todas as rotinas acima passaram com sucesso. Tentativas anteriores com Maven loc
 
 As probes direcionadas utilizaram os binários de debug compilados em Rust e o JAR executável do Java arquitetura, com bancos isolados e requisições HTTP locais. As integrações de taxas e pagamentos do Rust greenfield usaram stubs locais para simular falhas de disponibilidade. A sobreposição em cancelamento foi garantida mantendo um lock explícito na linha de inventário, aguardando o bloqueio de ambas as conexões no PostgreSQL e realizando o commit da transação de bloqueio. Checagens de inicialização inspecionaram manifestos de JAR e testaram execuções via JAR direto e classpath no Java simples.
 
-Para reproduzir as probes selecionadas, compile o Rust greenfield com `cargo build --locked -p reservation-service` e o Rust reconstruído com `cargo build --locked`, e em seguida gere o JAR do Java arquitetura com o Maven. Com Python 3, Docker e Java 25 disponíveis, baixe o harness e execute:
+Para reproduzir as probes selecionadas, clone os três repositórios em um mesmo diretório usando os nomes originais esperados pelo harness e faça checkout dos commits listados acima:
+
+```sh
+git clone https://github.com/marcelomiyake/hotel-rust-greenfield hotel-rust
+git clone https://github.com/marcelomiyake/hotel-rust-rebuilt hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust
+git clone https://github.com/marcelomiyake/hotel-java-architecture hotel-ddd-cleanarch-cqrs
+```
+
+Compile o Rust greenfield com `cargo build --locked -p reservation-service`, o Rust reconstruído com `cargo build --locked` a partir de `services/backend` e gere o JAR do Java arquitetura com o Maven. Com Python 3, Docker e Java 25 disponíveis, baixe o harness e execute-o com `--projects-root` apontando para esse diretório:
 
 ```sh
 python3 probes.py --projects-root /caminho/para/os/repositorios \

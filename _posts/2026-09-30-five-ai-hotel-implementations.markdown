@@ -2,21 +2,30 @@
 layout: post
 title: "One Hotel Design, Five AI Implementations, Part I: Quality After Forks and Rewrites"
 seo_title: "Five AI Hotel Implementations Compared (Part I) | Marcelo Miyake"
-date: 2026-09-30 00:00:00 -0300
+date: 2026-09-30 22:48:28 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing]
 description: "How I evaluate five AI-built hotel systems through business rules, architectural boundaries, reproducible defects, and maintenance trade-offs."
+social_image: /assets/studies/hotel-implementations/social/part-1-en.png
 ---
+
+> I designed the experiment and wrote the prompts. Codex (GPT-6 Luna) inspected the repositories, ran the checks and probes, and drafted this article; Gemini supplied a second review. I reviewed the findings before publishing.
+{: .prompt-info }
 
 I evaluate an architecture by following its business rules into the implementation. This comparison puts that approach into practice: I inspect five versions of the same hotel system, reproduce failure cases, and consider what each version would mean for maintenance. It is an example of how I connect design decisions with observable behavior.
 
 Five projects started from the same hotel reservation design, using **GPT-6 Luna at Max effort in Codex**. Some started in Rust or Java; others inherited an implementation, gained architectural layers, and eventually changed language. Did the business design survive? Did the architecture improve quality? Which version would I choose to maintain?
 
-The inspected revisions give three direct answers:
+Key findings from the inspected revisions:
 
-- **None implements the complete original design with demonstrated production guarantees.** The booking core survives in all five, but feature omissions, authorization gaps, and failure cases remain.
-- **Greenfield Rust has the stronger verified cancellation behavior; rebuilt Rust has the simpler operational topology.** The rewritten backend is smaller and has fewer services, but it contains a reproducible inventory corruption bug and does not retain the Java backend's full architectural structure. The maintenance preference depends on whether we prioritize the current behavior or a simpler platform to repair and evolve.
-- **The Java refactor increases structural complexity while adding useful seams.** It introduces ports, typed statuses, and some domain validation, but largely retains the existing orchestration and a large React component. More layers have not, by themselves, corrected inherited behavior.
+- **All five pass their existing test suites and builds.** Passing checks did not exclude the defects below.
+- **Two of the three implementations the study could probe lost a reserved room** when two cancellations of the same reservation overlapped: Rust rebuilt and Java architecture released the inventory twice.
+- **Two Java versions do not start as packaged.** Java simple and Java refactored build service JARs without a `Main-Class` entry, so the `java -jar` in their Dockerfiles fails.
+- **Rust rebuilt accepted a booking for 999 guests in a 2-guest room**, and accepted an empty `X-Admin-Key` when the configured key was empty.
+- **None implements the complete original design** with demonstrated production guarantees.
+- **Maintenance preference:** Rust greenfield has the stronger verified cancellation behavior. Rust rebuilt has the simpler operational topology, but its defects would need repair first. The Java refactor adds useful seams without correcting inherited behavior.
+
+The pattern behind these results: **forks preserve whatever the acceptance process protects.**
 
 This comparative case study is **Part I** of a two-part investigation into AI software maintenance. Here, I analyze the baseline quality of the existing snapshots: whether the business design survived across forks and rewrites, how each architecture holds up under concurrency and failure, and what their static structures reveal. In [**Part II**]({% link _posts/2026-10-01-five-ai-hotel-implementations-part-2.markdown %}), I compare the reported effort of adding reservation abandonment tracking, then inspect the change scope, verification evidence, and analytics correctness across the five architectures.
 
@@ -36,7 +45,7 @@ The shared Java module is a library, not a fifth running service. The topology c
 
 On 2026-10-19 the repositories were renamed to match these short names (for example, `hotel-dry-kiss-yagni` became `hotel-java-simple`); links to the old names still redirect.
 
-The READMEs record the model, effort, original prompts, and implementation measurements. The project owner also confirmed the model settings. I did not independently audit the complete generation logs.
+The READMEs record the model, effort, original prompts, and implementation measurements, and I confirmed the model settings. The complete generation logs were not independently audited.
 
 The three initial builds share a design reference and technology constraints, but they are separate implementations. The documented transformation chain is:
 
@@ -59,7 +68,15 @@ The rewrite prompt asks for a Rust backend while retaining the design system and
 
 The study inspected the five local checkouts on **September 30, 2026**, pinned to the commits above. It traced booking, cancellation, pricing, inventory changes, and guest access through HTTP handlers, application code, and SQL. It also compared frontend boundaries, deployment configuration, build behavior, test scope, and documentation.
 
-A second analysis supplied by Gemini favored Rust rebuilt for maintainability and criticized the extra Java layers. Those are useful alternative perspectives. I checked its disputed claims against the same pinned sources and the study's test records, incorporating the supported arguments below. The [review reconciliation record]({{ '/assets/studies/hotel-implementations/review-reconciliation.json' | relative_url }}) documents the accepted, qualified, and rejected claims; the second analysis is a source of hypotheses, not independent experimental evidence.
+A second analysis supplied by Gemini favored Rust rebuilt for maintainability and criticized the extra Java layers. I checked each of its claims against the same pinned sources and the study's test records; the supported arguments appear in the sections below. The second analysis is a source of hypotheses, not independent experimental evidence.
+
+| Second-review decision | Claims |
+| :--- | :--- |
+| Accepted (2) | One Rust backend reduces deployment and internal HTTP coordination. The Java refactor adds navigation to a simple hotel read. |
+| Qualified (5) | Rust rebuilt is unconditionally more maintainable. Source-file counts measure production code growth. The rebuilt service is one static binary. Rust rebuilt has an end-to-end contract test and subsecond tests. The rewrite proves strict module isolation. |
+| Rejected (11) | Numerical design-fidelity scores. Full behavioral and API parity across the fork chain. Rust greenfield holds row locks during the payment HTTP call. Optimistic updates hold locks for only milliseconds. Consolidation makes booking and payment atomic. Java architecture merged payment and nightly pricing into reservation. The hotel read traverses `FindById`, `HotelDetailsResponse`, and `HotelNotFoundException`, types that do not exist in the service. The refactor adds zero domain value. The Java projects use Spring Boot 3.x (they use 4.1.1). Every project met the same quality gates. Elapsed times and token costs prove a productivity ranking. |
+
+The [review reconciliation record]({{ '/assets/studies/hotel-implementations/review-reconciliation.json' | relative_url }}) gives the finding and evidence links for each claim.
 
 Evidence is separated into three categories:
 
@@ -124,11 +141,13 @@ The setup is deliberately small:
 
 The correct result is one room still reserved.
 
-| Implementation probed | Responses | Expected final inventory | Observed final inventory |
-| :--- | :--- | :--- | :--- |
-| Rust greenfield | Both HTTP 200 | One room reserved | One room reserved |
-| Rust rebuilt | Both HTTP 200 | One room reserved | **Zero rooms reserved** |
-| Java architecture | Both HTTP 200 | Six rooms available out of seven | **Seven rooms available**, despite one active booking |
+| Implementation | Responses | Rooms reserved: expected / observed |
+| :--- | :--- | :--- |
+| Rust greenfield | Both HTTP 200 | 1 / 1 |
+| Rust rebuilt | Both HTTP 200 | 1 / **0** |
+| Java architecture | Both HTTP 200 | 1 / **0** (all seven rooms shown as available) |
+| Java simple | Not probed | Packaged service does not start |
+| Java refactored | Not probed | Packaged service does not start |
 
 The requests overlapped under a controlled lock schedule; this was not a timing-only stress test. These results establish defects under that schedule, without establishing how often they occur in a deployed system.
 
@@ -294,7 +313,7 @@ For `GET /api/hotels/{id}`, the relevant path changes as follows. Arrows describ
 | Java simple | `HotelController` → `HotelRepository` → JDBC |
 | Java refactored | `HotelController` → `HotelQueries` / `HotelQueryHandler` → `HotelReadPort` / `HotelRepository` → JDBC |
 
-The query handler delegates without adding a business decision. That supports Gemini's concern about extra navigation for a simple read. But its proposed eight-class example does not match this snapshot: `HotelQueries` is an interface, and neither a `FindById` query record nor `HotelDetailsResponse` nor `HotelNotFoundException` exists in this service. The controller still returns `Hotel`. [Original controller][simple-hotel-controller], [refactored controller][refactored-hotel-controller], [query handler][refactored-hotel-query], [query interface][refactored-hotel-queries].
+The query handler delegates without adding a business decision, which supports Gemini's concern about extra navigation for a simple read. `HotelQueries` is an interface, and the controller still returns `Hotel`. [Original controller][simple-hotel-controller], [refactored controller][refactored-hotel-controller], [query handler][refactored-hotel-query], [query interface][refactored-hotel-queries].
 
 Calling all the added code useless would go too far. The refactored `Hotel` constructor rejects missing identity, blank name or city, and out-of-range ratings; it also defensively copies the room-type list. New domain tests exercise invalid hotel and room-type values. Those are concrete improvements over the original data-only record. [Original model][simple-hotel-model], [refactored model][refactored-hotel-model], [domain tests][refactored-hotel-tests].
 
@@ -414,7 +433,15 @@ All commands above passed. Earlier host Maven attempts for Java simple and Java 
 
 The targeted probes used the rebuilt debug Rust binaries and Java architecture's executable JAR, isolated databases, and HTTP requests. Rust greenfield's rate and payment calls used local stubs to inject availability failures. Cancellation overlap was enforced by holding the affected inventory row, waiting for both requests to block, and then committing the lock-holder transaction. Startup checks separately inspected generated JAR manifests and attempted Java simple's JAR and classpath launches.
 
-To reproduce the selected probes, first build Rust greenfield with `cargo build --locked -p reservation-service` and Rust rebuilt with `cargo build --locked`, then build the Java architecture JAR with its Maven command above. With Python 3, Docker, and Java 25 available, download the harness and run:
+To reproduce the selected probes, clone the three repositories into one directory under the original names the harness expects, then check out the commits listed above:
+
+```sh
+git clone https://github.com/marcelomiyake/hotel-rust-greenfield hotel-rust
+git clone https://github.com/marcelomiyake/hotel-rust-rebuilt hotel-dry-kiss-yagni-refactored-ddd-cleanarch-cqrs-rermade-rust
+git clone https://github.com/marcelomiyake/hotel-java-architecture hotel-ddd-cleanarch-cqrs
+```
+
+Build Rust greenfield with `cargo build --locked -p reservation-service`, Rust rebuilt with `cargo build --locked` from `services/backend`, and the Java architecture JAR with its Maven command above. With Python 3, Docker, and Java 25 available, download the harness and run it with `--projects-root` pointing to that directory:
 
 ```sh
 python3 probes.py --projects-root /path/to/the/repository-checkouts \

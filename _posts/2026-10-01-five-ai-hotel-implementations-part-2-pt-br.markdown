@@ -4,11 +4,15 @@ lang: pt-BR
 permalink: /posts/five-ai-hotel-implementations-part-2/
 title: "Um design de hotel, cinco implementações com IA, Parte II: o custo de uma nova funcionalidade"
 seo_title: "Manutenção de hotéis com IA comparada (Parte II) | Marcelo Miyake"
-date: 2026-10-01 00:00:00 -0300
+date: 2026-10-01 17:49:11 -0300
 categories: [Engineering]
 tags: [ai, rust, java, system-design, domain-driven-design, clean-architecture, cqrs, testing, software-maintenance]
 description: "Como avalio o custo de uma funcionalidade comparando o esforço relatado com os comportamentos de pagamento e análise em cinco sistemas de hotel."
+social_image: /assets/studies/hotel-implementations/social/part-2-pt-br.png
 ---
+
+> Eu projetei o experimento e escrevi os prompts. O Codex (GPT-6 Luna) inspecionou os repositórios, executou as verificações e as probes e redigiu este artigo; o Gemini forneceu uma segunda revisão. Revisei os achados antes da publicação.
+{: .prompt-info }
 
 Quando avalio o custo de uma mudança, considero se a implementação entrega o comportamento solicitado pelo negócio. Aqui acompanho uma funcionalidade em cinco sistemas de hotel e comparo o esforço relatado com as lógicas de pagamento e análise produzidas. É assim que examino afirmações sobre manutenção à luz do que o código realmente faz.
 
@@ -211,7 +215,7 @@ A verificação SQL entregou a sequência 3 de checkout antes da sequência 2 de
 
 A view de resultados consulta a tabela de reservas. Relata conclusão quando há um ID de pagamento, mesmo se a atualização analítica separada falhou, e classifica `PAYMENT_FAILED` separadamente. O callback de conclusão registra o erro analítico sem fazer a resposta da reserva paga falhar; um evento de conclusão do cliente também verifica confirmação e pagamento. [View de resultados][rebuilt-view], [integração da reserva][rebuilt-booking].
 
-A view real usa `reservations.bookings`, em vez do join com registros de pagamento ilustrado no relatório do Gemini. Seu ID de pagamento, timestamp explícito de conclusão e ramo de falha no pagamento determinam o resultado:
+A view faz o join com `reservations.bookings`; o ID de pagamento da reserva, o timestamp explícito de conclusão e o ramo de falha no pagamento determinam o resultado:
 
 ```sql
 CREATE OR REPLACE VIEW reservation_analytics.journey_outcomes AS
