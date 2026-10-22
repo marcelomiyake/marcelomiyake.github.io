@@ -428,3 +428,5 @@ O WebAssembly não vai extinguir os contêineres Linux, da mesma forma que os co
 
 Se o último ADR da sua equipe descartou o WebAssembly por considerá-lo restrito ao navegador, é hora de reabrir esse registro.
 
+No [próximo artigo desta série]({% link _posts/2026-10-22-ai-adrs-webassembly-nodes-vs-pixels-pt-br.markdown %}), coloco essa fronteira à prova em uma Prova de Conceito prática ([`nodes-vs-pixels`](https://github.com/marcelomiyake/nodes-vs-pixels)), comparando exatamente a mesma interface de cadastro construída com nós DOM em React e com Rust compilado para WebAssembly desenhando diretamente em um `<canvas>`.
+
