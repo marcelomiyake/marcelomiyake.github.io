@@ -424,3 +424,5 @@ WebAssembly will not eliminate Linux containers, just as containers did not elim
 
 If your team's last ADR dismissed WebAssembly as a browser-only technology, it is time to reopen that record.
 
+In the [next article in this series]({% link _posts/2026-10-22-ai-adrs-webassembly-nodes-vs-pixels.markdown %}), I put this boundary to the test with a practical Proof of Concept ([`nodes-vs-pixels`](https://github.com/marcelomiyake/nodes-vs-pixels)), comparing the exact same sign-up interface built with React DOM nodes and Rust compiled to WebAssembly painting onto a `<canvas>`.
+
