@@ -6,6 +6,7 @@ date: 2026-10-18 00:00:00 -0300
 categories: [Engineering]
 tags: [harness-engineering, ai, agents, claude-code, deepseek, prompt-engineering, architecture, developer-experience]
 description: "Why the runtime harness around an AI model drives benchmark resolution rates and 3x cost variance—with studies on DeepSeek Harness, Claude Code Mods, enterprise agents, and my prompt-dialect plugin."
+social_image: /assets/img/harness-engineering-in-practice/social-en.png
 ---
 
 When an autonomous coding workflow fails in production—looping endlessly on a broken test, burning through tens of thousands of tokens on noisy stack traces, or modifying files outside its task scope—the reflex is often to blame the underlying language model. Yet empirical studies across tens of thousands of benchmark runs and production deployments at companies like Stripe, Uber, Spotify, and Ramp point to a different bottleneck: **the runtime harness surrounding the model**.

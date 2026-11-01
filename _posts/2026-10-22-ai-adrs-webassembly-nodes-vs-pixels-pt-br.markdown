@@ -8,6 +8,7 @@ date: 2026-10-22 00:00:00 -0300
 categories: [Engineering]
 tags: [architecture, adr, webassembly, wasm, rust, react, frontend, performance, testing]
 description: "Uma Prova de Conceito prática comparando exatamente a mesma interface de cadastro construída com nós DOM em React e pixels em canvas via Rust WebAssembly — analisando complexidade de código, esforço dos agentes de IA, CPU, memória de GPU e trade-offs da plataforma."
+social_image: /assets/img/nodes-vs-pixels/social-pt-br.png
 ---
 
 No artigo anterior desta série, [Como a IA está reescrevendo Architecture Decision Records: a adoção de WebAssembly nas empresas]({% link _posts/2026-10-11-ai-adrs-webassembly-adoption-pt-br.markdown %}), analisamos por que as cargas de trabalho de IA generativa — execução de código não confiável gerado por agentes, inferência serverless em rajadas exigindo cold starts sub-milissegundo e pontes de aceleração de hardware via `WASI-NN` e `WebGPU` — inverteram o ADR corporativo a favor do WebAssembly. Somado aos artigos anteriores sobre [a adoção corporativa de Rust]({% link _posts/2026-10-08-ai-adrs-rust-adoption-pt-br.markdown %}) e [a volta ao monorepo com microsserviços]({% link _posts/2026-10-09-ai-adrs-monorepo-microservices-pt-br.markdown %}), consolidou-se uma tendência clara: agentes autônomos de programação reduzem drasticamente o custo de escrever código de baixo nível em Rust e compilá-lo para WebAssembly.
