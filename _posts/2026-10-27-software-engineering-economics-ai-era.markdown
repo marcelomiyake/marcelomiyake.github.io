@@ -6,6 +6,7 @@ date: 2026-10-27 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, agents, software-engineering, agile, architecture, spec-driven-development, harness-engineering, devops, best-practices]
 description: "Why near-zero syntax generation costs have not lowered software TCO—examining industry data on COCOMO, Function Points, story points, post-hourly pricing, hidden AI taxes, 3-person pods, and role bifurcation."
+social_image: /assets/img/software-engineering-economics-ai-era/social-en.png
 ---
 
 Across global technology organizations, AI coding assistants and autonomous agents have reached near-universal adoption: **75% to 95%** of software engineers now use AI tools at least weekly, and roughly **70%** run two to four distinct AI coding tools side by side. Yet empirical telemetry across tens of thousands of developers exposes a sharp disconnect between **task-level code generation speed** and **organizational delivery velocity**.

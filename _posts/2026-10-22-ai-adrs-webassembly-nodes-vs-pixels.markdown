@@ -6,6 +6,7 @@ date: 2026-10-22 00:00:00 -0300
 categories: [Engineering]
 tags: [architecture, adr, webassembly, wasm, rust, react, frontend, performance, testing]
 description: "A practical Proof of Concept comparing the exact same sign-up interface built with React DOM nodes and Rust WebAssembly canvas pixels—analyzing code complexity, AI agent effort, CPU, GPU memory, and platform trade-offs."
+social_image: /assets/img/nodes-vs-pixels/social-en.png
 ---
 
 In the previous installment of this series, [How AI Is Rewriting Architecture Decision Records: The Case for WebAssembly Adoption]({% link _posts/2026-10-11-ai-adrs-webassembly-adoption.markdown %}), we examined why generative AI workloads—untrusted agentic code execution, bursty serverless inference requiring sub-millisecond cold starts, and `WASI-NN` / `WebGPU` hardware bridges—have flipped the enterprise ADR in favor of WebAssembly. Coupled with the earlier articles on [enterprise Rust adoption]({% link _posts/2026-10-08-ai-adrs-rust-adoption.markdown %}) and [monorepos with microservices]({% link _posts/2026-10-09-ai-adrs-monorepo-microservices.markdown %}), a clear pattern emerged: AI coding agents dramatically compress the engineering cost of writing systems-level Rust and compiling it to WebAssembly.

@@ -8,6 +8,7 @@ date: 2026-10-18 00:00:00 -0300
 categories: [Engineering]
 tags: [harness-engineering, ai, agents, claude-code, deepseek, prompt-engineering, architecture, developer-experience]
 description: "Por que o harness de runtime ao redor de um modelo de IA define taxas de resolução em benchmarks e variações de 3x no custo — com estudos sobre DeepSeek Harness, Claude Code Mods, agentes corporativos e meu plugin prompt-dialect."
+social_image: /assets/img/harness-engineering-in-practice/social-pt-br.png
 ---
 
 Quando um fluxo de programação autônoma falha em produção — entrando em loop infinito em um teste quebrado, consumindo dezenas de milhares de tokens com stack traces ruidosos ou alterando arquivos fora do escopo da tarefa — o reflexo imediato costuma ser culpar o modelo de linguagem. No entanto, estudos empíricos baseados em dezenas de milhares de execuções de benchmark e implantações reais em empresas como Stripe, Uber, Spotify e Ramp apontam para outro gargalo: **o harness de runtime que envolve o modelo**.

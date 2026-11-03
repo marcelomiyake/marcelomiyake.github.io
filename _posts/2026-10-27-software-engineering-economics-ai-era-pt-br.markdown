@@ -8,6 +8,7 @@ date: 2026-10-27 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, agents, software-engineering, agile, architecture, spec-driven-development, harness-engineering, devops, best-practices]
 description: "Por que a queda no custo de gerar sintaxe não reduziu o TCO do software — analisando dados da indústria sobre COCOMO, Pontos de Função, story points, precificação pós-hora, custos ocultos, pods de 3 pessoas e bifurcação de carreiras."
+social_image: /assets/img/software-engineering-economics-ai-era/social-pt-br.png
 ---
 
 Nas organizações globais de tecnologia, assistentes de código e agentes autônomos atingiram adoção praticamente universal: **75% a 95%** dos engenheiros de software utilizam ferramentas de IA ao menos semanalmente, e cerca de **70%** operam de duas a quatro ferramentas distintas em paralelo. Ainda assim, a telemetria empírica de dezenas de milhares de desenvolvedores revela um contraste marcante entre **a velocidade individual de geração de código** e **a velocidade organizacional de entrega em produção**.

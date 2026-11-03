@@ -6,6 +6,7 @@ date: 2026-09-25 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, agents, harness-engineering, rust, kubernetes, system-design, sonarqube]
 description: "What I learned from five local Rust projects about guiding AI coding agents with specifications, feedback, and verification evidence."
+social_image: /assets/img/cheaper-models-strong-harness/social-en.png
 ---
 
 I use small reference projects to explore how requirements, tools, and verification fit together in an AI coding workflow. For this experiment, my interest is both the software produced and the evidence available to judge it. That distinction shapes the way I read the results and the questions I leave open about model cost.

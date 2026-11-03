@@ -8,6 +8,7 @@ date: 2026-09-25 00:00:00 -0300
 categories: [Engineering]
 tags: [ai, agents, harness-engineering, rust, kubernetes, system-design, sonarqube]
 description: "O que aprendi com cinco projetos locais em Rust sobre orientar agentes de programação com especificações, feedback e evidências de verificação."
+social_image: /assets/img/cheaper-models-strong-harness/social-pt-br.png
 ---
 
 Uso pequenos projetos de referência para explorar como requisitos, ferramentas e verificação se conectam em um fluxo de programação com IA. Neste experimento, meu interesse está tanto no software produzido quanto nas evidências disponíveis para avaliá-lo. Essa distinção orienta a leitura dos resultados e as perguntas que deixo em aberto sobre o custo dos modelos.
